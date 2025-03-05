@@ -14,7 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { usePathname } from "next/navigation";
 import AddBlock from "../common/add-block";
 
-const PopoverSidebar = ({ trans }: { trans: string }) => {
+const PopoverSidebar = () => {
   const { collapsed, sidebarBg } = useSidebar();
   const { layout, isRtl } = useThemeStore();
   const menus = menusConfig?.sidebarNav?.classic || [];
@@ -102,13 +102,12 @@ const PopoverSidebar = ({ trans }: { trans: string }) => {
                 <SingleMenuItem
                   item={item}
                   collapsed={collapsed}
-                  trans={trans}
                 />
               )}
 
               {/* menu label */}
               {item.isHeader && !item.child && !collapsed && (
-                <MenuLabel item={item} trans={trans} />
+                <MenuLabel item={item}/>
               )}
 
               {/* sub menu */}
@@ -121,7 +120,7 @@ const PopoverSidebar = ({ trans }: { trans: string }) => {
                     activeSubmenu={activeSubmenu}
                     collapsed={collapsed}
                     menuTitle={item.title}
-                    trans={trans}
+                    
                   />
                   {!collapsed && (
                     <NestedSubMenu
@@ -131,7 +130,7 @@ const PopoverSidebar = ({ trans }: { trans: string }) => {
                       item={item}
                       index={i}
 
-                      trans={trans}
+                      
                     />
                   )}
                 </>

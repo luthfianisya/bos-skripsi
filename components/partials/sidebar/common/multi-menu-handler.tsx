@@ -9,14 +9,12 @@ const MultiMenuHandler = ({
   activeMultiMenu,
   toggleMultiMenu,
   className,
-  trans,
 }: {
   subItem: any,
   subIndex: number,
   activeMultiMenu: number | null,
   toggleMultiMenu: (subIndex: number) => void,
   className?: string,
-  trans: any
 }) => {
   return (
     <div
@@ -31,7 +29,7 @@ const MultiMenuHandler = ({
         }
       )}
     >
-      <span className="flex-1">{translate(subItem.title, trans)}</span>
+      <span className="flex-1">{subItem.title}</span>
       <div className="flex-none">
         <span
           className={cn(

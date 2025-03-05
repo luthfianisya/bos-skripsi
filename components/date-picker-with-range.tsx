@@ -24,8 +24,8 @@ export default function DatePickerWithRange({ className }: { className?: string 
         <PopoverTrigger asChild>
           <Button
             color={mode === "dark" ? "secondary" : "default"}
-            className={cn(" font-normal", {
-              " bg-white text-default-600": mode !== "dark",
+            className={cn(" font-normal justify-start", {
+              " bg-white text-default-500 border border-default-300": mode !== "dark",
             })}
           >
             <CalendarIcon className="ltr:mr-2 rtl:ml-2 h-4 w-4" />
@@ -39,7 +39,7 @@ export default function DatePickerWithRange({ className }: { className?: string 
                 format(date.from, "LLL dd, y")
               )
             ) : (
-              <span>Pick a date</span>
+              <span>Tanggal Awal - Tanggal Akhir</span>
             )}
           </Button>
         </PopoverTrigger>

@@ -9,12 +9,11 @@ import {
 } from "@/components/ui/tooltip";
 import Link from "next/link";
 import { translate } from "@/lib/utils";
-const SingleIconMenu = ({ index, activeIndex, item, locationName, trans }: {
+const SingleIconMenu = ({ index, activeIndex, item, locationName }: {
   index: number;
   activeIndex: number | null;
   item: any;
   locationName: string;
-  trans: any;
 }) => {
   const { icon, title, href } = item;
   return (
@@ -53,7 +52,7 @@ const SingleIconMenu = ({ index, activeIndex, item, locationName, trans }: {
             )}
           </TooltipTrigger>
           <TooltipContent side="right" className=" capitalize">
-            {translate(title, trans)}
+            {title}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

@@ -13,7 +13,6 @@ const SubMenuHandler = ({
   activeSubmenu,
   collapsed,
   menuTitle,
-  trans,
 }: {
   item: any;
   toggleSubmenu: any;
@@ -21,7 +20,6 @@ const SubMenuHandler = ({
   activeSubmenu: number | null;
   collapsed: boolean;
   menuTitle?: string;
-  trans: any
 }) => {
   const { title } = item;
 
@@ -51,7 +49,7 @@ const SubMenuHandler = ({
                     ),
                 })}
               >
-                <CollapsedHoverMenu item={item} menuTitle={menuTitle} trans={trans} />
+                <CollapsedHoverMenu item={item} menuTitle={menuTitle}  />
               </ScrollArea>
             </HoverCard.Content>
           </HoverCard.Portal>
@@ -70,7 +68,7 @@ const SubMenuHandler = ({
             <span className="inline-flex items-center  text-lg ">
               <item.icon className="w-5 h-5" />
             </span>
-            <div className=" ">{translate(title, trans)}</div>
+            <div className=" ">{title}</div>
           </div>
           <div className="flex-0">
             <div

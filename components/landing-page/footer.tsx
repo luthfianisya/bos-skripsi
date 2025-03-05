@@ -89,10 +89,10 @@ const Footer = () => {
       </div>
       <div className="relative bg-default-900 dark:bg-default-50 py-6">
         <div className="container flex flex-col text-center md:text-start md:flex-row gap-2">
-          <p className="text-primary-foreground flex-1 text-base xl:text-lg font-medium">COPYRIGHT &copy; 2024 DashTail All rights Reserved</p>
+          <p className="text-primary-foreground flex-1 text-base xl:text-lg font-medium">COPYRIGHT &copy; 2024  All rights Reserved</p>
           <p className="text-primary-foreground flex-none text-base font-medium">
             Hand-crafted & Made by {" "}
-            <Link href="https://codeshaper.net" target="__blank" className="text-primary hover:underline">Codeshaper</Link></p>
+            <Link href="https://codeshaper.net" target="__blank" className="text-primary hover:underline">STIS</Link></p>
         </div>
       </div>
     </footer>

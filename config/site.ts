@@ -2,13 +2,13 @@
 
 
 export const siteConfig = {
-  name: "DashTail Next js Admin Template",
+  name: "BackOffice Selindo",
   description: null,
-  theme: "violet",
+  theme: "blue",
   layout: "vertical",
   // semi-box, horizontal, vertical
   hideSideBar: false,
-  sidebarType: "module",
+  sidebarType: "classic",
   // popover, classic, module
   sidebarColor: null,
   navbarType: "sticky",

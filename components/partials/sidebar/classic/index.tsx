@@ -11,8 +11,8 @@ import { usePathname } from "next/navigation";
 import SingleMenuItem from "./single-menu-item";
 import SubMenuHandler from "./sub-menu-handler";
 import NestedSubMenu from "../common/nested-menus";
-import AddBlock from "../common/add-block";
-const ClassicSidebar = ({ trans }: { trans: string }) => {
+// import AddBlock from "../common/add-block";
+const ClassicSidebar = () => {
   const { sidebarBg } = useSidebar();
   const [activeSubmenu, setActiveSubmenu] = useState<number | null>(null);
   const [activeMultiMenu, setMultiMenu] = useState<number | null>(null);
@@ -102,19 +102,18 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
             <li key={`menu_key_${i}`}>
               {/* single menu  */}
 
-              {!item.child && !item.isHeader && (
+              {!item.child && (
                 <SingleMenuItem
                   item={item}
                   collapsed={collapsed}
                   hovered={hovered}
-                  trans={trans}
                 />
               )}
 
-              {/* menu label */}
+              {/* menu label
               {item.isHeader && !item.child && (!collapsed || hovered) && (
                 <MenuLabel item={item} trans={trans} />
-              )}
+              )} */}
 
               {/* sub menu */}
               {item.child && (
@@ -126,7 +125,6 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
                     activeSubmenu={activeSubmenu}
                     collapsed={collapsed}
                     hovered={hovered}
-                    trans={trans}
                   />
 
                   {(!collapsed || hovered) && (
@@ -138,7 +136,6 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
                       index={i}
 
 
-                      trans={trans}
                     />
                   )}
                 </>
@@ -148,7 +145,7 @@ const ClassicSidebar = ({ trans }: { trans: string }) => {
         </ul>
         {!collapsed && (
           <div className="-mx-2 ">
-            <AddBlock />
+            {/* <AddBlock /> */}
           </div>
         )}
       </ScrollArea>

@@ -3,12 +3,12 @@ import React from "react";
 import { useSidebar, useThemeStore } from "@/store";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import ModuleSidebar from "./module";
+// import ModuleSidebar from "./module";
 import PopoverSidebar from "./popover";
 import ClassicSidebar from "./classic";
 import MobileSidebar from "./mobile-sidebar";
 
-const Sidebar = ({ trans }: { trans: string }) => {
+const Sidebar = () => {
   const { sidebarType, collapsed } = useSidebar();
   const { layout } = useThemeStore();
 
@@ -17,15 +17,16 @@ const Sidebar = ({ trans }: { trans: string }) => {
   let selectedSidebar = null;
 
   if (!isDesktop && (sidebarType === "popover" || sidebarType === "classic")) {
-    selectedSidebar = <MobileSidebar trans={trans} />;
+    selectedSidebar = <MobileSidebar />;
   } else {
     const sidebarComponents: { [key: string]: JSX.Element } = {
-      module: <ModuleSidebar trans={trans} />,
-      popover: <PopoverSidebar trans={trans} />,
-      classic: <ClassicSidebar trans={trans} />,
+      // module: <ModuleSidebar />,
+      popover: <PopoverSidebar />,
+      classic: <ClassicSidebar />,
     };
 
-    selectedSidebar = sidebarComponents[sidebarType] || <ModuleSidebar trans={trans} />;
+    // selectedSidebar = sidebarComponents[sidebarType] || <ModuleSidebar />;
+    selectedSidebar = sidebarComponents[sidebarType];
   }
 
   return <div>{selectedSidebar}</div>;

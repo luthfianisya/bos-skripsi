@@ -13,7 +13,7 @@ import MobileSidebar from "@/components/partials/sidebar/mobile-sidebar";
 import HeaderSearch from "@/components/header-search";
 import { useMounted } from "@/hooks/use-mounted";
 import LayoutLoader from "@/components/layout-loader";
-const DashBoardLayoutProvider = ({ children, trans }: { children: React.ReactNode, trans: any }) => {
+const DashBoardLayoutProvider = ({ children }: { children: React.ReactNode }) => {
   const { collapsed, sidebarType, setCollapsed, subMenu } = useSidebar();
   const [open, setOpen] = React.useState(false);
   const { layout } = useThemeStore();
@@ -26,8 +26,8 @@ const DashBoardLayoutProvider = ({ children, trans }: { children: React.ReactNod
   if (layout === "semibox") {
     return (
       <>
-        <Header handleOpenSearch={() => setOpen(true)} trans={trans} />
-        <Sidebar trans={trans} />
+        <Header handleOpenSearch={() => setOpen(true)} />
+        <Sidebar />
 
         <div
           className={cn("content-wrapper transition-all duration-150 ", {
@@ -47,7 +47,6 @@ const DashBoardLayoutProvider = ({ children, trans }: { children: React.ReactNod
                 setOpen={setOpen}
                 open={open}
                 location={location}
-                trans={trans}
               >
                 {children}
               </LayoutWrapper>
@@ -62,7 +61,7 @@ const DashBoardLayoutProvider = ({ children, trans }: { children: React.ReactNod
   if (layout === "horizontal") {
     return (
       <>
-        <Header handleOpenSearch={() => setOpen(true)} trans={trans} />
+        <Header handleOpenSearch={() => setOpen(true)}/>
 
         <div className={cn("content-wrapper transition-all duration-150 ")}>
           <div
@@ -76,7 +75,6 @@ const DashBoardLayoutProvider = ({ children, trans }: { children: React.ReactNod
               setOpen={setOpen}
               open={open}
               location={location}
-              trans={trans}
             >
               {children}
             </LayoutWrapper>
@@ -91,8 +89,8 @@ const DashBoardLayoutProvider = ({ children, trans }: { children: React.ReactNod
   if (sidebarType !== "module") {
     return (
       <>
-        <Header handleOpenSearch={() => setOpen(true)} trans={trans} />
-        <Sidebar trans={trans} />
+        <Header handleOpenSearch={() => setOpen(true)} />
+        <Sidebar />
 
         <div
           className={cn("content-wrapper transition-all duration-150 ", {
@@ -111,7 +109,6 @@ const DashBoardLayoutProvider = ({ children, trans }: { children: React.ReactNod
               setOpen={setOpen}
               open={open}
               location={location}
-              trans={trans}
             >
               {children}
             </LayoutWrapper>
@@ -124,8 +121,8 @@ const DashBoardLayoutProvider = ({ children, trans }: { children: React.ReactNod
   }
   return (
     <>
-      <Header handleOpenSearch={() => setOpen(true)} trans={trans} />
-      <Sidebar trans={trans} />
+      <Header handleOpenSearch={() => setOpen(true)} />
+      <Sidebar />
 
       <div
         className={cn("content-wrapper transition-all duration-150 ", {
@@ -144,7 +141,6 @@ const DashBoardLayoutProvider = ({ children, trans }: { children: React.ReactNod
             setOpen={setOpen}
             open={open}
             location={location}
-            trans={trans}
           >
             {children}
           </LayoutWrapper>
@@ -158,7 +154,7 @@ const DashBoardLayoutProvider = ({ children, trans }: { children: React.ReactNod
 
 export default DashBoardLayoutProvider;
 
-const LayoutWrapper = ({ children, isMobile, setOpen, open, location, trans }: { children: React.ReactNode, isMobile: boolean, setOpen: any, open: boolean, location: any, trans: any }) => {
+const LayoutWrapper = ({ children, isMobile, setOpen, open, location }: { children: React.ReactNode, isMobile: boolean, setOpen: any, open: boolean, location: any, }) => {
   return (
     <>
       <motion.div
@@ -189,7 +185,7 @@ const LayoutWrapper = ({ children, isMobile, setOpen, open, location, trans }: {
         <main>{children}</main>
       </motion.div>
 
-      <MobileSidebar trans={trans} className="left-[300px]" />
+      <MobileSidebar className="left-[300px]" />
       <HeaderSearch open={open} setOpen={setOpen} />
     </>
   );

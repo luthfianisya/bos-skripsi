@@ -9,7 +9,6 @@ const SubMenuHandler = ({
   activeSubmenu,
   collapsed,
   hovered,
-  trans,
 }: {
   item: any;
   toggleSubmenu: any;
@@ -17,7 +16,6 @@ const SubMenuHandler = ({
   activeSubmenu: number | null;
   collapsed: boolean;
   hovered: boolean;
-  trans: any
 }) => {
   const { title } = item;
 
@@ -37,7 +35,7 @@ const SubMenuHandler = ({
             <span className="inline-flex items-center     ">
               <item.icon className="w-5 h-5" />
             </span>
-            <div className=" ">{translate(title, trans)}</div>
+            <div className=" ">{title}</div>
           </div>
           <div className="flex-0">
             <div

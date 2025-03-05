@@ -6,11 +6,10 @@ import MultiNestedMenu from "../common/multi-nested-menu";
 import { cn, isLocationMatch, getDynamicPath } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
-const CollapsedHoverMenu = ({ item, menuTitle, trans }: {
+const CollapsedHoverMenu = ({ item, menuTitle }: {
   item: any;
 
   menuTitle?: string
-  trans: any
 }) => {
   const [activeMultiMenu, setMultiMenu] = useState<number | null>(null);
 
@@ -51,19 +50,19 @@ const CollapsedHoverMenu = ({ item, menuTitle, trans }: {
                     activeMultiMenu={activeMultiMenu}
                     toggleMultiMenu={toggleMultiMenu}
                     className="before:-left-6"
-                    trans={trans}
+                    
                   />
                   <div className="pl-3">
                     <MultiNestedMenu
                       subItem={subItem}
                       subIndex={j}
                       activeMultiMenu={activeMultiMenu}
-                      trans={trans}
+                      
                     />
                   </div>
                 </div>
               ) : (
-                <SubMenuItem subItem={subItem} trans={trans} />
+                <SubMenuItem subItem={subItem}  />
               )}
             </li>
           ))}

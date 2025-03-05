@@ -10,7 +10,6 @@ import Inbox from "./inbox";
 import HorizontalMenu from "./horizontal-menu";
 import NotificationMessage from "./notification-message";
 
-import Language from "./language";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import MobileMenuHandler from "./mobile-menu-handler";
 import ClassicHeader from "./layout/classic-header";
@@ -19,7 +18,7 @@ import FullScreen from "./full-screen";
 const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; isMobile: boolean; sidebarType: string }) => {
   return (
     <div className="nav-tools flex items-center  gap-2">
-      {isDesktop && <Language />}
+      {isDesktop }
       {isDesktop && <FullScreen />}
 
       <ThemeButton />
@@ -33,7 +32,7 @@ const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; is
     </div>
   );
 };
-const Header = ({ handleOpenSearch, trans }: { handleOpenSearch: () => void; trans: string }) => {
+const Header = ({ handleOpenSearch }: { handleOpenSearch: () => void; }) => {
   const { collapsed, sidebarType, setCollapsed, subMenu, setSidebarType } =
     useSidebar();
   const { layout, navbarType, setLayout } = useThemeStore();
@@ -69,7 +68,7 @@ const Header = ({ handleOpenSearch, trans }: { handleOpenSearch: () => void; tra
         </div>
         {isDesktop && (
           <div className=" bg-card bg-card/90 backdrop-blur-lg  w-full px-6  shadow-md">
-            <HorizontalMenu trans={trans} />
+            <HorizontalMenu />
           </div>
         )}
       </ClassicHeader>

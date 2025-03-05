@@ -4,13 +4,14 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
+
 const buttonVariants = cva(
   "inline-flex items-center justify-center rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-0   disabled:opacity-50  whitespace-nowrap disabled:pointer-events-none",
   {
     variants: {
       color: {
         default: "bg-primary text-primary-foreground hover:bg-primary/80",
-        primary: "bg-primary text-primary-foreground hover:bg-primary/80",
+        primary: "bg-blue-700 text-primary-foreground hover:bg-primary/80",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/80",
         success: "bg-success text-success-foreground hover:bg-success/80",
@@ -22,7 +23,7 @@ const buttonVariants = cva(
       },
       variant: {
         outline:
-          "border border-current  bg-transparent hover:text-primary-foreground",
+          "border border-current  bg-blue-50 hover:text-primary-foreground",
         soft: " bg-opacity-10  hover:text-primary-foreground",
         ghost: "bg-transparent text-current hover:text-primary-foreground",
       },
@@ -41,48 +42,50 @@ const buttonVariants = cva(
         variant: "outline",
         color: "destructive",
         className:
-          "text-destructive hover:text-destructive-foreground hover:border-destructive hover:bg-destructive",
+          "text-destructive hover:text-destructive-foreground hover:border-destructive hover:bg-destructive bg-destructive/10",
       },
       {
         variant: "outline",
         color: "success",
         className:
-          "text-success hover:text-success-foreground hover:border-success hover:bg-success",
+          "text-success hover:text-success-foreground hover:border-success hover:bg-success bg-success/10",
       },
       {
         variant: "outline",
         color: "info",
         className:
-          "text-info hover:text-info-foreground hover:border-info hover:bg-info",
+          "text-info hover:text-info-foreground hover:border-info hover:bg-info bg-info/10",
       },
       {
         variant: "outline",
         color: "warning",
         className:
-          "text-warning hover:text-warning-foreground hover:border-warning hover:bg-warning",
+          "text-warning hover:text-warning-foreground hover:border-warning hover:bg-warning bg-warning/10",
       },
       {
         variant: "outline",
         color: "dark",
-        className: "text-accent-foreground hover:bg-accent-foreground",
+        className:
+          "text-accent-foreground hover:bg-accent-foreground bg-accent-foreground/10",
       },
       {
         variant: "outline",
         color: "secondary",
         className:
-          "text-muted-foreground dark:bg-transparent hover:bg-default-500  dark:hover:bg-default-500/50 border-default-500",
+          "text-muted-foreground dark:bg-transparent hover:bg-default-500/50 dark:hover:bg-default-500 border-default-500 bg-default-500/10",
       },
       {
         variant: "outline",
         color: "default",
         className:
-          "text-primary  hover:text-primary-foreground hover:border-primary hover:bg-primary",
+          "text-primary hover:text-primary-foreground hover:border-primary hover:bg-primary bg-primary/10",
       },
       {
         variant: "outline",
         color: "primary",
-        className: "text-primary  hover:text-primary-foreground",
+        className: "text-primary hover:text-primary-foreground hover:bg-primary bg-primary/10",
       },
+      
       {
         variant: "soft",
         color: "info",
@@ -158,18 +161,21 @@ export interface ButtonProps
   VariantProps<typeof buttonVariants> {
   asChild?: boolean,
   color?: 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'destructive' | 'default' | 'dark'
-
+  icon?: React.ElementType;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, color, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, color, icon: Icon, children, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, color, className }))}
+        className={cn(buttonVariants({ variant, size, color, className }), "flex items-center gap-2")}
         ref={ref}
         {...props}
-      />
+      >
+        {Icon && <Icon className="h-4 w-4" />} {/* Render icon jika ada */}
+        {children}
+      </Comp>
     );
   }
 );

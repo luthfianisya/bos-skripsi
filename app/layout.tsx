@@ -1,5 +1,5 @@
-import "../assets/scss/globals.scss";
-import "../assets/scss/theme.scss";
+import "@/app/assets/scss/globals.scss";  // ✅ Path benar
+import "@/app/assets/scss/theme.scss";
 import { Inter } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import Providers from "@/provider/providers";
@@ -18,16 +18,17 @@ export const metadata = {
   description: siteConfig.description,
 };
 
-export default function RootLayout({ children, params: { lang } }: { children: React.ReactNode; params: { lang: string } }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={lang}>
+    <html suppressHydrationWarning={true}>
       <AuthProvider>
         <TanstackProvider>
           <Providers>
-            <DirectionProvider lang={lang}>{children}</DirectionProvider>
+          <DirectionProvider>{children}</DirectionProvider>
           </Providers>
         </TanstackProvider>
       </AuthProvider>
     </html>
   );
 }
+

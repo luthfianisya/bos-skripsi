@@ -5,11 +5,15 @@
     }
   }
   .select__control {
-    @apply bg-background h-8 border border-default-200 focus:border-primary;
+    @apply bg-background h-8 border border-default-300 focus:border-primary rounded-md;
   }
   .select__single-value{
     @apply text-sm font-medium text-default-800;
   }
+  /* Saat belum ada value (placeholder aktif) */
+.select__control:where(:not(:has(.select__single-value))) .select__placeholder {
+  @apply text-default-500;
+}
   .select__menu {
     @apply bg-background;
   }
