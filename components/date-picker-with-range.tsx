@@ -3,6 +3,7 @@
 import * as React from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
+import { DateRange } from "react-day-picker"; // Import tipe DateRange
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -14,9 +15,23 @@ import {
 } from "@/components/ui/popover";
 import { useTheme } from "next-themes";
 
-export default function DatePickerWithRange({ className }: { className?: string }) {
-  const [date, setDate] = React.useState<any | null>(null);
+interface DatePickerWithRangeProps {
+  className?: string;
+  onSelect?: (date: DateRange | undefined) => void; // Tambahkan prop onSelect
+}
+
+export default function DatePickerWithRange({ className, onSelect }: DatePickerWithRangeProps) {
+  const [date, setDate] = React.useState<DateRange | undefined>(undefined); // Perbaiki tipe
+
   const { theme: mode } = useTheme();
+
+  // Handle perubahan tanggal
+  const handleDateChange = (selectedDate: DateRange | undefined) => {
+    setDate(selectedDate);
+    if (onSelect) {
+      onSelect(selectedDate); // Panggil onSelect jika ada
+    }
+  };
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -24,7 +39,7 @@ export default function DatePickerWithRange({ className }: { className?: string 
         <PopoverTrigger asChild>
           <Button
             color={mode === "dark" ? "secondary" : "default"}
-            className={cn(" font-normal justify-start", {
+            className={cn("font-normal justify-start", {
               " bg-white text-default-500 border border-default-300": mode !== "dark",
             })}
           >
@@ -49,7 +64,7 @@ export default function DatePickerWithRange({ className }: { className?: string 
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={handleDateChange} // Gunakan handleDateChange
             numberOfMonths={2}
           />
         </PopoverContent>

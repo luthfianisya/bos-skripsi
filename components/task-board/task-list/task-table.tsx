@@ -647,7 +647,7 @@ const TaskTable = ({ data, boards, onUpdateTask, boardID2 }: TaskTableProps) => 
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Data tidak ditemukan.
                 </TableCell>
               </TableRow>
             )}

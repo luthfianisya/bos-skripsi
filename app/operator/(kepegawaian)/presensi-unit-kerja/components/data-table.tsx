@@ -64,7 +64,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
 
   return (
     <div className="space-y-4">
-      <DataTableFilter />
+      {/* <DataTableFilter setFilters={setSelectedFilters} /> */}
       <DataTableToolbar table={table} />
       <div className="relative rounded-md border overflow-x-auto">
         <Table className="min-w-full">
@@ -124,7 +124,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  Data tidak ditemukan.
                 </TableCell>
               </TableRow>
             )}

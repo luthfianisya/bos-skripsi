@@ -23,6 +23,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import DatePickerWithRange from "@/components/date-picker-with-range";
+import { FilterState } from "./types";
+
 
 const satker: { value: string, label: string }[] = [
     { value: "", label: "Pilih Satuan Kerja" },
@@ -63,7 +65,16 @@ const styles = {
   }),
 };
 
-const DataTableFilter = () => {
+interface DataTableFilterProps {
+  setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
+}
+
+const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
+  // Fungsi untuk mengubah filter
+  const handleFilterChange = (name: keyof FilterState, value: string | DateRange | null) => {
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <div className="grid grid-cols-1 w-full gap-y-4">
       {/* <div>
@@ -83,15 +94,16 @@ const DataTableFilter = () => {
   <div className="flex items-center gap-8 flex-1">
     {/* Select 1 */}
     <div className="flex items-center gap-2 flex-1">
-      <label className="font-medium">Periode</label>
+      <label className="font-medium">Tipe</label>
       <Select
   className="react-select flex-1 z-50 rounded-md"
   classNamePrefix="select"
-  placeholder="Pilih Periode" // Tambahkan ini
+  placeholder="Pilih Tipe" // Tambahkan ini
   styles={styles}
   name="periode"
   options={periode}
   isClearable
+  onChange={(selected) => handleFilterChange("periode", selected?.value ?? null)}
 />
       {/* <CustomSelect>
       <SelectTrigger size="md" radius="md" className="text-sm">
@@ -118,15 +130,19 @@ const DataTableFilter = () => {
   name="tahun"
   options={tahun}
   isClearable
-/>
+  onChange={(selected) => handleFilterChange("tahun", selected?.value ?? null)}
+  />
 
     </div>
 
     {/* Select 3 */}
     <div className="flex items-center gap-2 w-auto">
       <label className="font-medium">Rentang</label>
-      <DatePickerWithRange className="w-64"/>
-    </div>
+      <DatePickerWithRange
+  className="w-64"
+  onSelect={(date: DateRange | undefined) => handleFilterChange("rentang", date ?? null)}
+/>   
+      </div>
   </div>
 </div>
 
@@ -141,6 +157,7 @@ const DataTableFilter = () => {
           name="clear"
           options={satker}
           isClearable
+          onChange={(selected) => handleFilterChange("satker", selected?.value ?? null)}
         />
       </div>
       <div className="flex items-center gap-3">
@@ -153,6 +170,7 @@ const DataTableFilter = () => {
           name="clear"
           options={unitKerja}
           isClearable
+          onChange={(selected) => handleFilterChange("unitKerja", selected?.value ?? null)}
         />
       </div>
       <div className="flex items-center gap-3">
@@ -165,6 +183,7 @@ const DataTableFilter = () => {
           name="clear"
           options={pegawai}
           isClearable
+          onChange={(selected) => handleFilterChange("pegawai", selected?.value ?? null)}
         />
       </div>
     

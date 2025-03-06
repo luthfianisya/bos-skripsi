@@ -57,7 +57,7 @@ const Footer = () => {
             className="inline-flex items-center gap-4 text-primary-foreground"
           >
             <SiteLogo className="w-[50px] h-[52px]" />
-            <span className="text-3xl font-semibold">DashTail</span>
+            <span className="text-3xl font-semibold">BackOffice Selindo</span>
           </Link>
           <p className="text-base leading-7 text-default-200 dark:text-default-600 text-center mt-3">
             DashTail is a developer-friendly, ready-to-use admin template designed for building attractive, scalable, and high-performing web applications, powered by the cutting-edge technologies of Next.js and Tailwind CSS.</p>

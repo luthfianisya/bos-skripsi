@@ -93,7 +93,7 @@ const AboutDashtail = () => {
 
         <div className="max-w-[670px] mx-auto">
           <h2 className="text-center text-xl xl:text-3xl xl:leading-[46px] font-semibold text-default-900 mb-3">
-            Why Choose  <span className="text-primary">DashTail</span>
+            Why Choose  <span className="text-primary">BackOffice Selindo</span>
           </h2>
           <p className="text-base xl:leading-7 text-center text-default-700 ">
             Transform your development experience with our ultra-customizable, developer-friendly admin template: crafting exceptional user journeys made effortless.

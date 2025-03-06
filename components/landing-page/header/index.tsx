@@ -31,7 +31,7 @@ const Header = () => {
             <Link href="/" className="flex items-center gap-1">
               <SiteLogo className="h-8 w-8  text-primary" />
               <span className="text-primary-500 font-medium text-xl">
-                DashTail
+                BackOffice Selindo
               </span>
             </Link>
 
@@ -111,7 +111,7 @@ const Header = () => {
       <nav className="container flex justify-between">
         <Link target="_blank" href="/dashboard" className="flex items-center gap-1">
           <SiteLogo className="h-8 w-8  text-primary" />
-          <span className="text-primary-500 font-medium text-xl">DashTail</span>
+          <span className="text-primary-500 font-medium text-xl">BackOffice Selindo</span>
         </Link>
         <NavMenu />
         <div className="flex items-center gap-6">

@@ -18,7 +18,7 @@ const Hero = () => {
           <div className=" relative z-10">
             <div className="pt-32 md:pt-48">
               <h1 className="max-w-[600px] mx-auto text-xl md:text-2xl xl:text-4xl xl:leading-[52px] font-semibold text-default-900 text-center">
-                <span className="text-primary">DashTail</span> - Tailwind, React
+                <span className="text-primary">BackOffice Selindo</span> - Tailwind, React
                 Next Admin Dashboard Template
               </h1>
               <p className="text-base leading-7 md:text-lg md:leading-8 text-default-700 text-center mt-5 max-w-[800px] mx-auto">
