@@ -73,14 +73,14 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  const isSticky = header.column.id === "tanggal";
+                  const isSticky = header.column.id === "tanggal" || header.column.id === "nama" || header.column.id === "nip";
                   return (
                     <TableHead
                         key={header.id}
                         colSpan={header.colSpan}
                         className={isSticky ? "sticky z-10 drop-shadow-md bg-default-100" : ""}
                         style={
-                          header.column.id === "tanggal"
+                          header.column.id === "tanggal" || header.column.id === "nama" || header.column.id === "nip"
                             ? { left: 0 }
                             : {}
                         }
@@ -104,13 +104,13 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="hover:bg-muted">
                   {row.getVisibleCells().map((cell) => {
-                    const isSticky = cell.column.id === "tanggal";
+                    const isSticky = cell.column.id === "tanggal" || cell.column.id === "nama" || cell.column.id === "nip";
                     return (
                       <TableCell
                         key={cell.id}
                         className={isSticky ? "sticky z-10 bg-background drop-shadow-md" : ""}
                         style={
-                          cell.column.id === "tanggal"
+                          cell.column.id === "tanggal" || cell.column.id === "nama" || cell.column.id === "nip"
                             ? { left: 0 }
                             : {}
                         }

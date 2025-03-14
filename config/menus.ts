@@ -86,7 +86,7 @@ export const menusConfig = {
       {
         title: "Dashboard",
         icon: Dashboard2,
-        href: "/operator/dashboard",
+        href: "/administrator/dashboard",
         onClick: () => {},
       },
       {
@@ -95,12 +95,12 @@ export const menusConfig = {
         child: [
           {
             title: "Data Pegawai",
-            href: "/operator/data-pegawai",
+            href: "/administrator/data-pegawai",
             onClick: () => {},
           },
           {
             title: "Data Mitra/PPNPN",
-            href: "/operator/data-mitra",
+            href: "/administrator/data-mitra",
             onClick: () => {},
           },
           {
@@ -109,13 +109,13 @@ export const menusConfig = {
               {
                 title: "Presensi Unit Kerja",
                 icon: "heroicons:information-circle",
-                href: "/operator/presensi-unit-kerja",
+                href: "/administrator/presensi-unit-kerja",
                 onClick: () => {},
               },
               {
                 title: "Presensi Mitra/PPNPN",
                 icon: "heroicons:information-circle",
-                href: "/alert",
+                href: "/administrator/presensi-mitra-ppnpn",
                 onClick: () => {},
               },
             ]

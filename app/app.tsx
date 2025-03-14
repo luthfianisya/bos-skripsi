@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  redirect("/operator/dashboard");
+  redirect("/administrator/dashboard");
   return null; // Harus mengembalikan sesuatu (JSX)
 }

@@ -11,20 +11,34 @@ import DataMitraBreadCrumbs from "./components/bread-crumbs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DataTableFilter from "./components/data-table-filter";
 import { FilterState } from "./components/types";
+import RekapTahunanTable from "./index-rekap-tahunan";
+import DataTableFilterRekap from "./components/data-table-filter-rekap";
 
 
 // ✅ Definisikan tipe FilterState
 
 const DataTablePage = () => {
   // ✅ Gunakan tipe FilterState di useState
-  const [selectedFilters, setSelectedFilters] = useState<FilterState>({
-    periode: "rentang",
+  const [selectedFiltersUnit, setSelectedFiltersUnit] = useState<FilterState>({
+    periode: "rentang", // Default untuk "Unit Kerja"
     tahun: null,
     rentang: null,
     satker: null,
     unitKerja: null,
     pegawai: null,
+    bulan: null,
   });
+  
+  const [selectedFiltersRekap, setSelectedFiltersRekap] = useState<FilterState>({
+    periode: "tahunan", // Default untuk "Rekap Unit Kerja"
+    tahun: null,
+    rentang: null,
+    satker: null,
+    unitKerja: null,
+    pegawai: null,
+    bulan: null,
+  });
+  
 
   return (
     <div className="space-y-5">
@@ -46,20 +60,26 @@ const DataTablePage = () => {
               <TabsTrigger value="unitKerja" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 Unit Kerja
               </TabsTrigger>
-              <TabsTrigger value="password" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <TabsTrigger value="rekap" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 Rekap Unit Kerja
               </TabsTrigger>
             </TabsList>
             <TabsContent value="unitKerja" className="space-y-4">
-              <DataTableFilter setFilters={setSelectedFilters}/>
-              {selectedFilters.periode === "rentang" ? (
-                <RentangTable filters={selectedFilters} />
+              <DataTableFilter setFilters={setSelectedFiltersUnit}/>
+              {selectedFiltersUnit.periode === "rentang" ? (
+                <RentangTable filters={selectedFiltersUnit} />
               ) : (
-                <BulananTable filters={selectedFilters} />
+                <BulananTable filters={selectedFiltersUnit} />
               )}
             </TabsContent>
-            <TabsContent value="password">
-              <p>Isi untuk Rekap Unit Kerja</p>
+            <TabsContent value="rekap" className="space-y-4">
+              <DataTableFilterRekap setFilters={setSelectedFiltersRekap}/>
+              {selectedFiltersRekap.periode === "tahunan" ? (
+                <RekapTahunanTable filters={selectedFiltersRekap} />
+              ) : (
+                // <BulananTable filters={selectedFiltersRekap} />
+                <RekapTahunanTable filters={selectedFiltersRekap} />
+              )}
             </TabsContent>
           </CardContent>
         </Tabs>
