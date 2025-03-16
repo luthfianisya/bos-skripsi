@@ -128,7 +128,7 @@ export const menusConfig = {
         child: [
           {
             title: "Entri Pembiayaan",
-            href: "/auth/login",
+            href: "/administrator/entri-pembiayaan",
             onClick: () => {},
           },
         ],
@@ -143,7 +143,7 @@ export const menusConfig = {
               {
                 title: "Translok Biasa",
                 icon: "heroicons:information-circle",
-                href: "/accordion",
+                href: "/administrator/form-permintaan",
                 onClick: () => {},
               },
             ]
@@ -164,14 +164,14 @@ export const menusConfig = {
             multi_menu: [
               {
                 title: "Translok Biasa",
-                href: "/accordion",
+                href: "/administrator/realisasi-permintaan",
                 onClick: () => {},
               },
             ]
           },
           {
             title: "Rekap Bendahara",
-            href: "/auth/login2",
+            href: "/administrator/rekap-bendahara",
             onClick: () => {},
           },
         ],
@@ -182,7 +182,7 @@ export const menusConfig = {
         child: [
           {
             title: "Kontak Admin",
-            href: "/auth/login2",
+            href: "/pusat-bantuan",
             onClick: () => {},
           },
           {
