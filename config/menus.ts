@@ -137,16 +137,21 @@ export const menusConfig = {
         title: "Permintaan",
         icon: Envelope,
         child: [
+          // {
+          //   title: "Form Permintaan",
+          //   multi_menu: [
+          //     {
+          //       title: "Translok Biasa",
+          //       icon: "heroicons:information-circle",
+          //       href: "/administrator/form-permintaan/translok-biasa",
+          //       onClick: () => {},
+          //     },
+          //   ]
+          // },
           {
             title: "Form Permintaan",
-            multi_menu: [
-              {
-                title: "Translok Biasa",
-                icon: "heroicons:information-circle",
-                href: "/administrator/form-permintaan",
-                onClick: () => {},
-              },
-            ]
+            href: "/administrator/form-permintaan",
+            onClick: () => {},
           },
           {
             title: "Approval Permintaan",
