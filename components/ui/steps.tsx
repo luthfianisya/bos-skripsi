@@ -195,7 +195,7 @@ const Step = React.forwardRef<HTMLLIElement, StepProps>(
       <li
         ref={ref}
         className={cn(stepVariants({ variant, size, content }), className, {
-          "flex-row gap-x-4 min-h-[80px]": direction === "vertical",
+          "flex-row gap-x-4 min-h-[120px]": direction === "vertical",
           "flex-1": !isLast,
           "last:flex-1": alternativeLabel && isLast,
           "last:flex-none": alternativeLabel && isLast && gap,

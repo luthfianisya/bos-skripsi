@@ -149,6 +149,11 @@ export const menusConfig = {
           //   ]
           // },
           {
+            title: "Tambah Permintaan",
+            href: "/administrator/tambah-permintaan",
+            onClick: () => {},
+          },
+          {
             title: "Form Permintaan",
             href: "/administrator/form-permintaan",
             onClick: () => {},
@@ -169,7 +174,7 @@ export const menusConfig = {
             multi_menu: [
               {
                 title: "Translok Biasa",
-                href: "/administrator/realisasi-permintaan",
+                href: "/administrator/realisasi-permintaan/translok-biasa",
                 onClick: () => {},
               },
             ]

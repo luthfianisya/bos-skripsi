@@ -63,7 +63,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
     <div className="space-y-4">
       <DataTableToolbar table={table} />
       <div className="rounded-md border">
-        <Table>
+        <Table className="table-auto min-w-max">
           <TableHeader className="bg-default-100">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

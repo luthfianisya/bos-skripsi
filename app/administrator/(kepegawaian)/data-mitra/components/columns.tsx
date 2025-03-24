@@ -118,7 +118,7 @@ export const columns: ColumnDef<Pegawai>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Aksi"
+        title="AKSI"
       />
     ),
     cell: ({ row }) => (

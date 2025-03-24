@@ -30,7 +30,6 @@ import {
 
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
-import DataTableFilter from "./data-table-filter";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
@@ -40,7 +39,10 @@ interface DataTableProps<TData> {
 export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
+    { id: "paguSisa", value: ["tersedia"] }, // filter pagu > 0
+    { id: "status", value: ["terpakai"] },        // filter status terpakai
+  ]);  
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -167,75 +169,7 @@ const styles = {
 
   return (
     <div className="space-y-4">
-      <DataTableFilter />
-      {selectedCount > 0 ? (
-    // Action Bar yang tadi kita bikin
-    <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 border rounded-full bg-primary-50 text-primary-700">
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="text-sm font-medium">
-        <Badge variant="outline">{selectedCount}/{table.getRowModel().rows.length} Selected</Badge>
-        </div>
-        <div className="flex flex-wrap gap-2 items-center">
-        <div className="inline-block">
-          <Select
-            className="react-select z-30"
-            styles={styles}
-            placeholder="Pilih Unit Kerja"
-            options={satker}
-            isClearable
-          />
-        </div>
-        <div className="inline-block">
-        <Select
-          className="react-select z-30"
-          placeholder="Pilih Jenis Pengeluaran"
-          styles={styles}
-          name="clear"
-          options={satker}
-          isClearable
-        />
-        </div>
-        <div className="inline-block">
-        <Select
-          className="react-select z-30"
-          placeholder="Pilih Tipe Form"
-          styles={styles}
-          name="clear"
-          options={satker}
-          isClearable
-        />
-        </div>
-        <div className="inline-block">
-        <Select
-          className="react-select z-30"
-          placeholder="Pilih Pembebanan"
-          styles={styles}
-          name="clear"
-          options={satker}
-          isClearable
-        />
-        </div>
-        <div className="inline-block">
-        <Select
-          className="react-select z-30"
-          placeholder="Pilih PPK"
-          styles={styles}
-          name="clear"
-          options={satker}
-          isClearable
-        />
-        </div>
-        </div>
-      </div>
-      <div className="flex gap-2">
-        <Button onClick={handleCancel} size="xs" color="secondary" variant="outline" className="rounded-full bg-white">Batal</Button>
-        <Button onClick={handleSaveSelected} size="xs" color="primary" className="rounded-full">Simpan</Button>
-      </div>
-    </div>
-  ) : (
-    // Toolbar default kalau nggak ada row yang di-select
     <DataTableToolbar table={table} />
-  )}
       <div className="relative rounded-md border overflow-x-auto">
         <Table className="table-auto min-w-max">
           {/* HEADER */}

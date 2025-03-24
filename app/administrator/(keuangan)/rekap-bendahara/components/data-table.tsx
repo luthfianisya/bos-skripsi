@@ -64,7 +64,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
 
   return (
     <div className="space-y-4">
-      {/* <DataTableFilter setFilters={setSelectedFilters} /> */}
+      <DataTableFilter />
       <DataTableToolbar table={table} />
       <div className="relative rounded-md border overflow-x-auto">
       <Table className="table-auto min-w-max">
@@ -73,17 +73,18 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  const isSticky = header.column.id === "tanggal" || header.column.id === "nama" || header.column.id === "nip";
+                  const isSticky = header.column.id === "noPermintaan" || header.column.id === "aksi";
                   return (
                     <TableHead
                         key={header.id}
                         colSpan={header.colSpan}
                         className={isSticky ? "sticky z-10 drop-shadow-md bg-default-100" : ""}
-                        style={
-                          header.column.id === "tanggal" || header.column.id === "nama" || header.column.id === "nip"
-                            ? { left: 0 }
-                            : {}
-                        }
+                        style={{
+                          minWidth: "max-content",
+                          width: "max-content",
+                          ...(header.column.id === "noPermintaan" ? { left: 0 } : {}),
+                          ...(header.column.id === "aksi" ? { right: 0 } : {}),
+                        }}
                       >
                       {header.isPlaceholder
                         ? null
@@ -102,18 +103,19 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="hover:bg-muted">
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="group hover:bg-muted">
                   {row.getVisibleCells().map((cell) => {
-                    const isSticky = cell.column.id === "tanggal" || cell.column.id === "nama" || cell.column.id === "nip";
+                    const isSticky = cell.column.id === "noPermintaan" || cell.column.id === "aksi";
                     return (
                       <TableCell
                         key={cell.id}
                         className={isSticky ? "sticky z-10 bg-background drop-shadow-md" : ""}
-                        style={
-                          cell.column.id === "tanggal" || cell.column.id === "nama" || cell.column.id === "nip"
-                            ? { left: 0 }
-                            : {}
-                        }
+                        style={{
+                          minWidth: "max-content",
+                          width: "max-content",
+                          ...(cell.column.id === "noPermintaan" ? { left: 0 } : {}),
+                          ...(cell.column.id === "aksi" ? { right: 0 } : {}),
+                        }}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
@@ -123,7 +125,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell colSpan={columns?.length || 1} className="h-24 text-center">
                   Data tidak ditemukan.
                 </TableCell>
               </TableRow>

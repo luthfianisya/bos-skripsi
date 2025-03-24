@@ -67,7 +67,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
       <DataTableFilter />
       <DataTableToolbar table={table} />
       <div className="relative rounded-md border overflow-x-auto">
-        <Table className="min-w-full">
+        <Table className="table-auto min-w-max">
           {/* HEADER */}
           <TableHeader className="bg-default-100">
             {table.getHeaderGroups().map((headerGroup) => (

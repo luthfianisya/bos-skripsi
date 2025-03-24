@@ -8,7 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
-import { ClockIcon } from "@heroicons/react/24/outline"
+import { ClockIcon, PencilSquareIcon } from "@heroicons/react/24/outline"
 
 interface POK {
   grup: string;
@@ -30,6 +30,14 @@ interface POK {
   unitKerja: string;
   status: "terpakai" | "revisi" | "tidak_terpakai"; // ✅ Tambah properti status
 }
+
+const formatRupiah = (value: number) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(value);
+};
 
 export const columns: ColumnDef<POK>[] = [
   {
@@ -65,25 +73,31 @@ export const columns: ColumnDef<POK>[] = [
     ),
     cell: ({ row }) => {
       const status = row.getValue("status") as POK["status"];
-
+  
       const statusMap: Record<
-  POK["status"],
-  { label: string; color: string }
-> = {
-  terpakai: { label: "Terpakai", color: "text-green-600 bg-green-100" },
-  revisi: { label: "Revisi", color: "text-yellow-600 bg-yellow-100" },
-  tidak_terpakai: { label: "Tak Terpakai", color: "text-red-600 bg-red-100" },
-};
-
-const { label, color } = statusMap[status];
-
-return (
-  <Badge variant="outline" className={color}>
-    {label}
-  </Badge>
-);
+        POK["status"],
+        { label: string; color: string }
+      > = {
+        terpakai: { label: "Terpakai", color: "text-green-600 bg-green-100" },
+        revisi: { label: "Revisi", color: "text-yellow-600 bg-yellow-100" },
+        tidak_terpakai: { label: "Tak Terpakai", color: "text-red-600 bg-red-100" },
+      };
+  
+      const { label, color } = statusMap[status];
+  
+      return (
+        <Badge variant="outline" className={color}>
+          {label}
+        </Badge>
+      );
     },
-  },
+    filterFn: (row, id, value) => {
+      if (!value || value.length === 0) return true;
+  
+      const rowValue = row.getValue(id); // "terpakai", "revisi", "tidak_terpakai"
+      return value.includes(rowValue);
+    },
+  },  
   {
     accessorKey: "grup",
     header: ({ column }) => (
@@ -103,43 +117,67 @@ return (
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU AWAL" />
     ),
-    cell: ({ row }) => <div>{row.getValue("paguAwal")}</div>,
+    cell: ({ row }) => <div>{formatRupiah(row.getValue<number>("paguAwal"))}</div>,
   },
   {
     accessorKey: "paguRevisi",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU REVISI" />
     ),
-    cell: ({ row }) => <div>{row.getValue("paguRevisi")}</div>,
+    cell: ({ row }) => <div>{formatRupiah(row.getValue<number>("paguRevisi"))}</div>,
   },
   {
     accessorKey: "paguBooked",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU BOOKED" />
     ),
-    cell: ({ row }) => <div>{row.getValue("paguBooked")}</div>,
+    cell: ({ row }) => <div>{formatRupiah(row.getValue<number>("paguBooked"))}</div>,
   },
   {
     accessorKey: "paguReali",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU REALISASI" />
     ),
-    cell: ({ row }) => <div>{row.getValue("paguReali")}</div>,
+    cell: ({ row }) => <div>{formatRupiah(row.getValue<number>("paguReali"))}</div>,
   },
   {
     accessorKey: "selfBlocking",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="SELF BLOCKING" />
     ),
-    cell: ({ row }) => <div>{row.getValue("selfBlocking")}</div>,
+    cell: ({ row }) => <div>{formatRupiah(row.getValue<number>("selfBlocking"))}</div>,
   },
   {
     accessorKey: "paguSisa",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU SISA" />
     ),
-    cell: ({ row }) => <div>{row.getValue("paguSisa")}</div>,
-  },
+    cell: ({ row }) => <div>{formatRupiah(row.getValue<number>("paguSisa"))}</div>,
+  
+    // ✅ Custom filterFn buat paguSisa
+    filterFn: (row, id, value) => {
+      const sisa = row.getValue<number>("paguSisa");
+    
+      // Kalau gak ada filter, tampilkan semua
+      if (!value || value.length === 0) {
+        return true;
+      }
+    
+      // Handle multiple selected filters
+      const match: boolean[] = value.map((v: string) => {
+        if (v === "tersedia") {
+          return sisa > 0;
+        }
+        if (v === "nol_minus") {
+          return sisa <= 0;
+        }
+        return false;
+      });
+    
+      // Kalau salah satu filter terpenuhi, tampilkan barisnya
+      return match.includes(true);
+    }    
+  },  
   {
     accessorKey: "sumber",
     header: ({ column }) => (
@@ -166,7 +204,7 @@ return (
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="HARGA SATUAN" />
     ),
-    cell: ({ row }) => <div>{row.getValue("hargaSatuan")}</div>,
+    cell: ({ row }) => <div>{formatRupiah(row.getValue<number>("hargaSatuan"))}</div>,
   },
   {
     accessorKey: "volume",
@@ -204,9 +242,9 @@ return (
     cell: ({ row }) => <div>{row.getValue("unitKerja")}</div>,
   },
   {
-    accessorKey: "aksi",
+    accessorKey: "riwayat",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="AKSI" />
+      <DataTableColumnHeader column={column} title="RIWAYAT" />
     ),
     cell: ({ row }) => (
       <div className="flex justify-end">
@@ -217,6 +255,26 @@ return (
         >
           Riwayat
         </Button>
+      </div>
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "aksi",
+    header: ({ column }) => (
+      <DataTableColumnHeader className="justify-center" column={column} title="AKSI" />
+    ),
+    cell: ({ row }) => (
+      <div className="flex gap-2 justify-center">
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="h-7 w-7"
+                  color="destructive"
+                >
+                  <Icon icon="heroicons:trash" className="h-4 w-4" />
+                </Button>
       </div>
     ),
     enableSorting: false,
