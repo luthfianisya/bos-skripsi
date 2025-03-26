@@ -80,9 +80,9 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
 
       {/* Container kanan: Semua tombol di kanan */}
       <div className="flex items-center gap-2">
-      <Button type="button" color="destructive" variant="outline" size="md" icon={Trash2Icon}>
+      {/* <Button type="button" color="destructive" variant="outline" size="md" icon={Trash2Icon}>
           Kosongkan Tabel
-        </Button>
+        </Button> */}
       </div>
     </div>
 

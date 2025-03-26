@@ -8,7 +8,7 @@ import { CalculatorIcon } from "@heroicons/react/24/solid";
 import { Icon } from "@iconify/react";
 import { PencilIcon } from "lucide-react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import DialogForm from "./simulasi-perjalanan/simulasi-perjalanan";
+import DialogForm from "../simulasi-perjalanan/simulasi-perjalanan";
 
 // Interface baru sesuai kebutuhan
 interface PerjalananDinas {

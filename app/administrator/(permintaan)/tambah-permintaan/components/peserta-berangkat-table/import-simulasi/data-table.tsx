@@ -39,7 +39,10 @@ interface DataTableProps<TData> {
 export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);  
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
+    { id: "paguSisa", value: ["tersedia"] }, // filter pagu > 0
+    { id: "status", value: ["terpakai"] },        // filter status terpakai
+  ]);  
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -166,23 +169,7 @@ const styles = {
 
   return (
     <div className="space-y-4">
-      {selectedCount > 0 ? (
-    // Action Bar yang tadi kita bikin
-    <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 border rounded-full bg-red-50">
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="text-sm font-medium">
-        <Badge variant="outline" color="secondary">{selectedCount}/{table.getRowModel().rows.length} Selected</Badge>
-        </div>
-      </div>
-      <div className="flex gap-2">
-        <Button onClick={handleCancel} size="xs" color="secondary" variant="outline" className="rounded-full bg-white">Batal</Button>
-        <Button onClick={handleSaveSelected} size="xs" color="destructive" className="rounded-full">Hapus POK Terpilih</Button>
-      </div>
-    </div>
-  ) : (
-    // Toolbar default kalau nggak ada row yang di-select
     <DataTableToolbar table={table} />
-  )}
       <div className="relative rounded-md border overflow-x-auto">
         <Table className="table-auto min-w-max">
           {/* HEADER */}
