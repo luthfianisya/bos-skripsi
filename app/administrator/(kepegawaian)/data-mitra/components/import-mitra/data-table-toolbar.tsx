@@ -1,21 +1,14 @@
 "use client";
-import { X, Plus, Printer, Info } from "lucide-react";
+import { X, Plus, PlusCircleIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { Input } from "@/components/ui/input";
 // import { DataTableViewOptions } from "./data-table-view-options";
 import Importb from "@/components/svg/duel-tone/document-arrow-up.svg";
 import Refresh from "@/components/svg/duel-tone/arrow-path.svg";
-import CreateTask from "./tambah-mitra";
 // import { priorities, statuses } from "../data/data";
 // import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
-import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import KetKodeAbsen from "./keterangan-kode-absen/keterangan-kode-absen";
-
 interface DataTableToolbarProps {
   table: Table<any>;
 }
@@ -80,31 +73,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
           )}
         </div>  
       </div>
-
-      {/* Container kanan: Semua tombol di kanan */}
-      <div className="flex items-center gap-2">
-      {/* <DropdownMenu>
-    <DropdownMenuTrigger asChild>
-      <Button variant="outline" size="md">
-        Pilih Aksi
-        <ChevronDown className="h-4 w-4 ml-2" />
-      </Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="end">
-      <DropdownMenuItem onClick={() => console.log("Export")}>Export Data</DropdownMenuItem>
-      <DropdownMenuItem onClick={() => console.log("Import")}>Import Data</DropdownMenuItem>
-      <DropdownMenuItem onClick={() => console.log("Lihat Statistik")}>Lihat Statistik</DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu> */}
-        <KetKodeAbsen/>
-        <Button type="button" color="primary" size="md" icon={Printer} onClick={handleSheetOpen}>
-          Cetak Presensi
-        </Button>
-      </div>
-      <CreateTask open={open} onClose={handleSheetOpen} />
     </div>
-    
-    
 
   );
 }

@@ -26,8 +26,6 @@ import {
 } from "@/components/ui/table";
 
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableToolbar } from "./data-table-toolbar";
-import DataTableFilter from "./data-table-filter";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
@@ -49,6 +47,11 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
       rowSelection,
       columnFilters,
     },
+    initialState: {
+      pagination: {
+        pageSize: 5, // ✅ Set default rows per halaman jadi 5
+      },
+    },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -64,33 +67,33 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
 
   return (
     <div className="space-y-4">
-      {/* <DataTableFilter setFilters={setSelectedFilters} /> */}
-      <DataTableToolbar table={table} />
       <div className="relative rounded-md border overflow-x-auto">
-      <Table className="table-auto min-w-max">
+        <Table className="table-auto min-w-max">
           {/* HEADER */}
           <TableHeader className="bg-default-100">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  const isSticky = header.column.id === "nama" || header.column.id === "nip";
+                  const isSticky = header.column.id === "nama" || header.column.id === "aksi";
                   return (
                     <TableHead
-                        key={header.id}
-                        colSpan={header.colSpan}
-                        className={isSticky ? "sticky z-10 drop-shadow-md bg-default-100" : ""}
-                        style={
-                           header.column.id === "nama" || header.column.id === "nip"
-                            ? { left: 0 }
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      className={isSticky ? "sticky z-10 drop-shadow-md bg-default-100" : ""}
+                      style={
+                        header.column.id === "nama"
+                          ? { left: 0 }
+                          : header.column.id === "aksi"
+                            ? { right: 0 }
                             : {}
-                        }
-                      >
+                      }
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
@@ -102,26 +105,19 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-<TableRow
-  key={row.id}
-  data-state={row.getIsSelected() && "selected"}
-  className={`hover:bg-muted ${
-    (row.getValue("kategori") === "LIBUR" || 
-    (typeof row.getValue("tanggal") === "string" && ["Sabtu", "Minggu"].includes((row.getValue("tanggal") as string).split(",")[0])))
-      ? "bg-red-50" 
-      : ""
-  }`}
->
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="hover:bg-muted">
                   {row.getVisibleCells().map((cell) => {
-                    const isSticky =  cell.column.id === "nama" || cell.column.id === "nip";
+                    const isSticky = cell.column.id === "nama" || cell.column.id === "aksi";
                     return (
                       <TableCell
                         key={cell.id}
                         className={isSticky ? "sticky z-10 bg-background drop-shadow-md" : ""}
                         style={
-                           cell.column.id === "nama" || cell.column.id === "nip"
+                          cell.column.id === "nama"
                             ? { left: 0 }
-                            : {}
+                            : cell.column.id === "aksi"
+                              ? { right: 0 }
+                              : {}
                         }
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

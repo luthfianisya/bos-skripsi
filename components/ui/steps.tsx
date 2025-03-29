@@ -268,7 +268,7 @@ const StepLabel = React.forwardRef<HTMLDivElement, CommonProps>(
       <div
         ref={ref}
         className={cn(
-          "text-sm text-default-600  font-medium mt-2",
+          "font-medium block mt-2",
           {
             "text-destructive": error,
           },

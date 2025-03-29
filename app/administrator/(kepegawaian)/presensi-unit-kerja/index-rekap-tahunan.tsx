@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { columnsRkpTahun } from "./components/columns-rekap-tahunan";
-import { DataTable } from "./components/data-table";
+import { DataTable } from "./components/data-table-rekap";
 import { presensiData } from "./data/rekap-tahunan";
 
 // Definisi tipe data yang sesuai

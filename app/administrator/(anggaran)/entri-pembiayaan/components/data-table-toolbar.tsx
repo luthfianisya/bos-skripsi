@@ -11,6 +11,7 @@ import CreateTask from "./tambah-mitra";
 // import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
+import VStepFormPembiayaan from "./import-pembiayaan/import-pembiayaan";
 interface DataTableToolbarProps {
   table: Table<any>;
 }
@@ -81,9 +82,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
         <Button type="button" color="primary" variant="outline" size="md" icon={PrinterIcon}>
           Cetak POK
         </Button>
-        <Button type="button" color="primary" size="md" icon={Importb} onClick={handleSheetOpen}>
-          Import Pembiayaan
-        </Button>
+        <VStepFormPembiayaan/>
       </div>
       <CreateTask open={open} onClose={handleSheetOpen} />
     </div>

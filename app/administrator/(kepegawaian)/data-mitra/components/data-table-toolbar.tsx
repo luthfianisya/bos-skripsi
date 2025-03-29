@@ -10,6 +10,7 @@ import CreateTask from "./tambah-mitra";
 // import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
+import VStepFormMitra from "./import-mitra/import-mitra";
 interface DataTableToolbarProps {
   table: Table<any>;
 }
@@ -77,9 +78,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
 
       {/* Container kanan: Semua tombol di kanan */}
       <div className="flex items-center gap-2">
-        <Button type="button" color="primary" variant="outline" size="md" icon={Importb}>
-          Import Mitra
-        </Button>
+        <VStepFormMitra/>
         <Button type="button" color="primary" size="md" icon={Plus} onClick={handleSheetOpen}>
           Tambah Mitra
         </Button>

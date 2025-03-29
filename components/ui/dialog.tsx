@@ -19,6 +19,9 @@ const dialogVariants = cva(
         "3xl": "md:max-w-[812px] w-[90%]",
         "4xl": "md:max-w-[904px] w-[90%]",
         "5xl": "md:max-w-[996px] w-[90%]",
+        "6xl": "md:max-w-[1088px] w-[90%]",
+        "7xl": "md:max-w-[1180px] w-[90%]",
+        "9xl": "md:max-w-[1364px] w-[90%]",
         full: "h-screen max-w-full",
       },
     },
@@ -52,7 +55,7 @@ const DialogOverlay = React.forwardRef<
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
-  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full"
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl" | "9xl" |"full"
   overlayClass?: string
   overlayScroll?: boolean
   hiddenCloseIcon?: boolean

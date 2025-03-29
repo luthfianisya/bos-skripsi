@@ -10,7 +10,9 @@ import Refresh from "@/components/svg/duel-tone/arrow-path.svg";
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
-import VStepFormStatic from "./import-simulasi";
+import VStepFormStatic from "./import-simulasi/import-simulasi";
+import VStepFormSimulasi from "./import-simulasi/import-simulasi";
+import VStepFormPeserta from "./import-peserta/import-peserta";
 interface DataTableToolbarProps {
   table: Table<any>;
 }
@@ -81,10 +83,8 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
 
       {/* Container kanan: Semua tombol di kanan */}
       <div className="flex items-center gap-2">
-      <VStepFormStatic/>
-      <Button type="button" color="primary" variant="outline" size="md" icon={Importb}>
-          Import Peserta
-        </Button>
+      <VStepFormSimulasi/>
+      <VStepFormPeserta/>
       <Button type="button" color="destructive" variant="outline" size="md" icon={Trash2Icon}>
           Kosongkan Tabel
         </Button>

@@ -14,7 +14,7 @@ import { useState } from "react";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import KetKodeAbsen from "./keterangan-kode-absen/keterangan-kode-absen";
+import KetKode from "./keterangan-kode/keterangan-kode";
 
 interface DataTableToolbarProps {
   table: Table<any>;
@@ -96,7 +96,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
       <DropdownMenuItem onClick={() => console.log("Lihat Statistik")}>Lihat Statistik</DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu> */}
-        <KetKodeAbsen/>
+        <KetKode/>
         <Button type="button" color="primary" size="md" icon={Printer} onClick={handleSheetOpen}>
           Cetak Presensi
         </Button>
