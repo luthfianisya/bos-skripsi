@@ -11,11 +11,20 @@ import {
   MinusCircleIcon,
   CheckCircleIcon,
   ExclamationCircleIcon,
+  EllipsisHorizontalIcon,
+  TrashIcon,
+  PrinterIcon,
+  ArrowUpOnSquareIcon,
+  DocumentDuplicateIcon,
+  DocumentTextIcon
 } from "@heroicons/react/24/solid";
 import {
   ClockIcon,
 } from "@heroicons/react/24/outline";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+// import { Icon } from "leaflet";
+import { Icon } from "@iconify/react";
 
 type ApprovalStatus = "approved" | "pending" | "submit" | "rejected";
 
@@ -226,10 +235,48 @@ export const columns: ColumnDef<Form>[] = [
     ),
     cell: () => (
       <div className="flex justify-end">
-        <Button size="sm" variant="outline" className="flex items-center gap-2">
-          <ClockIcon className="w-4 h-4" />
-          Riwayat
+        <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+        <Button
+          size="icon"
+          variant="outline"
+          className="h-7 w-7"
+          color="primary"
+          icon={EllipsisHorizontalIcon}
+        >
         </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-[248px]" align="end" avoidCollisions>
+          <DropdownMenuLabel className="text-default-950">
+            Aksi
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-yellow-50 focus:text-yellow-600 cursor-pointer">
+          <DocumentTextIcon className="w-5 h-5 text-yellow-500" />
+      <p className="text-sm">Detail Permintaan</p>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-primary-50 focus:text-primary-600 cursor-pointer">
+      <DocumentDuplicateIcon className="w-5 h-5 text-primary-700" />
+      <p className="text-sm">Duplikat Permintaan</p>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-primary-50 focus:text-primary-600 cursor-pointer">
+    <ArrowUpOnSquareIcon className="w-5 h-5 text-primary-700" />
+      <p className="text-sm">Upload Ulang Attachment</p>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-primary-50 focus:text-primary-600 cursor-pointer">
+      <PrinterIcon className="w-5 h-5 text-primary-700" />
+      <p className="text-sm">Print Permintaan</p>
+    </DropdownMenuItem>
+
+    <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-red-50 focus:text-red-600 cursor-pointer">
+    <TrashIcon className="w-5 h-5 text-red-600" />
+      <p className="text-sm">Hapus Permintaan</p>
+    </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
       </div>
     ),
     enableSorting: false,
