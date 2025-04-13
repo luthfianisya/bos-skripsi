@@ -9,7 +9,6 @@ import {
 import AdvancedTable from "./index";
 import DataMitraBreadCrumbs from "./components/bread-crumbs";
 import VStepForm from "./vstep-form";
-import VStepForm2 from "./vstep-form2";
 // import DraggableTable from "./draggable-table";
 
 const DataTablePage = () => {
@@ -28,7 +27,7 @@ const DataTablePage = () => {
       {/* Advanced Table */}
       <Card>
         <CardContent className="pt-6">
-          <VStepForm2 />
+          <VStepForm />
         </CardContent>
       </Card>
     </div>

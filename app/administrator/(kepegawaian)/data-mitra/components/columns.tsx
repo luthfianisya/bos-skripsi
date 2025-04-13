@@ -9,21 +9,20 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
 
-interface Pegawai {
+interface Mitra {
   id: number;
   nama: string;
-  // avatar: string;
   nip: string;
   organisasi: string;
-  eselon: string;
-  gol: string;
-  instansi: string;
-  jabatan: string;
+  eselon?: string;
+  gol?: string;
+  instansi?: string;
+  jabatan?: string;
   email: string;
   wilayah: string;
 }
 
-export const columns: ColumnDef<Pegawai>[] = [
+export const columns: ColumnDef<Mitra>[] = [
   {
     accessorKey: "nama",
     header: ({ column }) => (
@@ -154,8 +153,8 @@ export const columns: ColumnDef<Pegawai>[] = [
   },
 ];
 
-// Data pegawai
-export const pegawais: Pegawai[] = [
+// Data Mitra
+export const mitras: Mitra[] = [
   {
     id: 1,
     nama: "Mark Dsuza",

@@ -8,7 +8,7 @@ const badgeVariants = cva(
   {
     variants: {
       color: {
-        default: "border-transparent bg-primary text-primary-foreground ",
+        default: "border-transparent bg-blue-700 text-primary-foreground ",
         destructive:
           "bg-destructive border-transparent text-destructive-foreground",
         success: "bg-success border-transparent  text-success-foreground ",
@@ -41,7 +41,7 @@ const badgeVariants = cva(
       {
         variant: "outline",
         color: "warning",
-        className: "text-warning",
+        className: "border-yellow-600 bg-yellow-50 text-yellow-600",
       },
       {
         variant: "outline",
@@ -57,7 +57,7 @@ const badgeVariants = cva(
       {
         variant: "outline",
         color: "default",
-        className: "text-primary",
+        className: "text-primary border-blue-700 bg-blue-50",
       },
       // soft button variant
       {

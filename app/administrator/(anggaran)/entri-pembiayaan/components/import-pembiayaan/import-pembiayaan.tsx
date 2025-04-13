@@ -15,7 +15,7 @@ const VStepFormPembiayaan = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
-      <Button type="button" color="primary" size="md" icon={DocumentArrowUpIcon}>
+        <Button type="button" color="primary" size="md" icon={DocumentArrowUpIcon}>
           Import Pembiayaan
         </Button>
       </DialogTrigger>
@@ -56,22 +56,22 @@ const VStepFormPembiayaan = () => {
               </Step>
             </Stepper>
           </div>
-          
+
 
           {/* Right Side: Content */}
           <div className="col-span-12 xl:col-span-8  max-h-[400px] overflow-y-auto">
             <div className="col-span-12">
               <h4 className="text-lg font-semibold text-gray-800">Preview Data Pembiayaan</h4>
             </div>
-            
+
             {/* Table Wrapper */}
             <div className="mt-4 w-full">
-  <AdvancedTable />
-</div>
+              <AdvancedTable />
+            </div>
 
           </div>
         </div>
-        
+
         {/* Footer Buttons */}
         <div className="flex justify-end mt-6 gap-2">
           <Button size="md" variant="soft" color="secondary" onClick={() => setOpen(false)}>Batal</Button>

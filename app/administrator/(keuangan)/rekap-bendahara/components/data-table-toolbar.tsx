@@ -14,6 +14,8 @@ import { useState } from "react";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { TipeForm } from "./columns"
+import Link from "next/link";
+// import TambahRekap from "./tambah-rekap/tambah-rekap";
 
 const tipeFormOptions = [
   { label: "Translokasi", value: TipeForm.TRANSLOK }, // "TRANSLOK"
@@ -69,7 +71,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
 
   const approvalsColumn = table.getColumn("approvals");
   const tipeFormColumn = table.getColumn("tipeForm");
-  
+
   // const statusColumn = table.getColumn("status");
   // const priorityColumn = table.getColumn("priority");
 
@@ -79,15 +81,15 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
       <div className="flex flex-1 items-center gap-2">
         {/* Tombol Refresh (di luar max-w-sm) */}
         <Button
-  type="button"
-  color="primary"
-  variant="outline"
-  size="md"
-  icon={Refresh}
-  onClick={handleRefresh}
->
-  Refresh
-</Button>
+          type="button"
+          color="primary"
+          variant="outline"
+          size="md"
+          icon={Refresh}
+          onClick={handleRefresh}
+        >
+          Refresh
+        </Button>
 
 
         {/* Container kecil untuk Search & Reset (max-w-sm) */}
@@ -108,7 +110,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
               <X className="ltr:ml-2 rtl:mr-2 h-4 w-4" />
             </Button>
           )}
-        </div>  
+        </div>
       </div>
 
       {/* Container kanan: Semua tombol di kanan */}
@@ -116,24 +118,32 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
         {/* <Button type="button" color="primary" variant="outline" size="md" icon={PrinterIcon}>
           Cetak POK
         </Button> */}
-      {/* <DataTableViewOptions table={table} /> */}
-      {tipeFormColumn && (
-        <DataTableFacetedFilter
-          column={tipeFormColumn}
-          title="Filter Tipe Form"
-          options={tipeFormOptions}
-        />
-      )}
-      {approvalsColumn && (
+        {/* <DataTableViewOptions table={table} /> */}
+        {tipeFormColumn && (
+          <DataTableFacetedFilter
+            column={tipeFormColumn}
+            title="Filter Tipe Form"
+            options={tipeFormOptions}
+          />
+        )}
+        {approvalsColumn && (
           <DataTableFacetedFilter
             column={approvalsColumn}
             title="Filter Status"
             options={approvalFilterOptions}
           />
         )}
-        <Button type="button" color="primary" size="md" icon={Plus} onClick={handleSheetOpen}>
-          Tambah Permintaan
-        </Button>
+        {/* <Button type="button" color="primary" size="md" icon={Plus} onClick={handleSheetOpen}>
+          Tambah Rekap
+        </Button> */}
+        {/* <TambahRekap/> */}
+        <Link href="/administrator/rekap-bendahara/tambah-rekap">
+                <Button
+                  color="primary" size="md" icon={Plus}
+                >
+                  Tambah Rekap
+                </Button>
+                </Link>
       </div>
       <CreateTask open={open} onClose={handleSheetOpen} />
     </div>
@@ -148,7 +158,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
         className="h-9 min-w-[200px] max-w-sm"
       /> */}
 
-      {/* {statusColumn && (
+{/* {statusColumn && (
         <DataTableFacetedFilter
           column={statusColumn}
           title="Status"
@@ -172,4 +182,4 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
           <X className="ltr:ml-2 rtl:mr-2 h-4 w-4" />
         </Button>
       )} */}
-      {/* <DataTableViewOptions table={table} /> */}
+{/* <DataTableViewOptions table={table} /> */ }

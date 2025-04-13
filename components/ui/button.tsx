@@ -16,7 +16,7 @@ const buttonVariants = cva(
           "bg-red-600 destructive text-destructive-foreground hover:bg-destructive/80",
         success: "bg-success text-success-foreground hover:bg-success/80",
         info: "bg-info text-info-foreground hover:bg-info/80",
-        warning: "bg-warning text-warning-foreground hover:bg-warning/80",
+        warning: "bg-yellow text-yellow-500 hover:bg-yellow/80",
         secondary:
           "bg-secondary text-muted-foreground dark:text-default-950 hover:bg-secondary/80",
         dark: "bg-accent-foreground text-accent hover:bg-accent-foreground/80",
@@ -60,7 +60,7 @@ const buttonVariants = cva(
         variant: "outline",
         color: "warning",
         className:
-          "text-warning hover:text-warning-foreground hover:border-warning hover:bg-warning bg-warning/10",
+          "text-yellow-500 hover:text-yellow-500 hover:border-warning hover:bg-yellow bg-yellow-50",
       },
       {
         variant: "outline",
@@ -94,7 +94,7 @@ const buttonVariants = cva(
       {
         variant: "soft",
         color: "warning",
-        className: "text-warning hover:text-warning-foreground",
+        className: "text-yellow-500 hover:text-yellow-500",
       },
       {
         variant: "soft",
@@ -141,7 +141,7 @@ const buttonVariants = cva(
       {
         variant: "ghost",
         color: "warning",
-        className: " text-warning hover:text-warning-foreground ",
+        className: " text-yellow-500 hover:text-yellow-500 ",
       },
       {
         variant: "ghost",

@@ -98,7 +98,7 @@ const PopoverSidebar = () => {
             <li key={`menu_key_${i}`}>
               {/* single menu  */}
 
-              {!item.child && !item.isHeader && (
+              {!item.child && (
                 <SingleMenuItem
                   item={item}
                   collapsed={collapsed}
@@ -106,9 +106,9 @@ const PopoverSidebar = () => {
               )}
 
               {/* menu label */}
-              {item.isHeader && !item.child && !collapsed && (
+              {/* {item.isHeader && !item.child && !collapsed && (
                 <MenuLabel item={item}/>
-              )}
+              )} */}
 
               {/* sub menu */}
               {item.child && (

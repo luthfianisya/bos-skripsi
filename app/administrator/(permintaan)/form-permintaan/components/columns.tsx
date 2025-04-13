@@ -30,12 +30,30 @@ type ApprovalStatus = "approved" | "pending" | "submit" | "rejected";
 
 
 export enum TipeForm {
-  TRANSLOK = "TRANSLOK",
-  JLN = "JALAN",
-  BHN = "BAHAN",
+  JLN = "FORM - JLN",
+  NONOPR = "FORM - NON OPR",
+  BHN = "FORM - BAHAN",
+  PERSEDIAAN = "FORM - PERSEDIAAN",
+  PMLH = "FORM - PEMELIHARAAN",
+  MDL = "FORM - MODAL",
+  SEWA = "FORM - SEWA",
+  JS_KONSLTN = "FORM - JASA KONSULTAN",
+  JS = "FORM - JASA PROFESI",
+  UPH = "FORM - HONOR",
+  FD_HD = "FORM - FULLDAY/HALFDAY",
+  KONSI_DK = "FORM - FULLBOARD DALAM KOTA",
+  KONSI_LK = "FORM - FULLBOARD LUAR KOTA",
+  TRANSLOK = "FORM - TRANSLOK",
+  JS_LAINNYA = "FORM - JASA LAINNYA",
+  KPRL_KANTOR = "FORM - PERKANTORAN",
+  PLT = "FORM - PAKET MEETING LAINNYA",
+  OPR = "FORM - OPERASIONAL",
+  LANGGANAN = "FORM - BELANJA LANGGANAN",
+  LEMBUR = "FORM - LEMBUR",
+  PENGHASILAN = "FORM - PENGHASILAN",
 }
 
-interface Form {
+export interface Form {
   noPermintaan: string;
   deskripsi: string;
   noSurat: string;
@@ -48,6 +66,7 @@ interface Form {
     ppk: ApprovalStatus;
   };
 }
+
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const approvalStatuses: ApprovalStatus[] = ["approved", "submit", "rejected", "pending"];
@@ -71,11 +90,10 @@ const getNormalizedStatus = (status: ApprovalStatus | undefined): ApprovalStatus
   return status ?? "pending"; // undefined dianggap pending
 };
 
-const tipeFormOptions = [
-  { label: "Translokasi", value: TipeForm.TRANSLOK },
-  { label: "Jalan Dinas", value: TipeForm.JLN },
-  { label: "Bahan", value: TipeForm.BHN },
-];
+const tipeFormOptions = Object.entries(TipeForm).map(([key, value]) => ({
+  label: value,
+  value: value,
+}));
 
 
 // Function buat mapping badge props berdasarkan status
@@ -168,7 +186,14 @@ export const columns: ColumnDef<Form>[] = [
         <DataTableColumnHeader column={column} title="TIPE FORM" />
       </div>
       ),
-      cell: ({ row }) => <div>{row.getValue("tipeForm")}</div>,
+      cell: ({ row }) => {
+        const fullLabel = row.getValue("tipeForm") as string;
+        const shortLabel = Object.entries(TipeForm).find(
+          ([_, value]) => value === fullLabel
+        )?.[0]; // Ambil key-nya, misalnya JLN dari "FORM - JLN"
+    
+        return <div>{shortLabel}</div>;
+      },
       filterFn: (row, columnId, filterValue) => {
         if (!filterValue?.length) return true;
         return filterValue.includes(row.getValue(columnId));

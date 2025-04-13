@@ -1,13 +1,14 @@
+import { forms } from "@/data/form-permintaan-data";
 import { Fragment } from "react";
-import { columns, dataForm } from "./components/columns";
+import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
-// import { data } from "./data";
+
 
 export default function AdvancedTable() {
   return (
     <Fragment>
       <DataTable
-        data={dataForm}
+        data={forms}
         columns={columns}
       />
     </Fragment>

@@ -4,7 +4,7 @@ const DataMitraBreadCrumbs = () => {
   return (
     <Breadcrumbs>
       <BreadcrumbItem>Anggaran</BreadcrumbItem>
-      <BreadcrumbItem>Entri Pembiayaan</BreadcrumbItem>
+      <BreadcrumbItem></BreadcrumbItem>
     </Breadcrumbs>
   );
 };

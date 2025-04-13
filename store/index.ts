@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { siteConfig } from "@/config/site";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { useMenuStore } from "@/store/menu-store";
 
 interface ThemeStoreState {
   theme: string;

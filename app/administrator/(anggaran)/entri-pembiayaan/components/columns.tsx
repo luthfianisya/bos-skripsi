@@ -68,17 +68,17 @@ export const columns: ColumnDef<POK>[] = [
 
       const statusMap: Record<
   POK["status"],
-  { label: string; color: string }
+  { label: string; color: "default" | "secondary" | "destructive" | "warning" | "info" | "success" | "dark" }
 > = {
-  terpakai: { label: "Terpakai", color: "text-green-600 bg-green-100" },
-  revisi: { label: "Revisi", color: "text-yellow-600 bg-yellow-100" },
-  tidak_terpakai: { label: "Tak Terpakai", color: "text-red-600 bg-red-100" },
+  terpakai: { label: "Terpakai", color: "success" },
+  revisi: { label: "Revisi", color: "warning" },
+  tidak_terpakai: { label: "Tak Terpakai", color: "destructive" },
 };
 
 const { label, color } = statusMap[status];
 
 return (
-  <Badge variant="outline" className={color}>
+  <Badge variant="outline" color={color}>
     {label}
   </Badge>
 );

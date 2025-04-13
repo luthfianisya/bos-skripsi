@@ -7,9 +7,9 @@ const satker: { value: string, label: string }[] = [
 ];
 
 const tahun: { value: string, label: string }[] = [
-{ value: "2025", label: "2025" },
-{ value: "2024", label: "2024" },
-{ value: "2023", label: "2023" },
+  { value: "2025", label: "2025" },
+  { value: "2024", label: "2024" },
+  { value: "2023", label: "2023" },
 ];
 
 const organisasi: { value: string, label: string }[] = [
@@ -50,30 +50,84 @@ const DataTableFilter = () => {
           isClearable
         />
       </div>
-      <div className="flex items-center gap-3">
-        {/* Pastikan semua label memiliki lebar yang sama */}
-        <label className="w-48 font-medium z-30">Satuan Kerja</label>
-        <Select
-          className="react-select flex-1 z-30"
-          classNamePrefix="select"
-          placeholder="Pilih Satuan Kerja"
-          styles={styles}
-          name="clear"
-          options={satker}
-          isClearable
-        />
-      </div>
-      <div className="flex items-center gap-3">
-        <label className="w-48 font-medium z-20">Unit Kerja</label>
-        <Select
-          className="react-select flex-1 z-20"
-          classNamePrefix="select"
-          placeholder="Pilih Unit Kerja"
-          styles={styles}
-          name="clear"
-          options={organisasi}
-          isClearable
-        />
+      <div className="flex gap-10">
+        <div className="flex-1 flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            {/* Pastikan semua label memiliki lebar yang sama */}
+            <label className="w-48 font-medium z-30">Satuan Kerja</label>
+            <Select
+              className="react-select flex-1 z-30"
+              classNamePrefix="select"
+              placeholder="Pilih Satuan Kerja"
+              styles={styles}
+              name="clear"
+              options={satker}
+              isClearable
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <label className="w-48 font-medium z-20">Program</label>
+            <Select
+              className="react-select flex-1 z-20"
+              classNamePrefix="select"
+              placeholder="Pilih Unit Kerja"
+              styles={styles}
+              name="clear"
+              options={organisasi}
+              isClearable
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <label className="w-48 font-medium z-20">Kegiatan</label>
+            <Select
+              className="react-select flex-1 z-20"
+              classNamePrefix="select"
+              placeholder="Pilih Unit Kerja"
+              styles={styles}
+              name="clear"
+              options={organisasi}
+              isClearable
+            />
+          </div>
+        </div>
+        <div className="flex-1 flex flex-col gap-3">
+        <div className="flex items-center gap-3">
+            <label className="w-24 font-medium z-20">Output</label>
+            <Select
+              className="react-select flex-1 z-20"
+              classNamePrefix="select"
+              placeholder="Pilih Unit Kerja"
+              styles={styles}
+              name="clear"
+              options={organisasi}
+              isClearable
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <label className="w-24 font-medium z-20">Sub Output</label>
+            <Select
+              className="react-select flex-1 z-20"
+              classNamePrefix="select"
+              placeholder="Pilih Unit Kerja"
+              styles={styles}
+              name="clear"
+              options={organisasi}
+              isClearable
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <label className="w-24 font-medium z-20">Komponen</label>
+            <Select
+              className="react-select flex-1 z-20"
+              classNamePrefix="select"
+              placeholder="Pilih Unit Kerja"
+              styles={styles}
+              name="clear"
+              options={organisasi}
+              isClearable
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

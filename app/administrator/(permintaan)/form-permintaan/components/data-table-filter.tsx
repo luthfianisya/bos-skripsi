@@ -1,21 +1,17 @@
-
 import Select from "react-select";
+
 const satker: { value: string, label: string }[] = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
+  { value: "637148", label: "[637148] BPS Kota Depok" },
 ];
 
 const tahun: { value: string, label: string }[] = [
-{ value: "2025", label: "2025" },
-{ value: "2024", label: "2024" },
-{ value: "2023", label: "2023" },
+  { value: "2025", label: "2025" },
+  { value: "2024", label: "2024" },
+  { value: "2023", label: "2023" },
 ];
 
 const organisasi: { value: string, label: string }[] = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
+  { value: "92800", label: "[92800] BPS Kabupaten/Kota" },
 ];
 
 const styles = {
@@ -28,17 +24,7 @@ const styles = {
 const DataTableFilter = () => {
   return (
     <div className="grid grid-cols-1 w-full gap-y-4">
-      {/* <div>
-        <Select
-          className="react-select"
-          classNamePrefix="select"
-          defaultValue={furits[0]}
-          options={furits}
-          styles={styles}
-        />
-      </div> */}
       <div className="flex items-center gap-3">
-        {/* Pastikan semua label memiliki lebar yang sama */}
         <label className="w-48 font-medium z-30">Tahun Anggaran</label>
         <Select
           className="react-select flex-1 z-30"
@@ -51,7 +37,6 @@ const DataTableFilter = () => {
         />
       </div>
       <div className="flex items-center gap-3">
-        {/* Pastikan semua label memiliki lebar yang sama */}
         <label className="w-48 font-medium z-30">Satuan Kerja</label>
         <Select
           className="react-select flex-1 z-30"

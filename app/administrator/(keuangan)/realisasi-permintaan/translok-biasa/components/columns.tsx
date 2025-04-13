@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
 import { ClockIcon } from "@heroicons/react/24/outline"
 import { EyeIcon } from "@heroicons/react/24/solid"
+import Link from "next/link";
 
 interface Realisasi {
   noPermintaan: string;
@@ -62,6 +63,7 @@ export const columns: ColumnDef<Realisasi>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex justify-end">
+        <Link href="/administrator/realisasi-permintaan/translok-biasa/detail-translok">
         <Button
           size="sm"
           variant="outline"
@@ -69,6 +71,8 @@ export const columns: ColumnDef<Realisasi>[] = [
         >
           Detail
         </Button>
+        </Link>
+        
       </div>
     ),
     enableSorting: false,
