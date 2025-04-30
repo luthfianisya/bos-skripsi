@@ -1,14 +1,19 @@
 import { Fragment } from "react";
-import { columns, pegawais } from "./columns";
+import { columns } from "./columns"; // columns khusus untuk tabel terpilih
 import { DataTable } from "./data-table";
-// import { data } from "./data";
+import { POK } from "./columns"; // tipe POK
 
-export default function POKTerpilihTable() {
+interface POKTerpilihTableProps {
+  data: POK[];
+  onHapus: (item: POK) => void;
+}
+
+export default function POKTerpilihTable({ data, onHapus }: POKTerpilihTableProps) {
   return (
     <Fragment>
       <DataTable
-        data={pegawais}
-        columns={columns}
+        data={data}
+        columns={columns(onHapus)}
       />
     </Fragment>
   );

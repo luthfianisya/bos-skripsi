@@ -25,25 +25,25 @@ const SubMenuHandler = ({
         <div
           onClick={() => toggleSubmenu(index)}
           className={cn(
-            "flex  text-default-700 group font-medium text-sm capitalize px-[10px] py-3 rounded cursor-pointer transition-all duration-100 hover:bg-primary hover:text-primary-foreground group",
+            "flex text-default-700 group font-medium text-sm capitalize px-[10px] py-3 rounded cursor-pointer hover:bg-gradient-to-r hover:from-[#234C90] hover:to-[#3B82F6] hover:text-white",
             {
-              "bg-primary  text-primary-foreground": activeSubmenu === index,
+              "bg-gradient-to-r from-[#234C90] to-[#3B82F6] text-white": activeSubmenu === index,
             }
           )}
         >
-          <div className="flex-1  gap-3 flex items-start">
-            <span className="inline-flex items-center     ">
+          <div className="flex-1 gap-3 flex items-start">
+            <span className="inline-flex items-center">
               <item.icon className="w-5 h-5" />
             </span>
-            <div className=" ">{title}</div>
+            <div>{title}</div>
           </div>
           <div className="flex-0">
             <div
               className={cn(
-                " text-base rounded-full flex justify-center items-center transition-all duration-300 group-hover:text-primary-foreground",
+                "text-base rounded-full flex justify-center items-center group-hover:text-white",
                 {
-                  "rotate-90  ": activeSubmenu === index,
-                  " text-default-500  ": activeSubmenu !== index,
+                  "rotate-90": activeSubmenu === index,
+                  "text-default-500": activeSubmenu !== index,
                 }
               )}
             >
@@ -55,7 +55,7 @@ const SubMenuHandler = ({
           </div>
         </div>
       ) : (
-        <div className="inline-flex cursor-pointer items-center justify-center data-[state=open]:bg-primary-100 data-[state=open]:text-primary  w-12 h-12  rounded-md">
+        <div className="inline-flex cursor-pointer items-center justify-center data-[state=open]:bg-gradient-to-r data-[state=open]:from-[#234C90] data-[state=open]:to-[#3B82F6] data-[state=open]:text-white w-12 h-12 rounded-md">
           <item.icon className="w-6 h-6" />
         </div>
       )}

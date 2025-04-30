@@ -1,21 +1,120 @@
+"use client";
+
 import React from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Select from "react-select"; // pakai react-select ya!
 
 const StepInformasiUmum = () => {
+  const satkerOptions = [
+    { value: "satker1", label: "Satker 1" },
+    { value: "satker2", label: "Satker 2" },
+  ];
+
+  const outputOptions = [
+    { value: "output1", label: "Output 1" },
+    { value: "output2", label: "Output 2" },
+  ];
+
+  const programOptions = [
+    { value: "program1", label: "Program 1" },
+    { value: "program2", label: "Program 2" },
+  ];
+
+  const subOutputOptions = [
+    { value: "suboutput1", label: "Sub Output 1" },
+    { value: "suboutput2", label: "Sub Output 2" },
+  ];
+
+  const kegiatanOptions = [
+    { value: "kegiatan1", label: "Kegiatan 1" },
+    { value: "kegiatan2", label: "Kegiatan 2" },
+  ];
+
+  const komponenOptions = [
+    { value: "komponen1", label: "Komponen 1" },
+    { value: "komponen2", label: "Komponen 2" },
+  ];
+
+  const jenisPencairanOptions = [
+    { value: "up", label: "Dana Uang Persediaan (UP)" },
+    { value: "nihil", label: "Nihil" },
+    { value: "ls", label: "Pembayaran Langsung (LS)" },
+    { value: "pengesahan", label: "Pengesahan" },
+    { value: "gup", label: "Penggantian UP (GUP)" },
+    { value: "ptup", label: "Pertanggungjawaban TUP (PTUP)" },
+    { value: "tup", label: "Tambahan UP (TUP)" },
+  ];
+
   return (
     <>
       {/* Heading */}
       <div className="col-span-12">
         <h4 className="text-lg font-semibold text-gray-800">Informasi Umum</h4>
         <p className="text-sm text-gray-500">
-          Isikan data informasi umum yang sesuai untuk permintaan ini.
+          Isikan data informasi umum yang sesuai untuk rekap ini.
         </p>
       </div>
 
       {/* Form Grid */}
       <div className="col-span-12 grid grid-cols-1 gap-4">
+
+        {/* Tahun Anggaran */}
+        <div className="flex items-center gap-4">
+          <Label className="w-32" htmlFor="tahunAnggaran">
+            Tahun Anggaran
+          </Label>
+          <Input id="tahunAnggaran" value="2025" disabled />
+        </div>
+
+        {/* Satuan Kerja - Output */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex items-center gap-4">
+            <Label className="w-32">Satuan Kerja</Label>
+            <div className="flex-1">
+              <Select options={satkerOptions} placeholder="Pilih Satuan Kerja" />
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <Label className="w-32">Output</Label>
+            <div className="flex-1">
+              <Select options={outputOptions} placeholder="Pilih Output" />
+            </div>
+          </div>
+        </div>
+
+        {/* Program - Sub Output */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex items-center gap-4">
+            <Label className="w-32">Program</Label>
+            <div className="flex-1">
+              <Select options={programOptions} placeholder="Pilih Program" />
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <Label className="w-32">Sub Output</Label>
+            <div className="flex-1">
+              <Select options={subOutputOptions} placeholder="Pilih Sub Output" />
+            </div>
+          </div>
+        </div>
+
+        {/* Kegiatan - Komponen */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex items-center gap-4">
+            <Label className="w-32">Kegiatan</Label>
+            <div className="flex-1">
+              <Select options={kegiatanOptions} placeholder="Pilih Kegiatan" />
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <Label className="w-32">Komponen</Label>
+            <div className="flex-1">
+              <Select options={komponenOptions} placeholder="Pilih Komponen" />
+            </div>
+          </div>
+        </div>
+
         {/* Judul Rekap */}
         <div className="flex items-center gap-4">
           <Label className="w-32" htmlFor="judulRekap">
@@ -40,84 +139,14 @@ const StepInformasiUmum = () => {
           <Input id="tanggalRekap" type="date" />
         </div>
 
+        {/* Jenis Pencairan */}
         <div className="flex items-center gap-4">
-          <Label className="w-32" htmlFor="jenisPencairan">Jenis Pencairan</Label>
-          <div className="flex flex-1">
-          <Select>
-            <SelectTrigger size="md"  radius="md">
-              <SelectValue placeholder="Pilih Jenis Pencairan" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="up">Dana Uang Persediaan (UP)</SelectItem>
-              <SelectItem value="nihil">Nihil</SelectItem>
-              <SelectItem value="ls">Pembayaran Langsung (LS)</SelectItem>
-              <SelectItem value="pengesahan">Pengesahan</SelectItem>
-              <SelectItem value="gup">Penggantian UP (GUP)</SelectItem>
-              <SelectItem value="ptup">Pertanggungjawaban TUP (PTUP)</SelectItem>
-              <SelectItem value="tup">Tambahan UP (TUP)</SelectItem>
-            </SelectContent>
-          </Select>
+          <Label className="w-32">Jenis Pencairan</Label>
+          <div className="flex-1">
+            <Select options={jenisPencairanOptions} placeholder="Pilih Jenis Pencairan" />
           </div>
-         
         </div>
 
-
-        {/* SPP */}
-        {/* <div className="flex items-center gap-4">
-          <Label className="w-32">SPP</Label>
-          <div className="flex flex-1 gap-6">
-            <div className="flex flex-1 items-center gap-2">
-              <Label className="w-14" htmlFor="sppNomor">
-                Nomor
-              </Label>
-              <Input id="sppNomor" />
-            </div>
-            <div className="flex flex-1 items-center gap-2">
-              <Label className="w-14" htmlFor="sppTanggal">
-                Tanggal
-              </Label>
-              <Input id="sppTanggal" type="date" />
-            </div>
-          </div>
-        </div> */}
-
-        {/* SPM */}
-        {/* <div className="flex items-center gap-4">
-          <Label className="w-32">SPM</Label>
-          <div className="flex flex-1 gap-6">
-            <div className="flex flex-1 items-center gap-2">
-              <Label className="w-14" htmlFor="spmNomor">
-                Nomor
-              </Label>
-              <Input id="spmNomor" />
-            </div>
-            <div className="flex flex-1 items-center gap-2">
-              <Label className="w-14" htmlFor="spmTanggal">
-                Tanggal
-              </Label>
-              <Input id="spmTanggal" type="date" />
-            </div>
-          </div>
-        </div> */}
-
-        {/* SP2D */}
-        {/* <div className="flex items-center gap-4">
-          <Label className="w-32">SP2D</Label>
-          <div className="flex flex-1 gap-6">
-            <div className="flex flex-1 items-center gap-2">
-              <Label className="w-14" htmlFor="sp2dNomor">
-                Nomor
-              </Label>
-              <Input id="sp2dNomor" />
-            </div>
-            <div className="flex flex-1 items-center gap-2">
-              <Label className="w-14" htmlFor="sp2dTanggal">
-                Tanggal
-              </Label>
-              <Input id="sp2dTanggal" type="date" />
-            </div>
-          </div>
-        </div> */}
       </div>
     </>
   );

@@ -3,8 +3,8 @@ import { Breadcrumbs, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 const DataMitraBreadCrumbs = () => {
   return (
     <Breadcrumbs>
-      <BreadcrumbItem>Anggaran</BreadcrumbItem>
-      <BreadcrumbItem>Entri Pembiayaan</BreadcrumbItem>
+      <BreadcrumbItem>Permintaan</BreadcrumbItem>
+      <BreadcrumbItem>Tambah Permintaan</BreadcrumbItem>
     </Breadcrumbs>
   );
 };

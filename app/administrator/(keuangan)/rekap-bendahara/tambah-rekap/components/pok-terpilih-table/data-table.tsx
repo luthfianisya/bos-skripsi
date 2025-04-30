@@ -32,6 +32,8 @@ import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 import { ChevronDown } from "lucide-react";
 import type { FormPOK } from "./columns";
+import { CalculatorIcon } from "@heroicons/react/24/solid";
+import DialogForm from "./simulasi-perjalanan/simulasi-perjalanan";
 
 interface DataTableProps<TData extends FormPOK> {
   columns: ColumnDef<TData>[];
@@ -277,7 +279,7 @@ export function DataTable<TData extends FormPOK>({
                                       <Badge variant="outline">{d.status}</Badge>
                                     </TableCell>
                                     <TableCell>
-                                      <Button size="xs" variant="outline">Lihat</Button>
+                                      <DialogForm/>
                                     </TableCell>
                                   </TableRow>
                                 ))}

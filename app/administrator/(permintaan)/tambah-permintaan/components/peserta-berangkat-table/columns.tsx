@@ -11,7 +11,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import DialogForm from "./simulasi-perjalanan/simulasi-perjalanan";
 
 // Interface baru sesuai kebutuhan
-interface PerjalananDinas {
+export interface PerjalananDinas {
   nama: string;
   gol: string;
   asal: string;
@@ -124,14 +124,14 @@ export const columns: ColumnDef<PerjalananDinas>[] = [
     cell: () => (
       <div className="flex gap-3 justify-end">
                         <DialogForm />
-                <Button
+                {/* <Button
                   size="icon"
                   variant="outline"
                   color="warning"
                   className="h-7 w-7"
                   icon={PencilSquareIcon}
                 >
-                </Button>
+                </Button> */}
                 <Button
                   size="icon"
                   variant="outline"

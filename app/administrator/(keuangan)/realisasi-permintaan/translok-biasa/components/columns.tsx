@@ -11,14 +11,9 @@ import { Icon } from "@iconify/react";
 import { ClockIcon } from "@heroicons/react/24/outline"
 import { EyeIcon } from "@heroicons/react/24/solid"
 import Link from "next/link";
-
-interface Realisasi {
-  noPermintaan: string;
-  noSurat: string;
-  paguBooked: number;
-  paguReali: number;
-  keterangan: string;
-}
+import { EllipsisTooltip } from "@/components/ui/ellipsis-tooltip";
+import { Realisasi } from "@/lib/interface";
+import { formatRupiah } from "@/lib/utils";
 
 export const columns: ColumnDef<Realisasi>[] = [
   {
@@ -28,6 +23,16 @@ export const columns: ColumnDef<Realisasi>[] = [
     ),
     cell: ({ row }) => <div>{row.getValue("noPermintaan")}</div>,
   },
+  {
+      accessorKey: "deskripsi",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="DESKRIPSI" />
+      ),
+      cell: ({ row }) => {
+        const value = row.getValue("deskripsi") as string;
+        return <EllipsisTooltip>{value}</EllipsisTooltip>;
+      },
+    },
   {
     accessorKey: "noSurat",
     header: ({ column }) => (
@@ -40,22 +45,22 @@ export const columns: ColumnDef<Realisasi>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU BOOKED" />
     ),
-    cell: ({ row }) => <div>{row.getValue("paguBooked")}</div>,
+    cell: ({ row }) => <div>{formatRupiah(row.getValue("paguBooked"))}</div>,
   },
   {
     accessorKey: "paguReali",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="PAGU REALISASI" />
+      <DataTableColumnHeader column={column} title="INPUT REALISASI" />
     ),
-    cell: ({ row }) => <div>{row.getValue("paguReali")}</div>,
+    cell: ({ row }) => <div>{formatRupiah(row.getValue("paguReali"))}</div>,
   },
-  {
-    accessorKey: "keterangan",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="KETERANGAN" />
-    ),
-    cell: ({ row }) => <div>{row.getValue("keterangan")}</div>,
-  },
+  // {
+  //   accessorKey: "keterangan",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="KETERANGAN" />
+  //   ),
+  //   cell: ({ row }) => <div>{row.getValue("keterangan")}</div>,
+  // },
   {
     accessorKey: "aksi",
     header: ({ column }) => (
@@ -77,30 +82,5 @@ export const columns: ColumnDef<Realisasi>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
-  },
-];
-
-// Contoh data Realisasi
-export const realisasis: Realisasi[] = [
-  {
-    noPermintaan: "Belanja Pegawai",
-    noSurat: "Gaji dan Tunjangan",
-    paguBooked: 100000000,
-    paguReali: 90000000,
-    keterangan: "Orang",
-  },
-  {
-    noPermintaan: "Belanja Barang",
-    noSurat: "Pengadaan ATK",
-    paguBooked: 5000000,
-    paguReali: 4000000,
-    keterangan: "Pcs",
-  },
-  {
-    noPermintaan: "Belanja Modal",
-    noSurat: "Pengadaan Komputer",
-    paguBooked: 20000000,
-    paguReali: 18000000,
-    keterangan: "Unit",
   },
 ];

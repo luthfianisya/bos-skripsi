@@ -17,3 +17,5 @@ export type Shadow = "none" | "sm" | "md" | "lg" | "xl" | "2xl"
 
 export type Radius = "none" | "sm" | "md" | "lg" | "xl"
 
+export type ApprovalStatus = "approved" | "pending" | "submit" | "rejected";
+

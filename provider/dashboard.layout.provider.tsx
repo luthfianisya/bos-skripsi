@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, usePathname } from "next/navigation";
 import Footer from "@/components/partials/footer";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import ThemeCustomize from "@/components/partials/customizer/theme-customizer";
+// import ThemeCustomize from "@/components/partials/customizer/theme-customizer";
 import MobileSidebar from "@/components/partials/sidebar/mobile-sidebar";
 import HeaderSearch from "@/components/header-search";
 import { useMounted } from "@/hooks/use-mounted";
@@ -54,7 +54,7 @@ const DashBoardLayoutProvider = ({ children }: { children: React.ReactNode }) =>
           </div>
         </div>
         <Footer handleOpenSearch={() => setOpen(true)} />
-        <ThemeCustomize />
+        {/* <ThemeCustomize /> */}
       </>
     );
   }
@@ -81,7 +81,7 @@ const DashBoardLayoutProvider = ({ children }: { children: React.ReactNode }) =>
           </div>
         </div>
         <Footer handleOpenSearch={() => setOpen(true)} />
-        <ThemeCustomize />
+        {/* <ThemeCustomize /> */}
       </>
     );
   }
@@ -115,7 +115,7 @@ const DashBoardLayoutProvider = ({ children }: { children: React.ReactNode }) =>
           </div>
         </div>
         <Footer handleOpenSearch={() => setOpen(true)} />
-        <ThemeCustomize />
+        {/* <ThemeCustomize /> */}
       </>
     );
   }
@@ -147,7 +147,7 @@ const DashBoardLayoutProvider = ({ children }: { children: React.ReactNode }) =>
         </div>
       </div>
       <Footer handleOpenSearch={() => setOpen(true)} />
-      {isMobile && <ThemeCustomize />}
+      {/* {isMobile && <ThemeCustomize />} */}
     </>
   );
 };
@@ -186,7 +186,7 @@ const LayoutWrapper = ({ children, isMobile, setOpen, open, location }: { childr
       </motion.div>
 
       <MobileSidebar className="left-[300px]" />
-      <HeaderSearch open={open} setOpen={setOpen} />
+      {/* <HeaderSearch open={open} setOpen={setOpen} /> */}
     </>
   );
 };

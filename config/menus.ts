@@ -158,11 +158,11 @@ export const menusConfig = {
             href: "/administrator/form-permintaan",
             onClick: () => {},
           },
-          {
-            title: "Approval Permintaan",
-            href: "/auth/login2",
-            onClick: () => {},
-          },
+          // {
+          //   title: "Approval Permintaan",
+          //   href: "/auth/login2",
+          //   onClick: () => {},
+          // },
         ],
       },
       {
@@ -191,13 +191,18 @@ export const menusConfig = {
         icon: Info,
         child: [
           {
-            title: "Kontak Admin",
+            title: "Grup Telegram BOS",
             href: "/pusat-bantuan",
             onClick: () => {},
           },
           {
             title: "Knowledge Base",
             href: "/auth/login2",
+            onClick: () => {},
+          },
+          {
+            title: "Buku Panduan BOS 2024",
+            href: "/pusat-bantuan",
             onClick: () => {},
           },
         ],

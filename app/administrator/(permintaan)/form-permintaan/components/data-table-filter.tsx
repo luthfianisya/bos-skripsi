@@ -1,18 +1,5 @@
+import { organisasi, satker, tahun } from "@/lib/constants";
 import Select from "react-select";
-
-const satker: { value: string, label: string }[] = [
-  { value: "637148", label: "[637148] BPS Kota Depok" },
-];
-
-const tahun: { value: string, label: string }[] = [
-  { value: "2025", label: "2025" },
-  { value: "2024", label: "2024" },
-  { value: "2023", label: "2023" },
-];
-
-const organisasi: { value: string, label: string }[] = [
-  { value: "92800", label: "[92800] BPS Kabupaten/Kota" },
-];
 
 const styles = {
   option: (provided: any, state: any) => ({

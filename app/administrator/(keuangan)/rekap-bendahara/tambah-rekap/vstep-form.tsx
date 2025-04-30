@@ -10,14 +10,17 @@ import { cn } from "@/lib/utils";
 import StepInformasiUmum from "./steps/step1";
 import StepPOK from "./steps/step2";
 import StepPeserta from "./steps/step3";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
+import { SaveIcon } from "lucide-react";
+import { PrinterIcon } from "@heroicons/react/24/outline";
 
 const VStepForm = () => {
   const [activeStep, setActiveStep] = React.useState<number>(0);
 
   const steps = [
-    { label: "Informasi Umum", content: "Isi informasi umum permintaan" },
-    { label: "POK", content: "Pilih POK yang tersedia" },
-    { label: "Peserta Berangkat", content: "Tambahkan peserta yang berangkat" },
+    { label: "Informasi Umum", content: "Isi informasi umum rekap" },
+    { label: "Form POK", content: "Pilih Form POK yang tersedia" },
+    { label: "SPP, SPM dan SP2D", content: "Input nomor SPP, SPM dan SP2D" },
   ];
 
   const isStepOptional = (step: number) => step === 1;
@@ -28,10 +31,10 @@ const VStepForm = () => {
 
   const onSubmit = () => {
     toast({
-      title: "Submit Berhasil",
+      title: "Rekap Berhasil",
       description: (
         <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <p className="text-primary-foreground">Permintaan Berhasil Disimpan!</p>
+          <p className="text-primary-foreground">Rekap Bendahara Berhasil Disimpan!</p>
         </div>
       ),
     });
@@ -90,29 +93,31 @@ const VStepForm = () => {
             </div>
 
             {/* Tombol Navigasi Sticky */}
-            <div className="flex items-center gap-2 pt-4 bg-white sticky bottom-0 border-t border-gray-200 py-2 z-50">
+            <div className="flex pt-4 items-center gap-2 bg-white sticky bottom-0 border-t border-gray-200 py-2 z-50 ">
               <Button
                 size="xs"
                 variant="outline"
                 className={cn("cursor-pointer", { hidden: activeStep === 0 })}
                 onClick={handleBack}
               >
+                <ArrowLeftIcon className="h-5 w-5"></ArrowLeftIcon>
                 Back
               </Button>
 
               <div className="flex-1" />
 
               {activeStep === steps.length - 1 ? (
-                <Button
-                  size="xs"
-                  variant="outline"
-                  onClick={() => {
-                    onSubmit();
-                    handleNext();
-                  }}
-                >
-                  Submit
-                </Button>
+                <div className="flex gap-2">
+                  <Button size="xs" variant="outline">
+                    <PrinterIcon className="h-5 w-5 mr-1" />
+                    Cetak Rekap
+                  </Button>
+
+                  <Button size="xs" color="primary">
+                    <SaveIcon className="h-5 w-5 mr-1" />
+                    Simpan
+                  </Button>
+                </div>
               ) : (
                 <Button size="xs" variant="outline" onClick={handleNext}>
                   Next

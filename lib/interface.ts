@@ -1,3 +1,5 @@
+import { ApprovalStatus } from "./type";
+
 // for calendar
 export interface CalendarEvent {
   id: string;
@@ -15,4 +17,26 @@ export interface CalendarCategory {
   value: string;
   activeClass?: string;
   className?: string;
+}
+
+export interface Form {
+  noPermintaan: string;
+  deskripsi: string;
+  noSurat: string;
+  pembuat: string;
+  jumlahUsulan: number;
+  tipeForm: string;
+  approvals: {
+    operator: ApprovalStatus;
+    pj: ApprovalStatus;
+    ppk: ApprovalStatus;
+  };
+}
+
+export interface Realisasi {
+  noPermintaan: string;
+  deskripsi: string;
+  noSurat: string;
+  paguBooked: number;
+  paguReali: number;
 }

@@ -1,14 +1,19 @@
 import { Fragment } from "react";
-import { columns, pegawais } from "./columns";
+import { columns } from "./columns";
 import { DataTable } from "./data-table";
-// import { data } from "./data";
+import { POK } from "./columns";
 
-export default function AdvancedTable() {
+interface AdvancedTableProps {
+  data: POK[];
+  onTambah: (item: POK) => void;
+}
+
+export default function AdvancedTable({ data, onTambah }: AdvancedTableProps) {
   return (
     <Fragment>
       <DataTable
-        data={pegawais}
-        columns={columns}
+        data={data} // ⬅️ sekarang pake props
+        columns={columns(onTambah)} // ⬅️ action tambah
       />
     </Fragment>
   );

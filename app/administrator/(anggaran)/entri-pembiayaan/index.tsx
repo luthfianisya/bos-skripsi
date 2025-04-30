@@ -1,13 +1,14 @@
 import { Fragment } from "react";
-import { columns, pegawais } from "./components/columns";
+import { columns} from "./components/columns";
 import { DataTable } from "./components/data-table";
+import { POKs } from "@/data/entri-pembiayaan";
 // import { data } from "./data";
 
 export default function AdvancedTable() {
   return (
     <Fragment>
       <DataTable
-        data={pegawais}
+        data={POKs}
         columns={columns}
       />
     </Fragment>

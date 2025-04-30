@@ -3,15 +3,28 @@
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "./data-table-column-header";
+import { JENIS_PENGELUARAN_MAP, KODE_BEBAN_MAP, TIPE_FORM_MAP} from "@/lib/constants";
 // import { DataTableRowActions } from "./data-table-row-actions";
 import { ColumnDef } from "@tanstack/react-table";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
 import { ClockIcon } from "@heroicons/react/24/outline"
-import { PlusIcon } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useEffect, useRef, useState } from "react";
+import {
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/outline";
+import { PlusIcon } from "@heroicons/react/24/solid";
 
-interface POK {
+export interface POK {
   grup: string;
   detail: string;
   paguAwal: number;
@@ -19,8 +32,6 @@ interface POK {
   paguBooked: number;
   paguReali: number;
   selfBlocking: number;
-  paguSisa: number;
-  sumber: string;
   kodeBeban: string;
   jenisP: string;
   hargaSatuan: number;
@@ -32,15 +43,57 @@ interface POK {
   status: "terpakai" | "revisi" | "tidak_terpakai"; // ✅ Tambah properti status
 }
 
-const formatRupiah = (value: number) => {
-  return new Intl.NumberFormat("id-ID", {
+
+
+export function hitungPaguSisa(row: POK): number {
+  const dasar = row.paguRevisi !== 0 ? row.paguRevisi : row.paguAwal;
+  return dasar - row.paguReali - row.paguBooked - row.selfBlocking;
+}
+
+const formatRupiah = (value: number): string =>
+  new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
     minimumFractionDigits: 0,
   }).format(value);
+
+// Komponen inline untuk mendeteksi ellipsis dan tampilkan tooltip hanya jika terpotong
+const EllipsisTooltip = ({ children }: { children: string }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isTruncated, setIsTruncated] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (el) {
+      setIsTruncated(el.scrollWidth > el.clientWidth || el.scrollHeight > el.clientHeight);
+    }
+  }, [children]);
+
+  const content = (
+    <div
+      ref={ref}
+      className="max-w-[300px] line-clamp-2 text-ellipsis overflow-hidden cursor-default"
+    >
+      {children}
+    </div>
+  );
+
+  if (!isTruncated) return content;
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>{content}</TooltipTrigger>
+        <TooltipContent side="top" className="max-w-xs">
+          {children}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
 };
 
-export const columns: ColumnDef<POK>[] = [
+
+export const columns = (onTambah: (item: POK) => void): ColumnDef<POK>[] => [
   {
     accessorKey: "checkbox",
     header: ({ table }) => (
@@ -49,8 +102,8 @@ export const columns: ColumnDef<POK>[] = [
           table.getIsAllPageRowsSelected()
             ? true
             : table.getIsSomePageRowsSelected()
-            ? "indeterminate"
-            : false
+              ? "indeterminate"
+              : false
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
@@ -66,30 +119,51 @@ export const columns: ColumnDef<POK>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  // ✅ Tambahkan kolom status setelah checkbox
   {
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="STATUS" />
+      <DataTableColumnHeader column={column} title="#" className="text-center flex justify-center"/>
     ),
     cell: ({ row }) => {
       const status = row.getValue("status") as POK["status"];
-  
-      const statusMap: Record<
+
+      const iconMap: Record<
         POK["status"],
-        { label: string; color: string }
+        { icon: JSX.Element; label: string; color: string }
       > = {
-        terpakai: { label: "Terpakai", color: "text-green-600 bg-green-100" },
-        revisi: { label: "Revisi", color: "text-yellow-600 bg-yellow-100" },
-        tidak_terpakai: { label: "Tak Terpakai", color: "text-red-600 bg-red-100" },
+        terpakai: {
+          icon: <CheckCircleIcon className="w-5 h-5 text-green-500" />,
+          label: "Terpakai",
+          color: "green",
+        },
+        revisi: {
+          icon: <ExclamationTriangleIcon className="w-5 h-5 text-yellow-500" />,
+          label: "Revisi",
+          color: "yellow",
+        },
+        tidak_terpakai: {
+          icon: <XCircleIcon className="w-5 h-5 text-red-500" />,
+          label: "Tak Terpakai",
+          color: "red",
+        },
       };
-  
-      const { label, color } = statusMap[status];
-  
+
+
+      const { icon, label } = iconMap[status];
+
       return (
-        <Badge variant="outline" className={color}>
-          {label}
-        </Badge>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex justify-center items-center sticky z-20">
+                {icon}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="z-[9999]" data-portal color="secondary">
+              {label}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       );
     },
     filterFn: (row, id, value) => {
@@ -98,7 +172,8 @@ export const columns: ColumnDef<POK>[] = [
       const rowValue = row.getValue(id); // "terpakai", "revisi", "tidak_terpakai"
       return value.includes(rowValue);
     },
-  },  
+    enableSorting: false,
+  },
   {
     accessorKey: "grup",
     header: ({ column }) => (
@@ -111,132 +186,162 @@ export const columns: ColumnDef<POK>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="DETAIL" />
     ),
-    cell: ({ row }) => <div>{row.getValue("detail")}</div>,
+    cell: ({ row }) => {
+      const value = row.getValue("detail") as string;
+      return <EllipsisTooltip>{value}</EllipsisTooltip>;
+    },
   },
+
   {
     accessorKey: "paguAwal",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU AWAL" />
     ),
-    cell: ({ row }) => (
-      <div>{formatRupiah(row.getValue<number>("paguAwal"))}</div>
-    ),
+    cell: ({ row }) => <div>{formatRupiah(row.getValue("paguAwal"))}</div>,
   },
   {
     accessorKey: "paguRevisi",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU REVISI" />
     ),
-    cell: ({ row }) => (
-      <div>{formatRupiah(row.getValue<number>("paguRevisi"))}</div>
-    ),
+    cell: ({ row }) => <div className="text-right">{formatRupiah(row.getValue("paguRevisi"))}</div>,
   },
   {
     accessorKey: "paguBooked",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU BOOKED" />
     ),
-    cell: ({ row }) => (
-      <div>{formatRupiah(row.getValue<number>("paguBooked"))}</div>
-    ),
+    cell: ({ row }) => <div className="text-right">{formatRupiah(row.getValue("paguBooked"))}</div>,
   },
   {
     accessorKey: "paguReali",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU REALISASI" />
     ),
-    cell: ({ row }) => (
-      <div>{formatRupiah(row.getValue<number>("paguReali"))}</div>
-    ),
+    cell: ({ row }) => <div className="text-right">{formatRupiah(row.getValue("paguReali"))}</div>,
   },
   {
     accessorKey: "selfBlocking",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="SELF BLOCKING" />
     ),
-    cell: ({ row }) => (
-      <div>{formatRupiah(row.getValue<number>("selfBlocking"))}</div>
-    ),
+    cell: ({ row }) => <div className="text-right">{formatRupiah(row.getValue("selfBlocking"))}</div>,
   },
   {
     accessorKey: "paguSisa",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU SISA" />
     ),
-    cell: ({ row }) => <div>{formatRupiah(row.getValue<number>("paguSisa"))}</div>,
-  
-    // ✅ Custom filterFn buat paguSisa
+    cell: ({ row }) => {
+      const sisa = hitungPaguSisa(row.original);
+      return <div className="text-right">{formatRupiah(sisa)}</div>;
+    },
     filterFn: (row, id, value) => {
-      const sisa = row.getValue<number>("paguSisa");
+      const sisa = hitungPaguSisa(row.original); // 👈 bukan row.getValue("paguSisa")
     
-      // Kalau gak ada filter, tampilkan semua
-      if (!value || value.length === 0) {
-        return true;
-      }
+      if (!value || value.length === 0) return true;
     
-      // Handle multiple selected filters
       const match: boolean[] = value.map((v: string) => {
-        if (v === "tersedia") {
-          return sisa > 0;
-        }
-        if (v === "nol_minus") {
-          return sisa <= 0;
-        }
+        if (v === "tersedia") return sisa > 0;
+        if (v === "nol_minus") return sisa <= 0;
         return false;
       });
     
-      // Kalau salah satu filter terpenuhi, tampilkan barisnya
       return match.includes(true);
     }    
-  },  
+  },
   {
     accessorKey: "sumber",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="SUMBER DANA" />
     ),
-    cell: ({ row }) => <div>{row.getValue("sumber")}</div>,
+    cell: ({ row }) => {
+      const kode = row.getValue("kodeBeban") as string;
+      const info = KODE_BEBAN_MAP[kode];
+      return info ? (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="text-center">{info.sumberDana}</div>
+            </TooltipTrigger>
+            <TooltipContent color="secondary">
+              <p>{info.deskripsi}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ) : (
+        <div>-</div>
+      );
+    },
   },
   {
     accessorKey: "kodeBeban",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="KODE BEBAN" />
     ),
-    cell: ({ row }) => <div>{row.getValue("kodeBeban")}</div>,
+    cell: ({ row }) => {
+      const kode = row.getValue("kodeBeban") as string;
+      const info = KODE_BEBAN_MAP[kode];
+      return info ? (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="text-center">{kode}</div>
+            </TooltipTrigger>
+            <TooltipContent color="secondary">
+              <p>{info.beban}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ) : (
+        <div>{kode}</div>
+      );
+    },
   },
   {
     accessorKey: "jenisP",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="JENIS PENGADAAN" />
+      <DataTableColumnHeader column={column} title="JENIS PENGELUARAN" />
     ),
-    cell: ({ row }) => <div>{row.getValue("jenisP")}</div>,
+    cell: ({ row }) => {
+      const kode = row.getValue("jenisP") as string;
+      return <div>{JENIS_PENGELUARAN_MAP[kode] ?? kode}</div>;
+    },
   },
   {
     accessorKey: "hargaSatuan",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="HARGA SATUAN" />
     ),
-    cell: ({ row }) => <div>{formatRupiah(row.getValue<number>("hargaSatuan"))}</div>,
+    cell: ({ row }) => <div className="text-right">{formatRupiah(row.getValue("hargaSatuan"))}</div>,
   },
   {
     accessorKey: "volume",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="VOLUME" />
     ),
-    cell: ({ row }) => <div>{row.getValue("volume")}</div>,
+    cell: ({ row }) => <div className="text-right">{row.getValue("volume")}</div>,
   },
   {
     accessorKey: "satuan",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="SATUAN" />
     ),
-    cell: ({ row }) => <div>{row.getValue("satuan")}</div>,
+    cell: ({ row }) => <div className="text-center">{row.getValue("satuan")}</div>,
   },
-  {
+   {
     accessorKey: "tipeForm",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="TIPE FORM" />
-    ),
-    cell: ({ row }) => <div>{row.getValue("tipeForm")}</div>,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="TIPE FORM" />,
+   cell: ({ row }) => {
+  const tipeFormKey = row.getValue("tipeForm") as string;
+  const tipeFormData = TIPE_FORM_MAP[tipeFormKey];
+  return <div>{tipeFormData ? tipeFormData.code : tipeFormKey}</div>;
+},
+
+    filterFn: (row, columnId, filterValue) => {
+      if (!filterValue?.length) return true;
+      return filterValue.includes(row.getValue(columnId));
+    },
   },
   {
     accessorKey: "ppk",
@@ -253,105 +358,43 @@ export const columns: ColumnDef<POK>[] = [
     cell: ({ row }) => <div>{row.getValue("unitKerja")}</div>,
   },
   {
-      accessorKey: "riwayat",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="RIWAYAT" />
-      ),
-      cell: ({ row }) => (
-        <div className="flex justify-end">
-          <Button
-            size="sm"
-            variant="outline"
-            icon={ClockIcon}
-          >
-            Riwayat
-          </Button>
-        </div>
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
-      accessorKey: "aksi",
-      header: ({ column }) => (
-        <DataTableColumnHeader className="justify-center" column={column} title="AKSI" />
-      ),
-      cell: ({ row }) => (
-        <div className="flex gap-2 justify-center">
-                  <Button
-                    size="icon"
-                    className="h-7 w-7"
-                    color="primary"
-                    icon={PlusIcon}
-                  >
-                  </Button>
-        </div>
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-];
-
-// ✅ Update data pegawais
-export const pegawais: POK[] = [
-  {
-    grup: "Belanja Pegawai",
-    detail: "Gaji dan Tunjangan",
-    paguAwal: 500000000,
-    paguRevisi: 520000000,
-    paguBooked: 100000000,
-    paguReali: 90000000,
-    selfBlocking: 2000000,
-    paguSisa: 328000000,
-    sumber: "RM",
-    kodeBeban: "51",
-    jenisP: "Kontraktual",
-    hargaSatuan: 1000000,
-    volume: 50,
-    satuan: "Orang",
-    tipeForm: "Form A",
-    ppk: "PPK A",
-    unitKerja: "Bagian Umum",
-    status: "terpakai", // ✅
+    accessorKey: "aksi",
+    header: ({ column }) => (
+      <DataTableColumnHeader className="justify-center" column={column} title="AKSI" />
+    ),
+    cell: ({ row }) => (
+      <div className="flex gap-2 justify-center">
+        <Button
+          size="icon"
+          className="h-7 w-7"
+          color="primary"
+          icon={PlusIcon}
+          onClick={() => onTambah(row.original)}
+        />
+      </div>
+    ),    
+    enableSorting: false,
+    enableHiding: false,
   },
-  {
-    grup: "Belanja Barang",
-    detail: "Pengadaan ATK",
-    paguAwal: 20000000,
-    paguRevisi: 25000000,
-    paguBooked: 5000000,
-    paguReali: 4000000,
-    selfBlocking: 500000,
-    paguSisa: 15500000,
-    sumber: "PNBP",
-    kodeBeban: "52",
-    jenisP: "Swakelola",
-    hargaSatuan: 50000,
-    volume: 100,
-    satuan: "Pcs",
-    tipeForm: "Form B",
-    ppk: "PPK B",
-    unitKerja: "Bagian Keuangan",
-    status: "revisi", // ✅
-  },
-  {
-    grup: "Belanja Modal",
-    detail: "Pengadaan Komputer",
-    paguAwal: 100000000,
-    paguRevisi: 95000000,
-    paguBooked: 20000000,
-    paguReali: 18000000,
-    selfBlocking: 1000000,
-    paguSisa: 56000000,
-    sumber: "APBN",
-    kodeBeban: "53",
-    jenisP: "Kontraktual",
-    hargaSatuan: 15000000,
-    volume: 5,
-    satuan: "Unit",
-    tipeForm: "Form C",
-    ppk: "PPK C",
-    unitKerja: "Bagian TI",
-    status: "tidak_terpakai", // ✅
-  },
+  
+  
+  // {
+  //   accessorKey: "aksi",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="AKSI" />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <div className="flex justify-end">
+  //       <Button
+  //         size="sm"
+  //         variant="outline"
+  //         icon={ClockIcon}
+  //       >
+  //         Riwayat
+  //       </Button>
+  //     </div>
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
 ];

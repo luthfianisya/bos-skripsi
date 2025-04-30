@@ -127,8 +127,9 @@ export function isObjectNotEmpty(obj: any): boolean {
 
 export const formatDate = (date: string | number | Date): string => {
   const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
-  return new Date(date).toLocaleDateString("en-US", options);
+  return new Date(date).toLocaleDateString("id-ID", options);
 };
+
 
 
 
@@ -171,3 +172,10 @@ export const translate = (title: string, trans: Translations): string => {
   return title;
 };
 
+export const formatRupiah = (value: number) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(value);
+};

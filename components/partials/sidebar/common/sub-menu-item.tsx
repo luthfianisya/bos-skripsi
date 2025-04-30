@@ -39,17 +39,15 @@ const SubMenuItem = ({ subItem }: {
   return (
     <LockLink href={subItem.href} subItem={subItem}>
       <div
-        className={cn(
-          "text-sm capitalize  font-normal flex gap-3 items-center transition-all duration-150 rounded dark:hover:text-primary  ",
-          {
-            " text-primary   ": isLocationMatch(subItem.href, locationName),
-            "  text-default-600 dark:text-default-700  ": !isLocationMatch(
-              subItem.href,
-              locationName
-            ),
-          }
-        )}
-      >
+  className={cn(
+    "text-sm capitalize font-normal flex gap-3 items-center rounded hover:text-[#3B82F6]",
+    {
+      "text-primary": isLocationMatch(subItem.href, locationName),
+      "text-default-600 dark:text-default-700": !isLocationMatch(subItem.href, locationName),
+    }
+  )}
+>
+
         <span className="flex-1 truncate">
           {subItem.title}
         </span>

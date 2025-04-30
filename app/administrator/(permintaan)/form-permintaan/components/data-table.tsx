@@ -110,7 +110,14 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     return (
                       <TableCell
                         key={cell.id}
-                        className={isSticky ? "sticky z-10 bg-background drop-shadow-md" : ""}
+                        className={`transition-colors duration-200 ease-in-out ${
+                          isSticky
+                            ? `sticky z-10 
+                               ${cell.column.id === "noPermintaan" || cell.column.id === "aksi" ? "drop-shadow-md" : ""} 
+                               ${row.getIsSelected() ? "bg-muted" : "bg-background"} 
+                               group-hover:bg-muted`
+                            : ""
+                        }`}   
                         style={
                           cell.column.id === "noPermintaan"
                             ? { left: 0 }

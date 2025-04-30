@@ -1,13 +1,17 @@
 import { Fragment } from "react";
-import { columns, pegawais } from "./columns";
+import { columns } from "./columns";
 import { DataTable } from "./data-table";
-// import { data } from "./data";
+import { PerjalananDinas } from "./columns"; // pastikan interface di-import
 
-export default function PesertaTable() {
+interface PesertaTableProps {
+  data: PerjalananDinas[];
+}
+
+export default function PesertaTable({ data }: PesertaTableProps) {
   return (
     <Fragment>
       <DataTable
-        data={pegawais}
+        data={data}
         columns={columns}
       />
     </Fragment>

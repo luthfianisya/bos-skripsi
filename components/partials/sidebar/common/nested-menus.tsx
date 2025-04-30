@@ -34,16 +34,16 @@ const NestedSubMenu = ({
         <ul className="sub-menu  space-y-4 relative before:absolute before:left-4 before:top-0  before:h-[calc(100%-5px)]  before:w-[3px] before:bg-primary/10 before:rounded">
           {item.child?.map((subItem: any, j: number) => (
             <li
-              className={cn(
-                "block pl-9   first:pt-4 last:pb-4  relative before:absolute first:before:top-4 before:top-0 before:left-4  before:w-[3px]",
-                {
-                  "before:bg-primary first:before:h-[calc(100%-16px)]  before:h-full":
-                    isLocationMatch(subItem.href, locationName),
-                  " ": activeSubmenu === index,
-                }
-              )}
-              key={`sub_menu_${j}`}
-            >
+            className={cn(
+              "block pl-9 first:pt-4 last:pb-4 relative before:absolute first:before:top-4 before:top-0 before:left-4 before:w-[3px] hover:text-[#3B82F6]",
+              {
+                "before:bg-primary first:before:h-[calc(100%-16px)] before:h-full":
+                  isLocationMatch(subItem.href, locationName),
+              }
+            )}
+            key={`sub_menu_${j}`}
+          >
+          
               {subItem?.multi_menu ? (
                 <div>
                   <MultiMenuHandler

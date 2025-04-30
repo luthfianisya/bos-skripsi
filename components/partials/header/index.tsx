@@ -14,16 +14,56 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import MobileMenuHandler from "./mobile-menu-handler";
 import ClassicHeader from "./layout/classic-header";
 import FullScreen from "./full-screen";
+import { Button } from "@/components/ui/button";
+import { Book, Pointer } from "@/components/svg";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; isMobile: boolean; sidebarType: string }) => {
   return (
     <div className="nav-tools flex items-center  gap-2">
-      {isDesktop }
-      {isDesktop && <FullScreen />}
+      {isDesktop}
 
-      <ThemeButton />
+
+      {/* <ThemeButton />
       <Inbox />
-      <NotificationMessage />
+      <NotificationMessage /> */}
+
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative md:h-9 md:w-9 h-8 w-8 hover:bg-default-100 dark:hover:bg-default-200 
+          data-[state=open]:bg-default-100 dark:data-[state=open]:bg-default-200 
+          hover:text-primary text-default-500 dark:text-default-800 rounded-full"
+            >
+              <Pointer className="h-5 w-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            Aksi Cepat
+          </TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative md:h-9 md:w-9 h-8 w-8 hover:bg-default-100 dark:hover:bg-default-200 
+          data-[state=open]:bg-default-100 dark:data-[state=open]:bg-default-200 
+          hover:text-primary text-default-500 dark:text-default-800 rounded-full"
+            >
+              <Book className="h-5 w-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            Buku Panduan
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      {isDesktop && <FullScreen />}
 
       <div className="ltr:pl-2 rtl:pr-2">
         <ProfileInfo />
@@ -58,7 +98,7 @@ const Header = ({ handleOpenSearch }: { handleOpenSearch: () => void; }) => {
       >
         <div className="w-full bg-card/90 backdrop-blur-lg md:px-6 px-[15px] py-3 border-b">
           <div className="flex justify-between items-center h-full">
-            <HorizontalHeader handleOpenSearch={handleOpenSearch} />
+            {/* <HorizontalHeader handleOpenSearch={handleOpenSearch} /> */}
             <NavTools
               isDesktop={isDesktop}
               isMobile={isMobile}
@@ -67,7 +107,7 @@ const Header = ({ handleOpenSearch }: { handleOpenSearch: () => void; }) => {
           </div>
         </div>
         {isDesktop && (
-          <div className=" bg-card bg-card/90 backdrop-blur-lg  w-full px-6  shadow-md">
+          <div className=" bg-card/90 backdrop-blur-lg  w-full px-6  shadow-md">
             <HorizontalMenu />
           </div>
         )}

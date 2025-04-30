@@ -69,13 +69,14 @@ const RealisasiTranslok = () => {
 
     const spjBadge = spjStatusMap[data.statusSpj] || { color: "default", variant: "outline" };
     const presensiBadge = presensiStatusMap[data.statusPresensi] || { color: "default", variant: "outline" };
+    const [isBerangkat, setIsBerangkat] = useState(true); // default "Ya"
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button size="icon" variant="outline" className="h-7 w-7" icon={BanknotesIcon} />
             </DialogTrigger>
-            <DialogContent size="3xl" className="max-h-screen p-0">
+            <DialogContent size="4xl" className="max-h-screen p-0">
                 <DialogHeader className="px-4 pt-4">
                     <DialogTitle className="text-xl font-semibold">Realisasi Permintaan</DialogTitle>
                 </DialogHeader>
@@ -116,11 +117,25 @@ const RealisasiTranslok = () => {
                                             <Label className="text-sm font-medium">Berangkat</Label>
                                             <div className="flex items-center gap-4">
                                                 <label className="flex items-center space-x-2 text-sm">
-                                                    <input type="radio" name="jenisPok" value="single" className="accent-primary" />
+                                                    <input
+                                                        type="radio"
+                                                        name="jenisPok"
+                                                        value="ya"
+                                                        className="accent-primary"
+                                                        checked={isBerangkat}
+                                                        onChange={() => setIsBerangkat(true)}
+                                                    />
                                                     <span>Ya</span>
                                                 </label>
                                                 <label className="flex items-center space-x-2 text-sm">
-                                                    <input type="radio" name="jenisPok" value="multi" className="accent-primary" />
+                                                    <input
+                                                        type="radio"
+                                                        name="jenisPok"
+                                                        value="tidak"
+                                                        className="accent-primary"
+                                                        checked={!isBerangkat}
+                                                        onChange={() => setIsBerangkat(false)}
+                                                    />
                                                     <span>Tidak</span>
                                                 </label>
                                             </div>
@@ -147,7 +162,10 @@ const RealisasiTranslok = () => {
                                         </TooltipProvider>
                                     </div>
                                     <div>
-                                        <AdvancedTable />
+                                        <div className={`transition-opacity ${isBerangkat ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}>
+                                            <AdvancedTable />
+                                        </div>
+
                                     </div>
                                 </div>
 

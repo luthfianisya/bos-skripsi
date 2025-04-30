@@ -118,6 +118,11 @@ const buttonVariants = cva(
         className: "text-primary",
       },
       {
+        variant: "soft",
+        color: "primary",
+        className: "text-primary",
+      },
+      {
         variant: "ghost",
         color: "default",
         className: " text-primary  ",

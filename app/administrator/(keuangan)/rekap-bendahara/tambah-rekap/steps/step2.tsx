@@ -22,7 +22,7 @@ const StepPOK = () => {
       </div>
 
       <div className="col-span-12 pt-6">
-        <h4 className="text-lg font-semibold text-gray-800">Preview Data POK Terpilih</h4>
+        <h4 className="text-lg font-semibold text-gray-800">Preview Data Form Terpilih</h4>
       </div>
 
       <div className="col-span-12">
