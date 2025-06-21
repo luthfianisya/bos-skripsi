@@ -15,6 +15,7 @@ import { DataTableViewOptions } from "./data-table-view-options";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { TipeForm } from "./columns"
 import Link from "next/link";
+import TambahRekapDialog from "../tambah-rekap/hstep-form-dialog";
 // import TambahRekap from "./tambah-rekap/tambah-rekap";
 
 const tipeFormOptions = [
@@ -95,7 +96,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
         {/* Container kecil untuk Search & Reset (max-w-sm) */}
         <div className="flex items-center gap-2 max-w-sm w-full">
           <Input
-            placeholder="Cari mitra berdasarkan nama, NIP, organisasi, dll..."
+            placeholder="Cari data rekap bendahara..."
             value={globalFilter || ""}
             onChange={handleFilterChange}
             className="h-9 flex-1"
@@ -137,13 +138,14 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
           Tambah Rekap
         </Button> */}
         {/* <TambahRekap/> */}
-        <Link href="/administrator/rekap-bendahara/tambah-rekap">
+        {/* <Link href="/administrator/rekap-bendahara/tambah-rekap">
                 <Button
                   color="primary" size="md" icon={Plus}
                 >
                   Tambah Rekap
                 </Button>
-                </Link>
+                </Link> */}
+                <TambahRekapDialog/>
       </div>
       <CreateTask open={open} onClose={handleSheetOpen} />
     </div>

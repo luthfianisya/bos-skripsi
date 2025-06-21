@@ -22,6 +22,17 @@
 //     "FORM - PENGHASILAN": "Belanja Penghasilan"
 // };
 
+export const statuses = [
+    { label: "Terpakai", value: "terpakai" },
+    { label: "Revisi", value: "revisi" },
+    { label: "Tak Terpakai", value: "tidak_terpakai" },
+  ];
+  
+  export const paguSisaFilters = [
+    { label: "Tersedia", value: "tersedia" }, // sisa > 0
+    { label: "Nol/Minus", value: "nol_minus" }, // sisa <= 0
+  ];
+
 export const satker: { value: string, label: string }[] = [
     { value: "637148", label: "[637148] BPS Kota Depok" },
   ];

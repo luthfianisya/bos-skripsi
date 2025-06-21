@@ -58,7 +58,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
         {/* Container kecil untuk Search & Reset (max-w-sm) */}
         <div className="flex items-center gap-2 max-w-sm w-full">
           <Input
-            placeholder="Cari mitra berdasarkan nama, NIP, organisasi, dll..."
+            placeholder="Cari data realisasi permintaan..."
             value={globalFilter || ""}
             onChange={handleFilterChange}
             className="h-9 flex-1"

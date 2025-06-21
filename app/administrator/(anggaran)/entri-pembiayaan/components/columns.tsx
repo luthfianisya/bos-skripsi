@@ -118,7 +118,7 @@ export const columns: ColumnDef<POK>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
+ {
     accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="#" className="text-center flex justify-center"/>
@@ -164,6 +164,12 @@ export const columns: ColumnDef<POK>[] = [
           </Tooltip>
         </TooltipProvider>
       );
+    },
+    filterFn: (row, id, value) => {
+      if (!value || value.length === 0) return true;
+  
+      const rowValue = row.getValue(id); // "terpakai", "revisi", "tidak_terpakai"
+      return value.includes(rowValue);
     },
     enableSorting: false,
   },

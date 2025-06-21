@@ -2,6 +2,8 @@ import Select from "react-select";
 import * as React from "react";
 import { DateRange } from "react-day-picker";
 import { FilterState } from "./types";
+import { DUMMY_PEGAWAIS } from "@/data/pegawai-dummy";
+import { organisasi, satker, tahun } from "@/lib/constants"
 
 // interface FilterState {
 //   periode: string | null;
@@ -13,19 +15,6 @@ import { FilterState } from "./types";
 //   pegawai: string | null;
 // }
 
-
-const satker = [
-  { value: "", label: "Pilih Satuan Kerja" },
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-
-const tahunOptions = [
-  { value: "2025", label: "2025" },
-  { value: "2024", label: "2024" },
-  { value: "2023", label: "2023" },
-];
 
 const periodeOptions = [
   { value: "tahunan", label: "Tahunan" },
@@ -52,18 +41,13 @@ const tahunanModeOptions = [
   { value: "unit_kerja", label: "Unit Kerja" },
 ];
 
-const unitKerja = [
-  { value: "", label: "Pilih Unit Kerja" },
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
 
-const pegawai = [
+const pegawaiOptions = [
   { value: "", label: "Pilih Pegawai" },
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
+  ...DUMMY_PEGAWAIS.map((p) => ({
+    value: p.nip,
+    label: `[${p.nip}] ${p.nama}`,
+  })),
 ];
 
 const styles = {
@@ -174,20 +158,19 @@ const DataTableFilterRekap: React.FC<DataTableFilterProps> = ({ setFilters }) =>
             <Select
               className="react-select flex-1 z-50 rounded-md"
               classNamePrefix="select"
-              options={tahunOptions}
+              options={tahun}
               styles={styles}
               placeholder="Pilih Tahun"
               name="tahun"
               onChange={(selected) => handleFilterChange("tahun", selected?.value ?? null)}
             />
           </div>
-
           {/* Select Bulan ATAU Mode */}
           {selectedPeriode === "bulanan" ? (
             <div className="flex items-center gap-2 flex-1">
               <label className="font-medium">Bulan</label>
               <Select
-                className="react-select flex-1 rounded-md"
+                className="react-select flex-1 rounded-md z-50"
                 classNamePrefix="select"
                 options={bulanOptions}
                 styles={styles}
@@ -217,7 +200,7 @@ const DataTableFilterRekap: React.FC<DataTableFilterProps> = ({ setFilters }) =>
             <div className="flex items-center gap-2 flex-1">
               <label className="font-medium">Mode</label>
               <Select
-                className="react-select flex-1 rounded-md"
+                className="react-select flex-1 rounded-md z-50"
                 classNamePrefix="select"
                 options={[
                   { value: "per_pegawai", label: "Per Pegawai" },
@@ -243,7 +226,7 @@ const DataTableFilterRekap: React.FC<DataTableFilterProps> = ({ setFilters }) =>
       <div className="flex items-center gap-3">
         <label className="w-48 font-medium">Satuan Kerja</label>
         <Select
-          className="react-select flex-1 rounded-md"
+          className="react-select flex-1 rounded-md z-45"
           classNamePrefix="select"
           placeholder="Pilih Satuan Kerja"
           styles={styles}
@@ -256,11 +239,11 @@ const DataTableFilterRekap: React.FC<DataTableFilterProps> = ({ setFilters }) =>
       <div className="flex items-center gap-3">
         <label className="w-48 font-medium">Unit Kerja</label>
         <Select
-          className="react-select flex-1 rounded-md"
+          className="react-select flex-1 rounded-md z-40"
           classNamePrefix="select"
           placeholder="Pilih Unit Kerja"
           styles={styles}
-          options={unitKerja}
+          options={organisasi}
           isClearable
           onChange={(selected) => handleFilterChange("unitKerja", selected?.value ?? null)}
         />
@@ -269,24 +252,24 @@ const DataTableFilterRekap: React.FC<DataTableFilterProps> = ({ setFilters }) =>
       <div className="flex items-center gap-3">
         <label className="w-48 font-medium">Pegawai</label>
         <Select
-          className={`react-select flex-1 rounded-md ${selectedPeriode === "bulanan" || selectedMode === "unit_kerja"
-              ? "bg-slate-100 border-slate-300 text-slate-400 cursor-not-allowed"
-              : ""
+          className={`react-select flex-1 rounded-md z-30 ${selectedPeriode === "bulanan" ? "bg-slate-100 border-slate-300 text-slate-400 cursor-not-allowed" : ""
             }`}
           classNamePrefix="select"
           placeholder="Pilih Pegawai"
           styles={styles}
-          options={pegawai}
+          options={pegawaiOptions}
           isClearable
-          isDisabled={selectedPeriode === "bulanan" || selectedMode === "unit_kerja"}
-          value={
-            selectedPeriode === "bulanan" || selectedMode === "unit_kerja"
-              ? { value: "all", label: "Semua Pegawai" }
-              : null
-          }
+          isDisabled={selectedPeriode === "bulanan"}
+          // value={
+          //   selectedPeriode === "bulanan"
+          //     ? { value: "all", label: "Semua Pegawai" }
+          //     : filters
+          //       ? pegawaiOptions.find((opt) => opt.value === filters.pegawai) ?? null
+          //       : null
+
+          // }
           onChange={(selected) => handleFilterChange("pegawai", selected?.value ?? null)}
         />
-
       </div>
     </div>
   );

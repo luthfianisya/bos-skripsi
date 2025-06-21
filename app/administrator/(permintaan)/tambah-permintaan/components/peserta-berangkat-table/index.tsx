@@ -1,13 +1,16 @@
 import { Fragment } from "react";
-import { columns } from "./columns";
+import { getColumns } from "./columns";
 import { DataTable } from "./data-table";
-import { PerjalananDinas } from "./columns"; // pastikan interface di-import
+import { PerjalananDinas } from "./columns";
 
 interface PesertaTableProps {
   data: PerjalananDinas[];
+  onUpdateTotal: (index: number, total: number) => void;
 }
 
-export default function PesertaTable({ data }: PesertaTableProps) {
+export default function PesertaTable({ data, onUpdateTotal }: PesertaTableProps) {
+  const columns = getColumns(onUpdateTotal);
+
   return (
     <Fragment>
       <DataTable

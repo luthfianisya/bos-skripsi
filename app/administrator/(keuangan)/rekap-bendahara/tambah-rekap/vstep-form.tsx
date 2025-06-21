@@ -12,7 +12,7 @@ import StepPOK from "./steps/step2";
 import StepPeserta from "./steps/step3";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 import { SaveIcon } from "lucide-react";
-import { PrinterIcon } from "@heroicons/react/24/outline";
+import { PaperAirplaneIcon, PrinterIcon } from "@heroicons/react/24/outline";
 
 const VStepForm = () => {
   const [activeStep, setActiveStep] = React.useState<number>(0);
@@ -29,6 +29,7 @@ const VStepForm = () => {
   const handleBack = () => setActiveStep((prev) => prev - 1);
   const handleReset = () => setActiveStep(0);
 
+
   const onSubmit = () => {
     toast({
       title: "Rekap Berhasil",
@@ -39,6 +40,23 @@ const VStepForm = () => {
       ),
     });
   };
+
+  // State rekap
+  const [rekapStatus, setRekapStatus] = React.useState<"direkap" | "spm" | "sp2d">("direkap");
+
+  const [sppNomor, setSppNomor] = React.useState("");
+  const [sppTanggal, setSppTanggal] = React.useState("");
+
+  const [spmNomor, setSpmNomor] = React.useState("");
+  const [spmTanggal, setSpmTanggal] = React.useState("");
+
+  const [sp2dNomor, setSp2dNomor] = React.useState("");
+  const [sp2dTanggal, setSp2dTanggal] = React.useState("");
+
+  const isSPPComplete = () => sppNomor && sppTanggal;
+  const isSP2DComplete = () => sp2dNomor && sp2dTanggal;
+
+
 
   return (
     <div className="grid grid-cols-12 gap-4 min-h-[70vh]">
@@ -87,7 +105,25 @@ const VStepForm = () => {
                 <div className="grid grid-cols-12 gap-4">
                   {activeStep === 0 && <StepInformasiUmum />}
                   {activeStep === 1 && <StepPOK />}
-                  {activeStep === 2 && <StepPeserta />}
+                  {activeStep === 2 && (
+                    <StepPeserta
+                      statusRekap={rekapStatus}
+                      sppNomor={sppNomor}
+                      sppTanggal={sppTanggal}
+                      spmNomor={spmNomor}
+                      spmTanggal={spmTanggal}
+                      sp2dNomor={sp2dNomor}
+                      sp2dTanggal={sp2dTanggal}
+                      setSppNomor={setSppNomor}
+                      setSppTanggal={setSppTanggal}
+                      setSpmNomor={setSpmNomor}
+                      setSpmTanggal={setSpmTanggal}
+                      setSp2dNomor={setSp2dNomor}
+                      setSp2dTanggal={setSp2dTanggal}
+                      disabled={rekapStatus === "sp2d"}
+                    />
+                  )}
+
                 </div>
               </form>
             </div>
@@ -112,11 +148,40 @@ const VStepForm = () => {
                     <PrinterIcon className="h-5 w-5 mr-1" />
                     Cetak Rekap
                   </Button>
-
-                  <Button size="xs" color="primary">
+                  <Button size="xs" variant="outline">
                     <SaveIcon className="h-5 w-5 mr-1" />
                     Simpan
                   </Button>
+
+
+                  {rekapStatus === "direkap" && (
+                    <Button
+                      size="xs"
+                      color="primary"
+                      onClick={() => {
+                        setSpmNomor(sppNomor);
+                        setSpmTanggal(sppTanggal);
+                        setRekapStatus("spm");
+                      }}
+                      disabled={!isSPPComplete()}
+                    >
+                      <PaperAirplaneIcon className="h-5 w-5 mr-1" />
+                      Terbitkan SPM
+                    </Button>
+                  )}
+
+                  {rekapStatus === "spm" && (
+                    <Button
+                      size="xs"
+                      color="success"
+                      onClick={() => setRekapStatus("sp2d")}
+                      disabled={!isSP2DComplete()}
+                    >
+                      <PaperAirplaneIcon className="h-5 w-5 mr-1" />
+                      Finalisasi Rekap
+                    </Button>
+                  )}
+
                 </div>
               ) : (
                 <Button size="xs" variant="outline" onClick={handleNext}>

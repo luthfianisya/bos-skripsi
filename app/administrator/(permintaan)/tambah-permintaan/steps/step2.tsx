@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/accordion";
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
+import { Files } from "@/components/svg";
 
 interface AccordionTriggerProps {
   children: React.ReactNode;
@@ -32,26 +33,43 @@ const AccordionTrigger = ({ children, value, activeItem, setActiveItem }: Accord
   };
 
   return (
-    <Trigger onClick={toggleOpen}>
-      <div className="flex gap-2 items-center">
-        <div
-          className={cn(
-            "h-4 w-4 inline-flex items-center justify-center rounded",
-            {
-              "bg-primary/10": !isOpen,
-              "bg-primary text-primary-foreground": isOpen,
-            }
-          )}
-        >
-          {isOpen ? (
-            <Icon icon="heroicons:minus" className="h-5 w-5" />
-          ) : (
-            <Icon icon="heroicons:plus-small-solid" className="h-5 w-5" />
-          )}
-        </div>
-        <div>{children}</div>
+    <Trigger
+    onClick={toggleOpen}
+    className="flex items-center justify-between w-full gap-2 [&>svg]:hidden"
+  >
+    <div className="flex items-center gap-2">
+      <div
+        className={cn(
+          "h-8 w-8 inline-flex items-center justify-center rounded-full transition-colors",
+          {
+            "bg-default-100 text-primary": isOpen,
+            "hover:bg-default-100 dark:hover:bg-default-200 text-default-500 dark:text-default-800":
+              !isOpen,
+          }
+        )}
+      >
+        <Files className="h-5 w-5" />
       </div>
-    </Trigger>
+      <div className="text-sm font-medium">{children}</div>
+    </div>
+  
+    <div
+      className={cn(
+        "h-6 w-6 inline-flex items-center justify-center rounded transition-colors",
+        {
+          "bg-primary text-white": isOpen,
+          "bg-primary/10 text-primary": !isOpen,
+        }
+      )}
+    >
+      {isOpen ? (
+        <Icon icon="heroicons:minus" className="h-4 w-4" />
+      ) : (
+        <Icon icon="heroicons:plus-small-solid" className="h-4 w-4" />
+      )}
+    </div>
+  </Trigger>
+  
   );
 };
 
@@ -85,7 +103,9 @@ const StepPOK = ({ pokTerpilih, setPokTerpilih }: StepPOKProps) => {
         <Accordion type="single" collapsible className="w-full space-y-3.5">
           <AccordionItem value="pok-table">
             <AccordionTrigger value="pok-table" activeItem={activeItem} setActiveItem={setActiveItem}>
-              Data POK
+              <div className="text-base">
+                Data POK
+              </div>
             </AccordionTrigger>
             <AccordionContent>
               <AdvancedTable data={pokData} onTambah={handleTambah} />

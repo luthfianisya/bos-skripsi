@@ -16,13 +16,13 @@ const VStepFormPembiayaan = () => {
     <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
         <Button type="button" color="primary" size="md" icon={DocumentArrowUpIcon}>
-          Import Pembiayaan
+          Assign Pembiayaan
         </Button>
       </DialogTrigger>
       <DialogContent size="7xl" overlayClass="backdrop-blur-none">
         <DialogHeader>
           <DialogTitle className="text-lg">
-            Import Pembiayaan
+          Assign Pembiayaan
           </DialogTitle>
         </DialogHeader>
         <div className="grid grid-cols-12 gap-4">

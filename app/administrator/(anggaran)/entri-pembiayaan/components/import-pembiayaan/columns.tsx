@@ -8,7 +8,8 @@ import { ColumnDef } from "@tanstack/react-table";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
-import { ClockIcon } from "@heroicons/react/24/outline"
+import { CheckCircleIcon, ClockIcon, ExclamationTriangleIcon, XCircleIcon } from "@heroicons/react/24/outline"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface POK {
   grup: string;
@@ -58,32 +59,61 @@ export const columns: ColumnDef<POK>[] = [
   //   enableHiding: false,
   // },
   // ✅ Tambahkan kolom status setelah checkbox
-  {
-    accessorKey: "status",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="STATUS" />
-    ),
-    cell: ({ row }) => {
-      const status = row.getValue("status") as POK["status"];
-
-      const statusMap: Record<
-  POK["status"],
-  { label: string; color: string }
-> = {
-  terpakai: { label: "Terpakai", color: "text-green-600 bg-green-100" },
-  revisi: { label: "Revisi", color: "text-yellow-600 bg-yellow-100" },
-  tidak_terpakai: { label: "Tak Terpakai", color: "text-red-600 bg-red-100" },
-};
-
-const { label, color } = statusMap[status];
-
-return (
-  <Badge variant="outline" className={color}>
-    {label}
-  </Badge>
-);
+   {
+      accessorKey: "status",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="#" className="text-center flex justify-center"/>
+      ),
+      cell: ({ row }) => {
+        const status = row.getValue("status") as POK["status"];
+  
+        const iconMap: Record<
+          POK["status"],
+          { icon: JSX.Element; label: string; color: string }
+        > = {
+          terpakai: {
+            icon: <CheckCircleIcon className="w-5 h-5 text-green-500" />,
+            label: "Terpakai",
+            color: "green",
+          },
+          revisi: {
+            icon: <ExclamationTriangleIcon className="w-5 h-5 text-yellow-500" />,
+            label: "Revisi",
+            color: "yellow",
+          },
+          tidak_terpakai: {
+            icon: <XCircleIcon className="w-5 h-5 text-red-500" />,
+            label: "Tak Terpakai",
+            color: "red",
+          },
+        };
+  
+  
+        const { icon, label } = iconMap[status];
+  
+        return (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex justify-center items-center sticky z-20">
+                  {icon}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="z-[9999]" data-portal color="secondary">
+                {label}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        );
+      },
+      filterFn: (row, id, value) => {
+        if (!value || value.length === 0) return true;
+    
+        const rowValue = row.getValue(id); // "terpakai", "revisi", "tidak_terpakai"
+        return value.includes(rowValue);
+      },
+      enableSorting: false,
     },
-  },
   {
     accessorKey: "grup",
     header: ({ column }) => (

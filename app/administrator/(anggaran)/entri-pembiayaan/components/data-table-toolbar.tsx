@@ -12,11 +12,15 @@ import CreateTask from "./tambah-mitra";
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
 import VStepFormPembiayaan from "./import-pembiayaan/import-pembiayaan";
+import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+import { statuses } from "@/lib/constants";
 interface DataTableToolbarProps {
   table: Table<any>;
 }
 export function DataTableToolbar({ table }: DataTableToolbarProps) {
   const globalFilter = table.getState().globalFilter as string;
+
+  const statusColumn = table.getColumn("status");
 
   const [open, setOpen] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
@@ -59,7 +63,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
         {/* Container kecil untuk Search & Reset (max-w-sm) */}
         <div className="flex items-center gap-2 max-w-sm w-full">
           <Input
-            placeholder="Cari mitra berdasarkan nama, NIP, organisasi, dll..."
+            placeholder="Cari data pembiayaan..."
             value={globalFilter || ""}
             onChange={handleFilterChange}
             className="h-9 flex-1"
@@ -79,6 +83,13 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
 
       {/* Container kanan: Semua tombol di kanan */}
       <div className="flex items-center gap-2">
+         {statusColumn && (
+                        <DataTableFacetedFilter
+                          column={statusColumn}
+                          title="Filter Status"
+                          options={statuses}
+                        />
+                      )}
         <Button type="button" color="primary" variant="outline" size="md" icon={PrinterIcon}>
           Cetak POK
         </Button>

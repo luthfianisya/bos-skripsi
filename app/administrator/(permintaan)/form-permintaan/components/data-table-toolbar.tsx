@@ -15,12 +15,16 @@ import { DataTableViewOptions } from "./data-table-view-options";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { TIPE_FORM_MAP } from "@/lib/constants";
 import Link from "next/link";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import VStepForm from "../../tambah-permintaan/vstep-form";
+import TambahPermintaanDialog from "../../tambah-permintaan/vstep-form-dialog";
+
 
 
 const tipeFormOptions = Object.entries(TIPE_FORM_MAP).map(([key, value]) => ({
-    value: key,
-    label: `${value.code}`,
-  }));
+  value: key,
+  label: `${value.code}`,
+}));
 
 
 // Approval data
@@ -40,16 +44,16 @@ const approvalFilterOptions = approvalRoles.flatMap((role) => {
     })
     .map((status) => {
       const statusLabel =
-  status === "pending"
-    ? role === "operator"
-      ? "Entri"
-      : "Belum Ada"
-    : capitalize(status);
+        status === "pending"
+          ? role === "operator"
+            ? "Entri"
+            : "Belum Ada"
+          : capitalize(status);
 
-const roleLabel =
-  role === "operator"
-    ? "Operator"
-    : role.toUpperCase(); // PJ, PPK
+      const roleLabel =
+        role === "operator"
+          ? "Operator"
+          : role.toUpperCase(); // PJ, PPK
 
 
       return {
@@ -112,7 +116,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
         {/* Container kecil untuk Search & Reset (max-w-sm) */}
         <div className="flex items-center gap-2 max-w-sm w-full">
           <Input
-            placeholder="Cari mitra berdasarkan nama, NIP, organisasi, dll..."
+            placeholder="Cari data form permintaan..."
             value={globalFilter || ""}
             onChange={handleFilterChange}
             className="h-9 flex-1"
@@ -150,12 +154,28 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
             options={approvalFilterOptions}
           />
         )}
-        
-        <Link href="/administrator/tambah-permintaan">
+
+        {/* <Link href="/administrator/tambah-permintaan">
         <Button type="button" color="primary" size="md" icon={Plus} onClick={handleSheetOpen}>
           Tambah Permintaan
         </Button>
-        </Link>
+        </Link> */}
+        {/* <Button type="button" color="primary" size="md" icon={Plus} onClick={() => setOpen(true)}>
+          Tambah Permintaan
+        </Button>
+
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent size="9xl" overlayClass="backdrop-blur-none">
+            <DialogHeader>
+              <DialogTitle>Tambah Form Permintaan</DialogTitle>
+            </DialogHeader>
+            <div className="h-full overflow-auto">
+              <VStepForm />
+            </div>
+          </DialogContent>
+        </Dialog> */}
+        <TambahPermintaanDialog/>
+
       </div>
       {/* <CreateTask open={open} onClose={handleSheetOpen} /> */}
     </div>

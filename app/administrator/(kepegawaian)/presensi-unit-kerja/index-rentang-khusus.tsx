@@ -30,14 +30,15 @@ export default function RentangTable({ filters }: RentangTableProps) {
 
     // Filter berdasarkan rentang tanggal
     if (filters.rentang && filters.rentang.from && filters.rentang.to) {
-      const itemDate = parseISO(item.tanggal); // Konversi string ke Date
-      const fromDate = parseISO(filters.rentang.from);
-      const toDate = parseISO(filters.rentang.to);
-
+      const itemDate = parseISO(item.tanggalISO); // Ini tetap pakai parseISO karena ISO string
+      const fromDate = filters.rentang.from;
+      const toDate = filters.rentang.to;
+    
       if (!isWithinInterval(itemDate, { start: fromDate, end: toDate })) {
         return false;
       }
     }
+    
 
     return true;
   });

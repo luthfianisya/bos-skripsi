@@ -61,7 +61,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
         {/* Container kecil untuk Search & Reset (max-w-sm) */}
         <div className="flex items-center gap-2 max-w-sm w-full">
           <Input
-            placeholder="Cari mitra berdasarkan nama, NIP, organisasi, dll..."
+            placeholder="Cari data POK..."
             value={globalFilter || ""}
             onChange={handleFilterChange}
             className="h-9 flex-1"
@@ -81,7 +81,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
 
       {/* Container kanan: Semua tombol di kanan */}
       <div className="flex items-center gap-2">
-        {statusColumn && (
+        {/* {statusColumn && (
                 <DataTableFacetedFilter
                   column={statusColumn}
                   title="Filter Status"
@@ -94,7 +94,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
                     title="Filter Pagu Sisa"
                     options={paguSisaFilters}
                   />
-                )}
+                )} */}
       </div>
     </div>
 

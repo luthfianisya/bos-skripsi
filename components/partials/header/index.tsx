@@ -17,6 +17,8 @@ import FullScreen from "./full-screen";
 import { Button } from "@/components/ui/button";
 import { Book, Pointer } from "@/components/svg";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DocumentPlusIcon, PencilSquareIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 
 const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; isMobile: boolean; sidebarType: string }) => {
   return (
@@ -29,22 +31,64 @@ const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; is
       <NotificationMessage /> */}
 
       <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative md:h-9 md:w-9 h-8 w-8 hover:bg-default-100 dark:hover:bg-default-200 
-          data-[state=open]:bg-default-100 dark:data-[state=open]:bg-default-200 
-          hover:text-primary text-default-500 dark:text-default-800 rounded-full"
-            >
-              <Pointer className="h-5 w-5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            Aksi Cepat
-          </TooltipContent>
-        </Tooltip>
+        <DropdownMenu>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Buku Panduan</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => console.log("Panduan 1")}>
+              Panduan 1
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => console.log("Panduan 2")}>
+              Panduan 2
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DropdownMenu>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative md:h-9 md:w-9 h-8 w-8 hover:bg-default-100 dark:hover:bg-default-200 
+            data-[state=open]:bg-default-100 dark:data-[state=open]:bg-default-200 
+            hover:text-primary text-default-500 dark:text-default-800 rounded-full"
+                >
+                  <Pointer className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              Aksi Cepat
+            </TooltipContent>
+          </Tooltip>
+
+          <DropdownMenuContent className="grid grid-cols-2 p-0 w-80 h-48 shadow-lg">
+            {/* Presensi Unit Kerja */}
+            <DropdownMenuItem className="flex flex-col items-center justify-center border-b border-r border-default-200 p-2 rounded-none focus:bg-primary/10 focus:text-primary" onClick={() => console.log("Presensi Unit Kerja")}>
+              <UserGroupIcon className="h-5 w-5 mb-2 text-primary-700" />
+              <span>Presensi Unit Kerja</span>
+            </DropdownMenuItem>
+
+            {/* Entri Pembiayaan */}
+            <DropdownMenuItem className="flex flex-col items-center justify-center border-b border-default-200 p-2 rounded-none focus:bg-primary/10 focus:text-primary" onClick={() => console.log("Entri Pembiayaan")}>
+              <PencilSquareIcon className="h-5 w-5 mb-2 text-primary-700" />
+              <span>Entri Pembiayaan</span>
+            </DropdownMenuItem>
+
+            {/* Tambah Permintaan */}
+            <DropdownMenuItem className="flex flex-col items-center justify-center border-r border-default-200 p-2 rounded-none focus:bg-primary/10 focus:text-primary" onClick={() => console.log("Tambah Permintaan")}>
+              <DocumentPlusIcon className="h-5 w-5 mb-2 text-primary-700" />
+              <span>Tambah Permintaan</span>
+            </DropdownMenuItem>
+
+            {/* Tambah Rekap */}
+            <DropdownMenuItem className="flex flex-col items-center justify-center p-2 rounded-none focus:bg-primary/10 focus:text-primary" onClick={() => console.log("Tambah Rekap")}>
+              <DocumentPlusIcon className="h-5 w-5 mb-2 text-primary-700" />
+              <span>Tambah Rekap</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <Tooltip>
           <TooltipTrigger asChild>

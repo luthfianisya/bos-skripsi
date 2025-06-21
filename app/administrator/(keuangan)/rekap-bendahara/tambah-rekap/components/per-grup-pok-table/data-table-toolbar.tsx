@@ -9,10 +9,10 @@ import Refresh from "@/components/svg/duel-tone/arrow-path.svg";
 // import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
-import VStepFormStatic from "./import-simulasi/import-simulasi";
-import VStepFormSimulasi from "./import-simulasi/import-simulasi";
-import VStepFormPeserta from "./import-peserta/import-peserta";
+// import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+// import VStepFormStatic from "./import-simulasi/import-simulasi";
+// import VStepFormSimulasi from "./import-simulasi/import-simulasi";
+// import VStepFormPeserta from "./import-peserta/import-peserta";
 interface DataTableToolbarProps {
   table: Table<any>;
 }
@@ -63,7 +63,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
         {/* Container kecil untuk Search & Reset (max-w-sm) */}
         <div className="flex items-center gap-2 max-w-sm w-full">
           <Input
-            placeholder="Cari mitra berdasarkan nama, NIP, organisasi, dll..."
+            placeholder="Cari data..."
             value={globalFilter || ""}
             onChange={handleFilterChange}
             className="h-9 flex-1"

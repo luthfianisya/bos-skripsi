@@ -60,21 +60,21 @@ const ProfileInfo = () => {
               icon: "heroicons:user",
               href: "/user-profile"
             },
-            {
-              name: "Billing",
-              icon: "heroicons:megaphone",
-              href: "/dashboard"
-            },
-            {
-              name: "Settings",
-              icon: "heroicons:paper-airplane",
-              href: "/dashboard"
-            },
-            {
-              name: "Keyboard shortcuts",
-              icon: "heroicons:language",
-              href: "/dashboard"
-            },
+            // {
+            //   name: "Billing",
+            //   icon: "heroicons:megaphone",
+            //   href: "/dashboard"
+            // },
+            // {
+            //   name: "Settings",
+            //   icon: "heroicons:paper-airplane",
+            //   href: "/dashboard"
+            // },
+            // {
+            //   name: "Keyboard shortcuts",
+            //   icon: "heroicons:language",
+            //   href: "/dashboard"
+            // },
           ].map((item, index) => (
             <Link
               href={item.href}
@@ -88,8 +88,8 @@ const ProfileInfo = () => {
             </Link>
           ))}
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
+        {/* <DropdownMenuSeparator /> */}
+        {/* <DropdownMenuGroup>
           <Link href="/dashboard" className="cursor-pointer">
             <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
               <Icon icon="heroicons:user-group" className="w-4 h-4" />
@@ -161,7 +161,7 @@ const ProfileInfo = () => {
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
-        </DropdownMenuGroup>
+        </DropdownMenuGroup> */}
         <DropdownMenuSeparator className="mb-0 dark:bg-background" />
         <DropdownMenuItem
           onSelect={() => signOut()}

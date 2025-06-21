@@ -30,6 +30,7 @@ import { useRef, useState, useEffect } from "react";
 import { TIPE_FORM_MAP } from "@/lib/constants";
 import { ApprovalStatus } from "@/lib/type";
 import { Form } from "@/lib/interface";
+import { formatRupiah } from "@/lib/utils";
 
 // type ApprovalStatus = "approved" | "pending" | "submit" | "rejected";
 
@@ -272,7 +273,7 @@ export const columns: ColumnDef<Form>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="JUMLAH USULAN" />
     ),
-    cell: ({ row }) => <div>{row.getValue("jumlahUsulan")}</div>,
+    cell: ({ row }) => <div>{formatRupiah(row.getValue("jumlahUsulan"))}</div>,
   },
   {
     accessorKey: "approvals",

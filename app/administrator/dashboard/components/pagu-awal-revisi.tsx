@@ -54,7 +54,7 @@ const PaguAwalRevisi = () => {
               <span className="mt-2 text-lg text-default-800 dark:text-primary-foreground font-bold capitalize relative z-10">
                 {item.text}
               </span>
-              <div className={`z-50 w-10 h-10 grid place-content-center rounded-full border border-dashed border-${item.color} dark:border-primary-foreground/60`}>
+              <div className={`z-40 w-10 h-10 grid place-content-center rounded-full border border-dashed border-${item.color} dark:border-primary-foreground/60`}>
                 <span
                   className={cn(
                     `z-40 h-8 w-8 rounded-full grid place-content-center bg-${item.color}`,

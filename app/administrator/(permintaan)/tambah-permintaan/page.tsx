@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import AdvancedTable from "./index";
+// import AdvancedTable from "./index";
 import DataMitraBreadCrumbs from "./components/bread-crumbs";
 import VStepForm from "./vstep-form";
 // import DraggableTable from "./draggable-table";
