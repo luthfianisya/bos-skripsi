@@ -123,7 +123,7 @@ export const columns: ColumnDef<PerjalananDinas>[] = [
     ),
     cell: () => (
       <div className="flex gap-3 justify-end">
-                        <DialogForm />
+                        {/* <DialogForm /> */}
                 <Button
                   size="icon"
                   variant="outline"
