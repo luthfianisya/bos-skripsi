@@ -95,25 +95,24 @@ const StepPOK = ({ pokTerpilih, setPokTerpilih, readOnly = false }: StepPOKProps
 
   return (
     <>
-      <div className="col-span-12">
-        <h4 className="text-lg font-semibold text-gray-800">Pilih POK</h4>
-        <p className="mt-1 text-sm text-gray-500">Pilih data POK yang sesuai untuk permintaan ini.</p>
-      </div>
+     {!readOnly && (
+      <><div className="col-span-12">
+          <h4 className="text-lg font-semibold text-gray-800">Pilih POK</h4>
+          <p className="mt-1 text-sm text-gray-500">Pilih data POK yang sesuai untuk permintaan ini.</p>
+        </div><div className="col-span-12">
+            <Accordion type="single" collapsible className="w-full space-y-3.5">
+              <AccordionItem value="pok-table">
+                <AccordionTrigger value="pok-table" activeItem={activeItem} setActiveItem={setActiveItem}>
+                  <div className="text-base">Data POK</div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <AdvancedTable data={pokData} onTambah={handleTambah} />
+                </AccordionContent>
+              </AccordionItem>
 
-      <div className="col-span-12">
-        <Accordion type="single" collapsible className="w-full space-y-3.5">
-          {!readOnly && (
-            <AccordionItem value="pok-table">
-              <AccordionTrigger value="pok-table" activeItem={activeItem} setActiveItem={setActiveItem}>
-                <div className="text-base">Data POK</div>
-              </AccordionTrigger>
-              <AccordionContent>
-                <AdvancedTable data={pokData} onTambah={handleTambah} />
-              </AccordionContent>
-            </AccordionItem>
-          )}
-        </Accordion>
-      </div>
+            </Accordion>
+          </div></>
+      )}
 
       <div className="col-span-12 pt-6">
         <h4 className="text-lg font-semibold text-gray-800">Preview Data POK Terpilih</h4>

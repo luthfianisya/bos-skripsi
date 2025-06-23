@@ -23,7 +23,8 @@ interface PerjalananDinas {
   jumlah: number;
 }
 
-export const columns: ColumnDef<PerjalananDinas>[] = [
+export function getColumns(onUpdateTotal: (index: number, total: number) => void): ColumnDef<PerjalananDinas>[] {
+  return [
   {
     accessorKey: "nama",
     header: ({ column }) => (
@@ -59,19 +60,19 @@ export const columns: ColumnDef<PerjalananDinas>[] = [
     ),
     cell: ({ row }) => {
       const pulangPergi = row.getValue("pulangPergi") as PerjalananDinas["pulangPergi"];
-  
+
       const tanggalPergi = new Date(pulangPergi.tanggalPergi).toLocaleDateString("id-ID", {
         day: "2-digit",
         month: "short",
         year: "numeric",
       });
-  
+
       const tanggalPulang = new Date(pulangPergi.tanggalPulang).toLocaleDateString("id-ID", {
         day: "2-digit",
         month: "short",
         year: "numeric",
       });
-  
+
       return (
         <div className="flex items-center space-x-2">
           <Badge variant="soft" color="secondary">{tanggalPergi}</Badge>
@@ -80,7 +81,7 @@ export const columns: ColumnDef<PerjalananDinas>[] = [
         </div>
       );
     },
-  },  
+  },
   {
     accessorKey: "hari",
     header: ({ column }) => (
@@ -88,19 +89,19 @@ export const columns: ColumnDef<PerjalananDinas>[] = [
     ),
     cell: ({ row }) => {
       const pulangPergi = row.getValue("pulangPergi") as PerjalananDinas["pulangPergi"];
-  
+
       const tanggalPergi = new Date(pulangPergi.tanggalPergi);
       const tanggalPulang = new Date(pulangPergi.tanggalPulang);
-  
+
       // Hitung selisih waktu dalam milidetik
       const selisihWaktu = tanggalPulang.getTime() - tanggalPergi.getTime();
-  
+
       // Convert ke hari (1 hari = 86.400.000 ms)
       const jumlahHari = Math.ceil(selisihWaktu / (1000 * 60 * 60 * 24)) + 1;
-  
+
       return <div>{jumlahHari} hari</div>;
     },
-  },  
+  },
   {
     accessorKey: "jumlah",
     header: ({ column }) => (
@@ -121,31 +122,31 @@ export const columns: ColumnDef<PerjalananDinas>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="AKSI" />
     ),
-    cell: () => (
-      <div className="flex gap-3 justify-end">
-                        <DialogForm />
-                <Button
-                  size="icon"
-                  variant="outline"
-                  color="warning"
-                  className="h-7 w-7"
-                  icon={PencilSquareIcon}
-                >
-                </Button>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="h-7 w-7"
-                  color="destructive"
-                >
-                  <Icon icon="heroicons:trash" className="h-4 w-4" />
-                </Button>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const index = row.index;
+      const rowData = row.original;
+
+      return (
+        <div className="flex gap-3 justify-end">
+          <DialogForm
+            data={rowData}
+            onSave={(total) => onUpdateTotal(index, total)}
+          />
+          <Button
+            size="icon"
+            variant="outline"
+            className="h-7 w-7"
+            color="destructive"
+          >
+            <Icon icon="heroicons:trash" className="h-4 w-4" />
+          </Button>
+        </div>
+      )
+    },
     enableSorting: false,
     enableHiding: false,
   },
-];
+]};
 
 export const pegawais: PerjalananDinas[] = [
   {
