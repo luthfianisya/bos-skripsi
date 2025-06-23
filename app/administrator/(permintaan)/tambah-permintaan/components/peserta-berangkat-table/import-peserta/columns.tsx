@@ -23,8 +23,7 @@ interface PerjalananDinas {
   jumlah: number;
 }
 
-export function getColumns(onUpdateTotal: (index: number, total: number) => void): ColumnDef<PerjalananDinas>[] {
-  return [
+export const columns: ColumnDef<PerjalananDinas>[] = [
   {
     accessorKey: "nama",
     header: ({ column }) => (
@@ -122,31 +121,37 @@ export function getColumns(onUpdateTotal: (index: number, total: number) => void
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="AKSI" />
     ),
-    cell: ({ row }) => {
-      const index = row.index;
-      const rowData = row.original;
-
-      return (
-        <div className="flex gap-3 justify-end">
-          <DialogForm
-            data={rowData}
-            onSave={(total) => onUpdateTotal(index, total)}
-          />
-          <Button
-            size="icon"
-            variant="outline"
-            className="h-7 w-7"
-            color="destructive"
-          >
-            <Icon icon="heroicons:trash" className="h-4 w-4" />
-          </Button>
-        </div>
-      )
-    },
+    cell: () => (
+      <div className="flex gap-3 justify-end">
+        {/* <DialogForm
+        data={data}
+        onSave={(updatedTotal) => {
+          // Update data pegawai kalau perlu
+          console.log("Total baru untuk", data.nama, "adalah", updatedTotal);
+        }}
+      /> */}
+        <Button
+          size="icon"
+          variant="outline"
+          color="warning"
+          className="h-7 w-7"
+          icon={PencilSquareIcon}
+        >
+        </Button>
+        <Button
+          size="icon"
+          variant="outline"
+          className="h-7 w-7"
+          color="destructive"
+        >
+          <Icon icon="heroicons:trash" className="h-4 w-4" />
+        </Button>
+      </div>
+    ),
     enableSorting: false,
     enableHiding: false,
   },
-]};
+];
 
 export const pegawais: PerjalananDinas[] = [
   {
