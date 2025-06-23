@@ -36,24 +36,23 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
       tanggalSurat: defaultValues?.tanggalSurat ?? "",
       deskripsiPermintaan: defaultValues?.deskripsi ?? "",
       tipeForm: defaultValues?.tipeForm
-      ? {
+        ? {
           value: defaultValues.tipeForm,
           label: `[${TIPE_FORM_MAP[defaultValues.tipeForm].code}] ${TIPE_FORM_MAP[defaultValues.tipeForm].label}`,
         }
-      : null,
+        : null,
       subTipeForm:
-      defaultValues?.subTipeForm && defaultValues?.tipeForm &&
-      SUB_TIPE_FORM_MAP[defaultValues.tipeForm]
-        ? {
+        defaultValues?.tipeForm &&
+          defaultValues?.subTipeForm &&
+          SUB_TIPE_FORM_MAP[defaultValues.tipeForm]
+          ? {
             value: defaultValues.subTipeForm,
             label:
               SUB_TIPE_FORM_MAP[defaultValues.tipeForm].find(
                 (opt) => opt.value === defaultValues.subTipeForm
-              )?.label ?? defaultValues.subTipeForm, // fallback kalau label tidak ditemukan
+              )?.label ?? defaultValues.subTipeForm, // fallback label
           }
-        : null,
-    
-    
+          : null,
     },
   });
 

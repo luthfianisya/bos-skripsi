@@ -30,10 +30,10 @@ export default function AdvancedTable() {
       <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent size="9xl" overlayClass="backdrop-blur-none" className="h-[90vh] flex flex-col">
           <DialogHeader>
-            <DialogTitle>Detail Permintaan</DialogTitle>
+            <DialogTitle className="text-lg">Detail Permintaan</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
-            <div className="text-sm text-gray-600">Deskripsi: {selectedForm?.deskripsi}</div>
+          <div className="flex-1 overflow-auto">
+            {/* <div className="text-sm text-gray-600">Deskripsi: {selectedForm?.deskripsi}</div> */}
             {selectedForm && (
               <VStepForm defaultValues={selectedForm} readOnly />
             )}

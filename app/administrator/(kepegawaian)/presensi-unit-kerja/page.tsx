@@ -31,7 +31,7 @@ const DataTablePage = () => {
     unitKerja: null,
     pegawai: null,
   });
-  
+
   const [selectedFiltersRekap, setSelectedFiltersRekap] = useState<FilterState>({
     periode: "tahunan",
     tahun: null,
@@ -42,9 +42,9 @@ const DataTablePage = () => {
     unitKerja: null,
     pegawai: null,
   });
-  
-  
-  
+
+
+
 
 
   return (
@@ -72,7 +72,10 @@ const DataTablePage = () => {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="unitKerja" className="space-y-4">
-              <DataTableFilter setFilters={setSelectedFiltersUnit} />
+              <DataTableFilter
+                filters={selectedFiltersUnit}
+                setFilters={setSelectedFiltersUnit}
+              />
               {selectedFiltersUnit.periode === "rentang" ? (
                 <RentangTable filters={selectedFiltersUnit} />
               ) : (

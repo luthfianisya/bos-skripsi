@@ -29,19 +29,16 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
     const tipeFormValue = getValues("tipeForm");
     const subTipeValue = getValues("subTipeForm");
   
-    if (tipeFormValue) {
-      setSelectedTipeForm(tipeFormValue);
-    }
-  
-    if (subTipeValue) {
-      setSelectedSubTipe(subTipeValue);
-    }
+    if (tipeFormValue) setSelectedTipeForm(tipeFormValue);
+    if (subTipeValue) setSelectedSubTipe(subTipeValue);
   
     if (tipeFormValue?.value === "FORM - TRANSLOK") {
       setJenisPok("single");
     }
-  }, []);  
+  }, [getValues]);
   
+  
+
 
 
   // Generate options dari TIPE_FORM_MAP
@@ -136,11 +133,17 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
               <Select
                 {...field}
                 options={getSubTipeOptions()}
+                value={field.value}
+                onChange={(option) => {
+                  field.onChange(option);
+                  setSelectedSubTipe(option); // untuk jaga-jaga sinkron dengan state
+                }}
                 placeholder="Pilih Sub-Tipe"
                 isDisabled={readOnly || !selectedTipeForm || selectedTipeForm.value !== "FORM - TRANSLOK"}
               />
             )}
           />
+
         </div>
 
 
