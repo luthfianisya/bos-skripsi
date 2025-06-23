@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { JENIS_PENGELUARAN_MAP, KODE_BEBAN_MAP, TIPE_FORM_MAP} from "@/lib/constants";
 // import { DataTableRowActions } from "./data-table-row-actions";
-import { ColumnDef } from "@tanstack/react-table";
+import { Column, ColumnDef, Row } from "@tanstack/react-table";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
@@ -93,7 +93,7 @@ const EllipsisTooltip = ({ children }: { children: string }) => {
 };
 
 
-export const columns = (onHapus: (item: POK) => void): ColumnDef<POK>[] => [
+export const columns = (onHapus: (item: POK) => void, readOnly?: boolean): ColumnDef<POK>[] => [
   {
     accessorKey: "checkbox",
     header: ({ table }) => (
@@ -357,27 +357,29 @@ export const columns = (onHapus: (item: POK) => void): ColumnDef<POK>[] => [
     ),
     cell: ({ row }) => <div>{row.getValue("unitKerja")}</div>,
   },
-  {
-    accessorKey: "aksi",
-    header: ({ column }) => (
-      <DataTableColumnHeader className="justify-center" column={column} title="AKSI" />
-    ),
-    cell: ({ row }) => (
-      <div className="flex gap-2 justify-center">
-        <Button
-          size="icon"
-          variant="outline"
-          className="h-7 w-7"
-          color="destructive"
-          onClick={() => onHapus(row.original)}
-        >
-          <Icon icon="heroicons:trash" className="h-4 w-4" />
-        </Button>
-      </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  ...(!readOnly
+    ? [{
+        accessorKey: "aksi",
+        header: ({ column }: { column: Column<POK> }) => (
+          <DataTableColumnHeader className="justify-center" column={column} title="AKSI" />
+        ),
+        cell: ({ row }: { row: Row<POK> }) => (
+          <div className="flex gap-2 justify-center">
+            <Button
+              size="icon"
+              variant="outline"
+              className="h-7 w-7"
+              color="destructive"
+              onClick={() => onHapus(row.original)}
+            >
+              <Icon icon="heroicons:trash" className="h-4 w-4" />
+            </Button>
+          </div>
+        ),
+        enableSorting: false,
+        enableHiding: false,
+      }]
+    : []),
   
   
   // {

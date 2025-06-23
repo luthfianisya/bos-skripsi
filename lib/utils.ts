@@ -179,3 +179,27 @@ export const formatRupiah = (value: number) => {
     minimumFractionDigits: 0,
   }).format(value);
 };
+
+import { FullFormPermintaan } from "@/data/form-permintaan-f";
+import { POK } from "@/app/administrator/(anggaran)/entri-pembiayaan/components/columns";
+
+export function mapPokTerpilihToPOK(form: FullFormPermintaan): POK[] {
+  return form.pokTerpilih.map((item) => ({
+    grup: item.grup,
+    detail: item.detail,
+    paguAwal: item.nilai,
+    paguRevisi: 0,
+    paguBooked: 0,
+    paguReali: 0,
+    selfBlocking: 0,
+    kodeBeban: "51", // default atau bisa kamu mapping nanti
+    jenisP: "-",
+    hargaSatuan: item.nilai,
+    volume: 1,
+    satuan: "paket",
+    tipeForm: form.tipeForm,
+    ppk: form.pembuat,
+    unitKerja: "Default",
+    status: "terpakai",
+  }));
+}

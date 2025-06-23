@@ -6,8 +6,44 @@ import Select from "react-select";
 import { SingleValue } from "react-select";
 import { organisasi, satker, SUB_TIPE_FORM_MAP, tahun, TIPE_FORM_MAP } from "@/lib/constants";
 
-const StepInformasiUmum = () => {
-  const { register, control, formState: { errors } } = useFormContext();
+interface StepInformasiUmumProps {
+  fileKAK: File | null;
+  setFileKAK: React.Dispatch<React.SetStateAction<File | null>>;
+  readOnly?: boolean;
+}
+
+
+
+const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInformasiUmumProps) => {
+  // const { register, control, formState: { errors } } = useFormContext();
+  const {
+    register,
+    control,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
+
+  const { getValues } = useFormContext();
+
+  React.useEffect(() => {
+    const tipeFormValue = getValues("tipeForm");
+    const subTipeValue = getValues("subTipeForm");
+  
+    if (tipeFormValue) {
+      setSelectedTipeForm(tipeFormValue);
+    }
+  
+    if (subTipeValue) {
+      setSelectedSubTipe(subTipeValue);
+    }
+  
+    if (tipeFormValue?.value === "FORM - TRANSLOK") {
+      setJenisPok("single");
+    }
+  }, []);  
+  
+
+
   // Generate options dari TIPE_FORM_MAP
   const tipeFormOptions = Object.entries(TIPE_FORM_MAP).map(([key, value]) => ({
     value: key,
@@ -78,25 +114,32 @@ const StepInformasiUmum = () => {
                   setSelectedTipeForm(option);
                   setSelectedSubTipe(null);
                   if (option?.value === "FORM - TRANSLOK") {
-                    setJenisPok("single"); // Otomatis set ke single
+                    setJenisPok("single");
                   }
                 }}
                 value={field.value}
+                isDisabled={readOnly}
               />
             )}
           />
+
 
           {errors.tipeForm && <p className="text-red-500 text-sm">{errors.tipeForm.message as string}</p>}
         </div>
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="subTipeForm">Sub-Tipe Form</Label>
-          <Select
-            options={getSubTipeOptions()}
-            placeholder="Pilih Sub-Tipe"
-            value={selectedSubTipe}
-            onChange={(option: SingleValue<{ value: string; label: string }>) => setSelectedSubTipe(option)}
-            isDisabled={!selectedTipeForm || selectedTipeForm.value !== "FORM - TRANSLOK"}
+          <Controller
+            name="subTipeForm"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={getSubTipeOptions()}
+                placeholder="Pilih Sub-Tipe"
+                isDisabled={readOnly || !selectedTipeForm || selectedTipeForm.value !== "FORM - TRANSLOK"}
+              />
+            )}
           />
         </div>
 
@@ -107,23 +150,22 @@ const StepInformasiUmum = () => {
             <label className="flex items-center space-x-2">
               <input
                 type="radio"
-                name="jenisPok"
                 value="single"
-                className="accent-primary"
+                {...register("jenisPok")}
                 checked={jenisPok === "single"}
                 onChange={() => setJenisPok("single")}
+                disabled={readOnly}
               />
               <span>Single POK</span>
             </label>
             <label className="flex items-center space-x-2">
               <input
                 type="radio"
-                name="jenisPok"
                 value="multi"
-                className="accent-primary"
+                {...register("jenisPok")}
                 checked={jenisPok === "multi"}
                 onChange={() => setJenisPok("multi")}
-                disabled={selectedTipeForm?.value === "FORM - TRANSLOK"}
+                disabled={selectedTipeForm?.value === "FORM - TRANSLOK" || readOnly}
               />
               <span>Multi POK</span>
             </label>
@@ -135,8 +177,19 @@ const StepInformasiUmum = () => {
       {/* Baris 3 */}
       <div className="col-span-12 grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
-          <Label htmlFor="nomorSurat">Nomor Surat</Label>
-          <Input size="lg" type="text" id="nomorSurat" placeholder="Nomor Surat" value="B-0001A/92810/KU.600/04/2025" />
+          <Label htmlFor="noSurat">Nomor Surat</Label>
+          <Input
+            size="lg"
+            type="text"
+            id="noSurat"
+            placeholder="Nomor Surat"
+            {...register("noSurat", { required: "Nomor Surat wajib diisi" })}
+            className={`border rounded-md p-2 ${errors.noSurat ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
+            disabled={readOnly}
+          />
+          {errors.noSurat && (
+            <p className="text-red-500 text-sm">{errors.noSurat.message as string}</p>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -147,6 +200,7 @@ const StepInformasiUmum = () => {
             id="tanggalSurat"
             {...register("tanggalSurat", { required: "Tanggal Surat wajib diisi" })}
             className={`border rounded-md p-2 ${errors.tanggalSurat ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
+            disabled={readOnly}
           />
           {errors.tanggalSurat && <p className="text-red-500 text-sm">{errors.tanggalSurat.message as string}</p>}        </div>
       </div>
@@ -159,6 +213,7 @@ const StepInformasiUmum = () => {
           placeholder="Deskripsi lengkap permintaan..."
           {...register("deskripsiPermintaan", { required: "Deskripsi wajib diisi" })}
           className={`border rounded-md p-2 focus:outline-none w-full placeholder:text-accent-foreground/50 ${errors.deskripsiPermintaan ? "border-destructive" : "border-gray-300 focus:border-primary"}`} rows={4}
+          disabled={readOnly}
         />
         {errors.deskripsiPermintaan && <p className="text-red-500 text-sm">{errors.deskripsiPermintaan.message as string}</p>}
       </div>
@@ -167,7 +222,18 @@ const StepInformasiUmum = () => {
       <div className="col-span-12 grid grid-cols-1 lg:grid-cols-2 gap-4 pb-6">
         <div className="flex flex-col gap-2">
           <Label htmlFor="linkPermintaan">Link Permintaan Belanja</Label>
-          <Select options={linkOptions} placeholder="Pilih Link Permintaan" />
+          <Controller
+            name="linkPermintaan"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={linkOptions}
+                placeholder="Pilih Link Permintaan"
+                isDisabled={readOnly}
+              />
+            )}
+          />
         </div>
 
         <div className="flex flex-col gap-2">
@@ -176,12 +242,21 @@ const StepInformasiUmum = () => {
             size="lg"
             type="file"
             id="uploadKAK"
-            {...register("uploadKAK", { required: "File KAK wajib diupload" })}
+            onChange={(e) => {
+              const file = e.target.files?.[0] || null;
+              setFileKAK(file);
+              setValue("uploadKAK", file, { shouldValidate: true });
+            }}
             className={`border rounded-md ${errors.uploadKAK ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
+            disabled={readOnly}
           />
-          {errors.uploadKAK && <p className="text-red-500 text-sm">{errors.uploadKAK.message as string}</p>}
 
-        </div >
+          {fileKAK && <span className="text-sm text-gray-500">File: {fileKAK.name}</span>}
+          {errors.uploadKAK && (
+            <p className="text-red-500 text-sm">{errors.uploadKAK.message as string}</p>
+          )}
+        </div>
+
       </div >
     </>
   );

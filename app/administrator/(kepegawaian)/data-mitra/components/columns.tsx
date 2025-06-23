@@ -8,6 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface Mitra {
   id: number;
@@ -122,30 +123,41 @@ export const columns: ColumnDef<Mitra>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex gap-3 justify-end">
-        <Button
-          size="icon"
-          variant="outline"
-          color="warning"
-          className="h-7 w-7"
-        >
-          <Icon icon="heroicons:pencil-square" className="h-4 w-4" />
-        </Button>
-        {/* <Button
-          size="icon"
-          variant="outline"
-          className="h-7 w-7"
-          color="secondary"
-        >
-          <Icon icon="heroicons:eye" className="h-4 w-4" />
-        </Button> */}
-        <Button
-          size="icon"
-          variant="outline"
-          className="h-7 w-7"
-          color="destructive"
-        >
-          <Icon icon="heroicons:trash" className="h-4 w-4" />
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="outline"
+                color="warning"
+                className="h-7 w-7"
+              >
+                <Icon icon="heroicons:pencil-square" className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent color="secondary">
+              <p>Edit</p>
+              <TooltipArrow className=" fill-secondary" />
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="outline"
+                color="destructive"
+                className="h-7 w-7"
+              >
+                <Icon icon="heroicons:trash" className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent color="secondary" className="z-[9999]">
+              <p>Hapus</p>
+              <TooltipArrow className=" fill-white" />
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     ),
     enableSorting: false,

@@ -14,14 +14,84 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 import { POK } from "./components/pok-terpilih-table/columns";
 import { cn } from "@/lib/utils";
+import { PerjalananDinas } from "./components/peserta-berangkat-table/columns";
 
-const VStepForm = () => {
+import { FullFormPermintaan } from "@/data/form-permintaan-f"; // pastikan impor ini ada
+import { SUB_TIPE_FORM_MAP, TIPE_FORM_MAP } from "@/lib/constants";
+
+interface VStepFormProps {
+  defaultValues?: any;
+  readOnly?: boolean;
+  data?: FullFormPermintaan;
+}
+
+const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & { data?: FullFormPermintaan }) => {
   const router = useRouter();
-  const methods = useForm({ mode: "onChange", reValidateMode: "onChange" });
+  const methods = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange",
+    defaultValues: {
+      uploadKAK: undefined,
+      noSurat: defaultValues?.noSurat ?? "",
+      tanggalSurat: defaultValues?.tanggalSurat ?? "",
+      deskripsiPermintaan: defaultValues?.deskripsi ?? "",
+      tipeForm: defaultValues?.tipeForm
+      ? {
+          value: defaultValues.tipeForm,
+          label: `[${TIPE_FORM_MAP[defaultValues.tipeForm].code}] ${TIPE_FORM_MAP[defaultValues.tipeForm].label}`,
+        }
+      : null,
+      subTipeForm:
+      defaultValues?.subTipeForm && defaultValues?.tipeForm &&
+      SUB_TIPE_FORM_MAP[defaultValues.tipeForm]
+        ? {
+            value: defaultValues.subTipeForm,
+            label:
+              SUB_TIPE_FORM_MAP[defaultValues.tipeForm].find(
+                (opt) => opt.value === defaultValues.subTipeForm
+              )?.label ?? defaultValues.subTipeForm, // fallback kalau label tidak ditemukan
+          }
+        : null,
+    
+    
+    },
+  });
+
+
   const { trigger } = methods;
 
   const [activeStep, setActiveStep] = React.useState(0);
-  const [pokTerpilih, setPokTerpilih] = React.useState<POK[]>([]);
+  const [pokTerpilih, setPokTerpilih] = React.useState<POK[]>(
+    (data?.pokTerpilih ?? []).map(p => ({
+      ...p,
+      paguAwal: p.nilai,
+      paguRevisi: 0,
+      paguBooked: 0,
+      paguReali: 0,
+      selfBlocking: 0,
+      kodeBeban: p.kode, // default asal sama
+      jenisP: "",
+      hargaSatuan: 0,
+      volume: 0,
+      satuan: "",
+      tipeForm: "",
+      ppk: "",
+      unitKerja: "",
+      status: "terpakai", // default aman
+    }))
+  );
+  const [dataPeserta, setDataPeserta] = React.useState<PerjalananDinas[]>(
+    (data?.dataPeserta ?? []).map((p) => ({
+      nama: p.nama,
+      gol: p.gol,
+      asal: p.asal,
+      tujuan: p.tujuan,
+      pulangPergi: p.pulangPergi,
+      jumlah: p.jumlah,
+    }))
+  );
+  const [fileKAK, setFileKAK] = React.useState<File | null>(null); // tetap null karena File tidak bisa diserialisasi
+
 
   const steps = [
     { label: "Informasi Umum", content: "Isi informasi umum permintaan" },
@@ -42,14 +112,30 @@ const VStepForm = () => {
   const handleBack = () => setActiveStep((prev) => prev - 1);
   const handleReset = () => setActiveStep(0);
 
-  const handleSubmitFinal = () => {
-    stoast.success("Data Form Permintaan berhasil di-submit ke PJ", { position: "top-right" });
-    setTimeout(() => router.push("/administrator/form-permintaan"), 1500);
-  };
+  // const handleSubmitFinal = () => {
+  //   stoast.success("Data Form Permintaan berhasil di-submit ke PJ", { position: "top-right" });
+  //   setTimeout(() => router.push("/administrator/form-permintaan"), 1500);
+  // };
 
   const handleSimpan = () => {
     stoast.info("Data Form permintaan berhasil disimpan", { position: "top-right" });
   };
+
+  const { getValues } = methods;
+
+  const handleSubmitFinal = () => {
+    const formData = {
+      ...getValues(),          // dari StepInformasiUmum
+      pokTerpilih,             // dari StepPOK
+      dataPeserta,             // dari StepPeserta
+    };
+
+    console.log("FULL FORM:", formData);
+
+    stoast.success("Data Form Permintaan berhasil di-submit ke PJ", { position: "top-right" });
+    setTimeout(() => router.push("/administrator/form-permintaan"), 1500);
+  };
+
 
   return (
     <div className="flex flex-col gap-4">
@@ -89,11 +175,20 @@ const VStepForm = () => {
           <FormProvider {...methods}>
             <form>
               <div className="grid grid-cols-12 gap-4">
-                {activeStep === 0 && <StepInformasiUmum />}
-                {activeStep === 1 && (
-                  <StepPOK pokTerpilih={pokTerpilih} setPokTerpilih={setPokTerpilih} />
+                {activeStep === 0 && (
+                  <StepInformasiUmum fileKAK={fileKAK} setFileKAK={setFileKAK} readOnly={readOnly} />
                 )}
-                {activeStep === 2 && <StepPeserta />}
+
+                {activeStep === 1 && (
+                  <StepPOK pokTerpilih={pokTerpilih} setPokTerpilih={setPokTerpilih} readOnly={readOnly} />
+                )}
+                {activeStep === 2 && (
+                  <StepPeserta
+                    dataPeserta={dataPeserta}
+                    setDataPeserta={setDataPeserta}
+                    readOnly={readOnly}
+                  />
+                )}
               </div>
             </form>
           </FormProvider>

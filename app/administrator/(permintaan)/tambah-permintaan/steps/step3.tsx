@@ -112,9 +112,14 @@ const AccordionTrigger = ({ children, value, activeItem, setActiveItem }: Accord
   );
 };
 
-const StepPeserta = () => {
+interface StepPesertaProps {
+  dataPeserta: PerjalananDinas[];
+  setDataPeserta: React.Dispatch<React.SetStateAction<PerjalananDinas[]>>;
+  readOnly?: boolean;
+}
+
+const StepPeserta = ({ dataPeserta, setDataPeserta, readOnly }: StepPesertaProps) => {
   const [kategoriPeserta, setKategoriPeserta] = useState("");
-  const [dataPeserta, setDataPeserta] = useState<PerjalananDinas[]>([]);
   const [minTanggalPulang, setMinTanggalPulang] = useState("");
   const [maxTanggalPulang, setMaxTanggalPulang] = useState("");
   const [open, setOpen] = useState<string | null>(null);
@@ -182,7 +187,7 @@ const StepPeserta = () => {
       <div className="col-span-12">
         <h4 className="text-lg font-semibold text-gray-800">Pilih Peserta Berangkat</h4>
       </div>
-
+      {!readOnly && (
       <div className="col-span-12">
         <Accordion type="single" collapsible className="w-full space-y-3.5">
           <AccordionItem value="form-peserta">
@@ -340,15 +345,17 @@ const StepPeserta = () => {
           </AccordionItem>
         </Accordion>
       </div>
+      )}
 
       <div className="col-span-12 pt-2">
         <h4 className="text-lg font-semibold text-gray-800">Preview Data Peserta Berangkat</h4>
       </div>
 
       <div className="col-span-12">
-        <PesertaTable
+      <PesertaTable
           data={dataPeserta}
           onUpdateTotal={(index, total) => {
+            if (readOnly) return;
             const newData = [...dataPeserta];
             newData[index].jumlah = total;
             setDataPeserta(newData);
