@@ -21,13 +21,15 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html suppressHydrationWarning={true}>
-      <AuthProvider>
-        <TanstackProvider>
-          <Providers>
-          <DirectionProvider>{children}</DirectionProvider>
-          </Providers>
-        </TanstackProvider>
-      </AuthProvider>
+      <body className={inter.className}>
+        <AuthProvider>
+          <TanstackProvider>
+            <Providers>
+              <DirectionProvider>{children}</DirectionProvider>
+            </Providers>
+          </TanstackProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
