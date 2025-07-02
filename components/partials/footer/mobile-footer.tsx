@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ThemeCustomize from "../customizer/theme-customizer";
+// import ThemeCustomize from "../customizer/theme-customizer";
 import { MenuBar, Settings, SiteLogo, DSearch } from "@/components/svg";
 import Link from "next/link";
 const MobileFooter = ({ handleOpenSearch }: { handleOpenSearch: () => void }) => {
