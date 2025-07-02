@@ -22,13 +22,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html suppressHydrationWarning={true}>
       <body className={inter.className}>
-        <AuthProvider>
           <TanstackProvider>
             <Providers>
               <DirectionProvider>{children}</DirectionProvider>
             </Providers>
           </TanstackProvider>
-        </AuthProvider>
       </body>
     </html>
   );
