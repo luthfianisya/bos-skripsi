@@ -43,20 +43,40 @@ const ProfileInfo = () => {
           />
           <div>
             <div className="text-sm font-medium text-default-800 capitalize ">
-              {"Mcc Callem"}
+              {"Andi Pratama"}
             </div>
             <Link
               href="/dashboard"
               className="text-xs text-default-600 hover:text-primary"
             >
-              @uxuidesigner
+              1985051010010005
             </Link>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuGroup>
           {[
             {
-              name: "profile",
+              name: "Administrator",
+              icon: "heroicons:user",
+              href: "/user-profile"
+            },
+            {
+              name: "Admin Anggaran",
+              icon: "heroicons:user",
+              href: "/user-profile"
+            },
+            {
+              name: "Admin Bendahara",
+              icon: "heroicons:user",
+              href: "/user-profile"
+            },
+            {
+              name: "Bagian Umum",
+              icon: "heroicons:user",
+              href: "/user-profile"
+            },
+            {
+              name: "PJ",
               icon: "heroicons:user",
               href: "/user-profile"
             },

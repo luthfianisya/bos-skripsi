@@ -125,3 +125,13 @@ export const STATUS_PENCAIRAN_MAP: Record<string, string> = {
     Pengesahan: "Pengesahan",
   };
   
+
+  export const jenisPencairanOptions = [
+    { value: "up", label: "Dana Uang Persediaan (UP)" },
+    { value: "nihil", label: "Nihil" },
+    { value: "ls", label: "Pembayaran Langsung (LS)" },
+    { value: "pengesahan", label: "Pengesahan" },
+    { value: "gup", label: "Penggantian UP (GUP)" },
+    { value: "ptup", label: "Pertanggungjawaban TUP (PTUP)" },
+    { value: "tup", label: "Tambahan UP (TUP)" },
+  ];

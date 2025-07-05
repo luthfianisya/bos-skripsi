@@ -332,6 +332,18 @@
   color: #94a3b8 !important; /* slate-400 */
 }
 
+.swal2-container {
+  z-index: 20000 !important;
+}
+
+.swal-confirm-btn {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-0 disabled:opacity-50 whitespace-nowrap bg-blue-700 text-white px-4 py-[10px];
+}
+
+.swal-cancel-btn {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-0 disabled:opacity-50 whitespace-nowrap bg-red-600 text-white px-4 py-[10px];
+}
+
 
 @import "partials/calendar.scss";
 @import "partials/react-slect";

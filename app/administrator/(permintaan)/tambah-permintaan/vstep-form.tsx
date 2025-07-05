@@ -14,10 +14,14 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 import { POK } from "./components/pok-terpilih-table/columns";
 import { cn } from "@/lib/utils";
-import { PerjalananDinas } from "./components/peserta-berangkat-table/columns";
+import { Peserta } from "./components/peserta-berangkat-table/columns";
 
 import { FullFormPermintaan } from "@/data/form-permintaan-f"; // pastikan impor ini ada
 import { SUB_TIPE_FORM_MAP, TIPE_FORM_MAP } from "@/lib/constants";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { POKs } from "@/data/entri-pembiayaan";
+
 
 interface VStepFormProps {
   defaultValues?: any;
@@ -59,27 +63,40 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
 
   const { trigger } = methods;
 
+ 
+  
+
   const [activeStep, setActiveStep] = React.useState(0);
-  const [pokTerpilih, setPokTerpilih] = React.useState<POK[]>(
-    (data?.pokTerpilih ?? []).map(p => ({
-      ...p,
-      paguAwal: p.nilai,
-      paguRevisi: 0,
-      paguBooked: 0,
-      paguReali: 0,
-      selfBlocking: 0,
-      kodeBeban: p.kode, // default asal sama
-      jenisP: "",
-      hargaSatuan: 0,
-      volume: 0,
-      satuan: "",
-      tipeForm: "",
-      ppk: "",
-      unitKerja: "",
-      status: "terpakai", // default aman
-    }))
-  );
-  const [dataPeserta, setDataPeserta] = React.useState<PerjalananDinas[]>(
+  const [pokTerpilih, setPokTerpilih] = React.useState<POK[]>([]);
+  React.useEffect(() => {
+    if (readOnly) {
+      console.log("Setting pokTerpilih with dummy record");
+      setPokTerpilih([POKs[3]]);
+    } else {
+      if (data?.pokTerpilih) {
+        setPokTerpilih(data.pokTerpilih.map(p => ({
+          ...p,
+          paguAwal: p.nilai,
+          paguRevisi: 0,
+          paguBooked: 0,
+          paguReali: 0,
+          selfBlocking: 0,
+          kodeBeban: p.kode,
+          jenisP: "",
+          hargaSatuan: 0,
+          volume: 0,
+          satuan: "",
+          tipeForm: "",
+          ppk: "",
+          unitKerja: "",
+          status: "terpakai",
+        })));
+      }
+    }
+  }, [readOnly, data]);
+  
+
+  const [dataPeserta, setDataPeserta] = React.useState<Peserta[]>(
     (data?.dataPeserta ?? []).map((p) => ({
       nama: p.nama,
       gol: p.gol,
@@ -97,6 +114,36 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
     { label: "POK", content: "Pilih POK yang tersedia" },
     { label: "Peserta Berangkat", content: "Tambahkan peserta yang berangkat" },
   ];
+
+
+  const MySwal = withReactContent(Swal);
+
+  const handleSubmitFinalConfirm = () => {
+    MySwal.fire({
+      title: 'Yakin Kirim ke PJ?',
+      text: 'Pastikan data sudah benar sebelum dikirim.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2563eb', // biru
+      cancelButtonColor: '#d33', // merah
+      confirmButtonText: 'Ya, Kirim!',
+      cancelButtonText: 'Batal',
+      customClass: {
+        confirmButton: 'swal-confirm-btn',
+        cancelButton: 'swal-cancel-btn',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleSubmitFinal(); // jalankan fungsi kirim PJ asli
+        MySwal.fire(
+          'Terkirim!',
+          'Form permintaan berhasil dikirim ke PJ.',
+          'success'
+        );
+      }
+    });
+  };
+
 
   const handleNext = async () => {
     const valid = await trigger();
@@ -210,10 +257,11 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
             <Button size="xs" variant="outline" onClick={handleSimpan}>
               Simpan
             </Button>
-            <Button size="xs" color="primary" onClick={handleSubmitFinal}>
+            <Button size="xs" color="primary" onClick={handleSubmitFinalConfirm}>
               <PaperAirplaneIcon className="h-5 w-5 mr-1" />
               Kirim PJ
             </Button>
+
           </div>
         ) : (
           <Button size="xs" variant="outline" onClick={handleNext}>

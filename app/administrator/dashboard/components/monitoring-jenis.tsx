@@ -14,7 +14,7 @@ import Link from "next/link";
 
 const projects = [
     {
-        id: "76b99e8a-4d5e-4818-92cb-7932a5b8f42a",
+        id: "1",
         title: "Belanja Perjalanan Dinas Biasa",
         description: "A web application for point of sale and inventory management.",
         status: "in progress",
@@ -28,7 +28,7 @@ const projects = [
         icon: <CheckBadgeIcon className="w-3.5 h-3.5 text-white" />,
     },
     {
-        id: "76b99e8a-4d5e-4818-92cb-7932a5b8f42a",
+        id: "2",
         title: "Lembur",
         description: "A web application for point of sale and inventory management.",
         status: "in progress",
@@ -42,7 +42,7 @@ const projects = [
         icon: <CheckBadgeIcon className="w-3.5 h-3.5 text-white" />,
     },
     {
-        id: "76b99e8a-4d5e-4818-92cb-7932a5b8f42a",
+        id: "3",
         title: "Belanja Jasa Profesi",
         description: "A web application for point of sale and inventory management.",
         status: "in progress",
@@ -56,7 +56,7 @@ const projects = [
         icon: <CheckBadgeIcon className="w-3.5 h-3.5 text-white" />,
     },
     {
-        id: "76b99e8a-4d5e-4818-92cb-7932a5b8f42a",
+        id: "4",
         title: "Paket Pertemuan Fullday/Halfday",
         description: "A web application for point of sale and inventory management.",
         status: "in progress",
@@ -70,7 +70,7 @@ const projects = [
         icon: <CheckBadgeIcon className="w-3.5 h-3.5 text-white" />,
     },
     {
-        id: "a91b39a7-0c96-4e7c-8fb1-2204d3d26d64",
+        id: "5",
         title: "Paket Meeting/Fullboard Dalam Kota",
         description: "A high-speed production management system built with Laravel.",
         status: "review",
@@ -84,7 +84,7 @@ const projects = [
         icon: <CheckBadgeIcon className="w-3.5 h-3.5 text-white" />,
     },
     {
-        id: "a91b39a7-0c96-4e7c-8fb1-2204d3d26d64",
+        id: "6",
         title: "Paket Meeting/Fullboard Luar Kota",
         description: "A high-speed production management system built with Laravel.",
         status: "review",

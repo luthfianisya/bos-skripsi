@@ -13,18 +13,45 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   const { theme, radius } = useThemeStore();
   const location = usePathname();
 
+  if (location === "/") {
+    return (
+      <body className={cn("dash-tail-app ", inter.className)}>
+        <ThemeProvider
+          attribute="class"
+          enableSystem={false}
+          defaultTheme="light"
+        >
+          <div className={cn("h-full  ")}>
+            {children}
+            <ReactToaster />
+          </div>
+          <Toaster />
+          <SonnToaster />
+        </ThemeProvider>
+      </body>
+    );
+  }
   return (
-    <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light">
-      <div
-        className={cn("dash-tail-app ", inter.className, "theme-" + theme)}
-        style={{ "--radius": `${radius}rem` } as React.CSSProperties}
+    <body
+      className={cn("dash-tail-app ", inter.className, "theme-" + theme)}
+      style={{
+        "--radius": `${radius}rem`,
+      } as React.CSSProperties
+      }
+    >
+      <ThemeProvider
+        attribute="class"
+        enableSystem={false}
+        defaultTheme="light"
       >
-        {children}
-        <ReactToaster />
+        <div className={cn("h-full  ")}>
+          {children}
+          <ReactToaster />
+        </div>
         <Toaster />
         <SonnToaster />
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </body>
   );
 };
 

@@ -16,6 +16,11 @@ import { FormPOK } from "./components/pok-terpilih-table/columns";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/use-toast";
 import { SaveIcon } from "lucide-react";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import 'sweetalert2/src/sweetalert2.scss';
+
+const MySwal = withReactContent(Swal);
 
 const HStepForm = () => {
   const router = useRouter();
@@ -60,6 +65,29 @@ const isStepOptional = (step: number) => step === 1;
 const handleNext = () => setActiveStep((prev) => prev + 1);
 const handleBack = () => setActiveStep((prev) => prev - 1);
 const handleReset = () => setActiveStep(0);
+
+const handleFinalisasi = () => {
+  MySwal.fire({
+    title: 'Yakin Finalisasi Rekap?',
+    text: 'Data yang sudah difinalisasi tidak dapat diubah lagi.',
+    icon: 'warning',
+    showCancelButton: true, // WAJIB agar tombol batal muncul
+    confirmButtonColor: '#16a34a',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Ya, Finalisasi!',
+    cancelButtonText: 'Batal',  
+  }).then((result) => {
+    if (result.isConfirmed) {
+      setRekapStatus("sp2d");
+      MySwal.fire(
+        'Berhasil!',
+        'Rekap telah berhasil difinalisasi.',
+        'success'
+      );
+    }
+  });
+};
+
 
   const onSubmit = () => {
     toast({
@@ -193,14 +221,14 @@ const handleReset = () => setActiveStep(0);
 
                   {rekapStatus === "spm" && (
                     <Button
-                      size="xs"
-                      color="success"
-                      onClick={() => setRekapStatus("sp2d")}
-                      disabled={!isSP2DComplete()}
-                    >
-                      <PaperAirplaneIcon className="h-5 w-5 mr-1" />
-                      Finalisasi Rekap
-                    </Button>
+                    size="xs"
+                    color="success"
+                    onClick={handleFinalisasi}
+                    disabled={!isSP2DComplete()}
+                  >
+                    <PaperAirplaneIcon className="h-5 w-5 mr-1" />
+                    Finalisasi Rekap
+                  </Button>                  
                   )}
 
                 </div>

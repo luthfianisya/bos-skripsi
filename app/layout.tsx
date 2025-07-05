@@ -8,6 +8,8 @@ import TanstackProvider from "@/provider/providers.client";
 import AuthProvider from "@/provider/auth.provider";
 import "flatpickr/dist/themes/light.css";
 import DirectionProvider from "@/provider/direction.provider";
+import 'sweetalert2/src/sweetalert2.scss';
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -21,13 +23,13 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html suppressHydrationWarning={true}>
-      <body className={inter.className}>
-          <TanstackProvider>
-            <Providers>
-              <DirectionProvider>{children}</DirectionProvider>
-            </Providers>
-          </TanstackProvider>
-      </body>
+      <AuthProvider>
+        <TanstackProvider>
+          <Providers>
+          <DirectionProvider>{children}</DirectionProvider>
+          </Providers>
+        </TanstackProvider>
+      </AuthProvider>
     </html>
   );
 }

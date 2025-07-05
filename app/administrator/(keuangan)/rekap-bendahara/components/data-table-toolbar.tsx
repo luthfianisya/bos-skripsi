@@ -70,8 +70,8 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
     table.setGlobalFilter(""); // Reset global search
   };
 
-  const approvalsColumn = table.getColumn("approvals");
-  const tipeFormColumn = table.getColumn("tipeForm");
+  // const approvalsColumn = table.getColumn("approvals");
+  // const tipeFormColumn = table.getColumn("tipeForm");
 
   // const statusColumn = table.getColumn("status");
   // const priorityColumn = table.getColumn("priority");
@@ -120,7 +120,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
           Cetak POK
         </Button> */}
         {/* <DataTableViewOptions table={table} /> */}
-        {tipeFormColumn && (
+        {/* {tipeFormColumn && (
           <DataTableFacetedFilter
             column={tipeFormColumn}
             title="Filter Tipe Form"
@@ -133,7 +133,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
             title="Filter Status"
             options={approvalFilterOptions}
           />
-        )}
+        )} */}
         {/* <Button type="button" color="primary" size="md" icon={Plus} onClick={handleSheetOpen}>
           Tambah Rekap
         </Button> */}
