@@ -10,9 +10,10 @@ import { PencilIcon } from "lucide-react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import DialogForm from "./simulasi-perjalanan/simulasi-perjalanan";
 import { useState } from "react";
+import { asalOptions, tujuanOptions } from "../../steps/step3";
 
 // Interface baru sesuai kebutuhan
-export interface PerjalananDinas {
+export interface Peserta {
   nama: string;
   gol: string;
   asal: string;
@@ -25,7 +26,7 @@ export interface PerjalananDinas {
 }
 
 
-export function getColumns(onUpdateTotal: (index: number, total: number) => void): ColumnDef<PerjalananDinas>[] {
+export function getColumns(onUpdateTotal: (index: number, total: number) => void, readOnly?: boolean): ColumnDef<Peserta>[] {
   return [
     {
       accessorKey: "nama",
@@ -46,14 +47,22 @@ export function getColumns(onUpdateTotal: (index: number, total: number) => void
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="ASAL" />
       ),
-      cell: ({ row }) => <div>{row.getValue("asal")}</div>,
+      cell: ({ row }) => {
+        const asalValue = row.getValue("asal") as string;
+        const asalLabel = asalOptions.find((o) => o.value === asalValue)?.label || asalValue;
+        return <div>{asalLabel}</div>;
+      },      
     },
     {
       accessorKey: "tujuan",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="TUJUAN" />
       ),
-      cell: ({ row }) => <div>{row.getValue("tujuan")}</div>,
+      cell: ({ row }) => {
+        const tujuanValue = row.getValue("tujuan") as string;
+        const tujuanLabel = tujuanOptions.find((o) => o.value === tujuanValue)?.label || tujuanValue;
+        return <div>{tujuanLabel}</div>;
+      },      
     },
     {
       accessorKey: "pulangPergi",
@@ -61,7 +70,7 @@ export function getColumns(onUpdateTotal: (index: number, total: number) => void
         <DataTableColumnHeader column={column} title="PULANG - PERGI" />
       ),
       cell: ({ row }) => {
-        const pulangPergi = row.getValue("pulangPergi") as PerjalananDinas["pulangPergi"];
+        const pulangPergi = row.getValue("pulangPergi") as Peserta["pulangPergi"];
 
         const tanggalPergi = new Date(pulangPergi.tanggalPergi).toLocaleDateString("id-ID", {
           day: "2-digit",
@@ -90,7 +99,7 @@ export function getColumns(onUpdateTotal: (index: number, total: number) => void
         <DataTableColumnHeader column={column} title="JUMLAH HARI" />
       ),
       cell: ({ row }) => {
-        const pulangPergi = row.getValue("pulangPergi") as PerjalananDinas["pulangPergi"];
+        const pulangPergi = row.getValue("pulangPergi") as Peserta["pulangPergi"];
 
         const tanggalPergi = new Date(pulangPergi.tanggalPergi);
         const tanggalPulang = new Date(pulangPergi.tanggalPulang);
@@ -133,15 +142,18 @@ export function getColumns(onUpdateTotal: (index: number, total: number) => void
             <DialogForm
               data={rowData}
               onSave={(total) => onUpdateTotal(index, total)}
+              readOnly={readOnly} // tambahkan ini
             />
-            <Button
-              size="icon"
-              variant="outline"
-              className="h-7 w-7"
-              color="destructive"
-            >
-              <Icon icon="heroicons:trash" className="h-4 w-4" />
-            </Button>
+            {!readOnly && (
+              <Button
+                size="icon"
+                variant="outline"
+                className="h-7 w-7"
+                color="destructive"
+              >
+                <Icon icon="heroicons:trash" className="h-4 w-4" />
+              </Button>
+            )}
           </div>
         )
       },

@@ -1,11 +1,11 @@
 import { Fragment } from "react";
 import { columns } from "./columns"; // columns khusus untuk tabel terpilih
 import { DataTable } from "./data-table";
-import { POK } from "./columns"; // tipe POK
+import { FormPOK } from "@/lib/interface";
 
 interface POKTerpilihTableProps {
-  data: POK[];
-  onHapus: (item: POK) => void;
+  data: FormPOK[];
+  onHapus: (item: FormPOK) => void;
   readOnly?: boolean;
 }
 export default function POKTerpilihTable({ data, onHapus, readOnly = false }: POKTerpilihTableProps) {

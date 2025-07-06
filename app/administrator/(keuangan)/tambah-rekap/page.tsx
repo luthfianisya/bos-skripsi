@@ -17,7 +17,7 @@ const DataTablePage = () => {
       {/* Header */}
       <div className="flex flex-wrap mb-7">
         <div className="text-xl font-medium text-default-900 flex-1">
-          Tambah Permintaan
+          Tambah Rekap
         </div>
         <div className="flex-none">
           <DataMitraBreadCrumbs />

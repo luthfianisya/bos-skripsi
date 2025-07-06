@@ -1,11 +1,11 @@
 import { Fragment } from "react";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import { Form } from "@/lib/interface";
+import { FormPOK } from "@/lib/interface";
 
 interface AdvancedTableProps {
-  data: Form[];
-  onTambah: (item: Form) => void;
+  data: FormPOK[];
+  onTambah: (item: FormPOK) => void;
 }
 
 export default function AdvancedTable({ data, onTambah }: AdvancedTableProps) {

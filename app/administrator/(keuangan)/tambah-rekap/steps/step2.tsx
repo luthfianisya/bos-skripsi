@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import AdvancedTable from "../components/pok-table";
 import POKTerpilihTable from "../components/pok-terpilih-table";
-import { POK } from "../components/pok-table/columns";
+
 import { POKs } from "@/data/entri-pembiayaan";
 import {
   Accordion,
@@ -12,6 +12,12 @@ import {
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
 import { Files } from "@/components/svg";
+import { FormPOK } from "@/lib/interface";
+import { combinedForms } from "@/lib/constants";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import PerGrupPOKTable from "../components/per-grup-pok-table";
+import PesertaTable from "../components/peserta-berangkat-table";
+import RincianPesertaTable from "../components/rincian-peserta-table";
 
 interface AccordionTriggerProps {
   children: React.ReactNode;
@@ -21,8 +27,8 @@ interface AccordionTriggerProps {
 }
 
 interface StepPOKProps {
-  pokTerpilih: POK[];
-  setPokTerpilih: React.Dispatch<React.SetStateAction<POK[]>>;
+  pokTerpilih: FormPOK[];
+  setPokTerpilih: React.Dispatch<React.SetStateAction<FormPOK[]>>;
   readOnly?: boolean;
 }
 
@@ -70,56 +76,145 @@ const AccordionTrigger = ({ children, value, activeItem, setActiveItem }: Accord
         )}
       </div>
     </Trigger>
-
   );
 };
 
 const StepPOK = ({ pokTerpilih, setPokTerpilih, readOnly = false }: StepPOKProps) => {
-  const [pokData, setPokData] = useState<POK[]>(POKs);
+  const [pokData, setPokData] = useState<FormPOK[]>(combinedForms);
   const [activeItem, setActiveItem] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("rincian");
 
-  const handleTambah = (item: POK) => {
+  const handleTambah = (item: FormPOK) => {
     setPokTerpilih((prev) => {
-      if (prev.find((i) => i.grup === item.grup && i.detail === item.detail)) {
-        return prev;
-      }
+      if (prev.find((i) => i.id === item.id)) return prev;
       return [...prev, item];
     });
-    setPokData((prev) => prev.filter((i) => i.grup !== item.grup || i.detail !== item.detail));
+    setPokData((prev) => prev.filter((i) => i.id !== item.id));
   };
 
-  const handleHapus = (item: POK) => {
-    setPokTerpilih((prev) => prev.filter((i) => i.grup !== item.grup || i.detail !== item.detail));
+  const handleHapus = (item: FormPOK) => {
+    setPokTerpilih((prev) =>
+      prev.filter((i) => i.grup !== item.grup || i.detail !== item.detail)
+    );
     setPokData((prev) => [...prev, item]);
   };
 
-  return (
+  const perGrupData = useMemo(() => {
+    return pokTerpilih.map((item) => ({
+      grupPok: item.grup,
+      booked: item.paguBooked,
+      realisasi: item.paguReali,
+      netto: item.paguReali,
+      pajak: 0,
+    }));
+  }, [pokTerpilih]);
+
+  const rincianPesertaData = useMemo(() => {
+    return pokTerpilih.flatMap((item) => {
+      if (!item.details) return [];
+      return item.details.map((d) => ({
+        nip: d.nip,
+        nama: d.nama,
+        booked: item.paguBooked,
+        realisasi: item.paguReali,
+        netto: d.realisasi,
+        pajak: 0,
+      }));
+    });
+  }, [pokTerpilih]);
+
+  return readOnly ? (
     <>
-     {!readOnly && (
-      <><div className="col-span-12">
-          <h4 className="text-lg font-semibold text-gray-800">Pilih Form POK</h4>
-          <p className="mt-1 text-sm text-gray-500">Pilih data Form POK yang sesuai untuk rekap ini.</p>
-        </div><div className="col-span-12">
-            <Accordion type="single" collapsible className="w-full space-y-3.5">
-              <AccordionItem value="pok-table">
-                <AccordionTrigger value="pok-table" activeItem={activeItem} setActiveItem={setActiveItem}>
-                  <div className="text-base">Data POK</div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <AdvancedTable data={pokData} onTambah={handleTambah} />
-                </AccordionContent>
-              </AccordionItem>
-
-            </Accordion>
-          </div></>
-      )}
-
       <div className="col-span-12 pt-6">
-        <h4 className="text-lg font-semibold text-gray-800">Preview Data POK Terpilih</h4>
+        <h4 className="text-lg font-semibold text-gray-800">Rincian Rekapitulasi</h4>
       </div>
 
       <div className="col-span-12">
-      <POKTerpilihTable data={pokTerpilih} onHapus={handleHapus} readOnly={readOnly} />
+        <Tabs
+          defaultValue="rincian"
+          value={activeTab}
+          onValueChange={(val) => setActiveTab(val)}
+        >
+          <TabsList>
+            <TabsTrigger value="rincian" className="data-[state=active]:bg-blue-700 data-[state=active]:text-primary-foreground">Rincian Peserta</TabsTrigger>
+            <TabsTrigger value="pergrup" className="data-[state=active]:bg-blue-700 data-[state=active]:text-primary-foreground">Per Grup POK</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div className="col-span-12">
+        {activeTab === "rincian" && (
+          <RincianPesertaTable
+            data={[{
+              nip: combinedForms[0].details?.[0]?.nip ?? "-",
+              nama: combinedForms[0].details?.[0]?.nama ?? "-",
+              booked: combinedForms[0].paguBooked,
+              realisasi: combinedForms[0].paguReali,
+              netto: combinedForms[0].details?.[0]?.realisasi ?? 0,
+              pajak: 0,
+            }]}
+          />
+        )}
+        {activeTab === "pergrup" && (
+          <PerGrupPOKTable
+            data={[{
+              grupPok: combinedForms[0].grup,
+              booked: combinedForms[0].paguBooked,
+              realisasi: combinedForms[0].paguReali,
+              netto: combinedForms[0].paguReali,
+              pajak: 0,
+            }]}
+          />
+        )}
+      </div>
+    </>
+  ) : (
+    <>
+      <div className="col-span-12">
+        <h4 className="text-lg font-semibold text-gray-800">Pilih Form POK</h4>
+        <p className="mt-1 text-sm text-gray-500">Pilih data Form POK yang sesuai untuk rekap ini.</p>
+      </div>
+
+      <div className="col-span-12">
+        <Accordion type="single" collapsible className="w-full space-y-3.5">
+          <AccordionItem value="pok-table">
+            <AccordionTrigger value="pok-table" activeItem={activeItem} setActiveItem={setActiveItem}>
+              <div className="text-base">Data Form POK</div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <AdvancedTable data={pokData} onTambah={handleTambah} />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
+
+      <div className="col-span-12 pt-6">
+        <h4 className="text-lg font-semibold text-gray-800">Preview Data Form POK Terpilih</h4>
+      </div>
+
+      <div className="col-span-12">
+        <POKTerpilihTable data={pokTerpilih} onHapus={handleHapus} readOnly={readOnly} />
+      </div>
+
+      <div className="col-span-12 pt-6">
+        <div className="flex justify-between items-center">
+          <h4 className="text-lg font-semibold text-gray-800">Rincian Rekapitulasi</h4>
+          <Tabs
+            defaultValue="rincian"
+            value={activeTab}
+            onValueChange={(val) => setActiveTab(val)}
+          >
+            <TabsList>
+              <TabsTrigger value="rincian" className="data-[state=active]:bg-blue-700 data-[state=active]:text-primary-foreground">Rincian Peserta</TabsTrigger>
+              <TabsTrigger value="pergrup" className="data-[state=active]:bg-blue-700 data-[state=active]:text-primary-foreground">Per Grup POK</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+      </div>
+
+      <div className="col-span-12">
+        {activeTab === "rincian" && <RincianPesertaTable data={rincianPesertaData} />}
+        {activeTab === "pergrup" && <PerGrupPOKTable data={perGrupData} />}
       </div>
     </>
   );

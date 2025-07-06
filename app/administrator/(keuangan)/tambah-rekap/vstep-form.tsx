@@ -9,17 +9,18 @@ import { useForm, FormProvider } from "react-hook-form";
 import StepInformasiUmum from "./steps/step1";
 import StepPOK from "./steps/step2";
 import StepPeserta from "./steps/step3";
-
-import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
-import { POK } from "./components/pok-terpilih-table/columns";
 import { cn } from "@/lib/utils";
-import { PerjalananDinas } from "./components/peserta-berangkat-table/columns";
-
+import { Peserta } from "./components/peserta-berangkat-table/columns";
+import { PaperAirplaneIcon, PrinterIcon } from "@heroicons/react/24/outline";
 import { FullFormPermintaan } from "@/data/form-permintaan-f"; // pastikan impor ini ada
-import { SUB_TIPE_FORM_MAP, TIPE_FORM_MAP } from "@/lib/constants";
+import { combinedForms, SUB_TIPE_FORM_MAP, TIPE_FORM_MAP } from "@/lib/constants";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { POKs } from "@/data/entri-pembiayaan";
+import { FormPOK } from "@/lib/interface";
+import { SaveIcon } from "lucide-react";
+
 
 interface VStepFormProps {
   defaultValues?: any;
@@ -61,27 +62,34 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
 
   const { trigger } = methods;
 
+
+
+
   const [activeStep, setActiveStep] = React.useState(0);
-  const [pokTerpilih, setPokTerpilih] = React.useState<POK[]>(
-    (data?.pokTerpilih ?? []).map(p => ({
-      ...p,
-      paguAwal: p.nilai,
-      paguRevisi: 0,
-      paguBooked: 0,
-      paguReali: 0,
-      selfBlocking: 0,
-      kodeBeban: p.kode, // default asal sama
-      jenisP: "",
-      hargaSatuan: 0,
-      volume: 0,
-      satuan: "",
-      tipeForm: "",
-      ppk: "",
-      unitKerja: "",
-      status: "terpakai", // default aman
-    }))
-  );
-  const [dataPeserta, setDataPeserta] = React.useState<PerjalananDinas[]>(
+  const [pokTerpilih, setPokTerpilih] = React.useState<FormPOK[]>([]);
+  React.useEffect(() => {
+    if (readOnly) {
+      console.log("Setting pokTerpilih with dummy record");
+      setPokTerpilih([combinedForms[0]]);
+    } else {
+      if (data?.pokTerpilih) {
+        setPokTerpilih(data.pokTerpilih.map((p, i) => ({
+          id: `from-data-${i}`,               // generate id unik
+          grup: p.grup,
+          deskripsi: p.uraian ?? "-",         // fallback "-"
+          detail: p.detail ?? "-",
+          noSurat: "-",                       // default "-"
+          paguBooked: p.nilai ?? 0,           // jika nilai null/undefined fallback 0
+          paguReali: p.nilai ?? 0,            // sama dengan paguBooked jika tidak ada field lain
+          noPermintaan: "-",                  // default "-"
+          details: [],
+        })));
+      }
+    }
+  }, [readOnly, data]);
+
+
+  const [dataPeserta, setDataPeserta] = React.useState<Peserta[]>(
     (data?.dataPeserta ?? []).map((p) => ({
       nama: p.nama,
       gol: p.gol,
@@ -95,9 +103,9 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
 
 
   const steps = [
-    { label: "Informasi Umum", content: "Isi informasi umum permintaan" },
-    { label: "POK", content: "Pilih POK yang tersedia" },
-    { label: "Peserta Berangkat", content: "Tambahkan peserta yang berangkat" },
+    { label: "Informasi Umum", content: "Isi informasi umum rekap" },
+    { label: "Form POK", content: "Pilih Form POK yang tersedia" },
+    { label: "SPP, SPD, SP2D", content: "Isi nomor SPP, SPD, dan SP2D" },
   ];
 
 
@@ -167,6 +175,21 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
     setTimeout(() => router.push("/administrator/form-permintaan"), 1500);
   };
 
+  const [rekapStatus, setRekapStatus] = React.useState<"direkap" | "spm" | "sp2d">("direkap");
+
+  const [sppNomor, setSppNomor] = React.useState("");
+  const [sppTanggal, setSppTanggal] = React.useState("");
+
+  const [spmNomor, setSpmNomor] = React.useState("");
+  const [spmTanggal, setSpmTanggal] = React.useState("");
+
+  const [sp2dNomor, setSp2dNomor] = React.useState("");
+  const [sp2dTanggal, setSp2dTanggal] = React.useState("");
+
+  const isSPPComplete = () => sppNomor && sppTanggal;
+  const isSP2DComplete = () => sp2dNomor && sp2dTanggal;
+
+
 
   return (
     <div className="flex flex-col gap-4">
@@ -207,7 +230,7 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
             <form>
               <div className="grid grid-cols-12 gap-4">
                 {activeStep === 0 && (
-                  <StepInformasiUmum fileKAK={fileKAK} setFileKAK={setFileKAK} readOnly={readOnly} />
+                  <StepInformasiUmum readOnly={readOnly} />
                 )}
 
                 {activeStep === 1 && (
@@ -215,9 +238,21 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
                 )}
                 {activeStep === 2 && (
                   <StepPeserta
-                    dataPeserta={dataPeserta}
-                    setDataPeserta={setDataPeserta}
-                    readOnly={readOnly}
+                    rekapStatus={rekapStatus}
+                    sppNomor={sppNomor}
+                    sppTanggal={sppTanggal}
+                    spmNomor={spmNomor}
+                    spmTanggal={spmTanggal}
+                    sp2dNomor={sp2dNomor}
+                    sp2dTanggal={sp2dTanggal}
+                    setSppNomor={setSppNomor}
+                    setSppTanggal={setSppTanggal}
+                    setSpmNomor={setSpmNomor}
+                    setSpmTanggal={setSpmTanggal}
+                    setSp2dNomor={setSp2dNomor}
+                    setSp2dTanggal={setSp2dTanggal}
+                    disabled={rekapStatus === "sp2d"}
+                    readOnly={readOnly} // ← tambahkan ini
                   />
                 )}
               </div>
@@ -239,19 +274,48 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
 
         {activeStep === steps.length - 1 ? (
           <div className="flex gap-2">
-            <Button size="xs" variant="outline" onClick={handleSimpan}>
+            <Button size="xs" variant="outline">
+              <PrinterIcon className="h-5 w-5 mr-1" />
+              Cetak Rekap
+            </Button>
+            <Button size="xs" variant="outline">
+              <SaveIcon className="h-5 w-5 mr-1" />
               Simpan
             </Button>
-            <Button size="xs" color="primary" onClick={handleSubmitFinalConfirm}>
-              <PaperAirplaneIcon className="h-5 w-5 mr-1" />
-              Kirim PJ
-            </Button>
+
+
+            {rekapStatus === "direkap" && (
+              <Button
+                size="xs"
+                color="primary"
+                onClick={() => {
+                  setSpmNomor(sppNomor);
+                  setSpmTanggal(sppTanggal);
+                  setRekapStatus("spm");
+                }}
+                disabled={!isSPPComplete()}
+              >
+                <PaperAirplaneIcon className="h-5 w-5 mr-1" />
+                Terbitkan SPM
+              </Button>
+            )}
+
+            {rekapStatus === "spm" && (
+              <Button
+                size="xs"
+                color="success"
+                onClick={() => setRekapStatus("sp2d")}
+                disabled={!isSP2DComplete()}
+              >
+                <PaperAirplaneIcon className="h-5 w-5 mr-1" />
+                Finalisasi Rekap
+              </Button>
+            )}
 
           </div>
         ) : (
           <Button size="xs" variant="outline" onClick={handleNext}>
             Next
-            <ArrowRightIcon className="h-5 w-5" />
           </Button>
         )}
       </div>

@@ -21,22 +21,24 @@ import {
 } from "@/components/ui/select";
 import { CalculatorIcon } from "@heroicons/react/24/solid";
 import { InputGroup, InputGroupText } from "@/components/ui/input-group";
-import { getColumns, PerjalananDinas } from "../columns";
+import { getColumns, Peserta } from "../columns";
 import { DataTable } from "../data-table";
-import { asalOptions, tujuanOptions } from "../../../steps/step3";
+import { DetailPesertas } from "@/data/peserta-berangkat";
+import { asalOptions, tujuanOptions } from "@/app/administrator/(permintaan)/tambah-permintaan/steps/step3";
 
-const PesertaTable = ({ data, onUpdateTotal }: { data: PerjalananDinas[], onUpdateTotal: (i: number, t: number) => void }) => {
-  const columns = getColumns(onUpdateTotal);
+const PesertaTable = ({ data, onUpdateTotal, readOnly }: { data: Peserta[], onUpdateTotal: (i: number, t: number) => void, readOnly?: boolean }) => {
+  const columns = getColumns(onUpdateTotal, readOnly);
 
   return <DataTable columns={columns} data={data} />;
 };
 
 interface DialogFormProps {
-  data: PerjalananDinas;
+  data: Peserta;
   onSave: (updatedTotal: number) => void;
+  readOnly?: boolean;
 }
 
-const DialogForm = ({ data, onSave }: DialogFormProps) => {
+const DialogForm = ({ data, onSave, readOnly }: DialogFormProps) => {
   const [pergi, setPergi] = useState(data.pulangPergi.tanggalPergi || "");
   const [pulang, setPulang] = useState(data.pulangPergi.tanggalPulang || "");
   const [asal, setAsal] = useState(data.asal || "");
@@ -135,6 +137,39 @@ const DialogForm = ({ data, onSave }: DialogFormProps) => {
     }).format(number);
   };
 
+  useEffect(() => {
+    if (readOnly) {
+      const dummy = DetailPesertas[0]; // atau data dummy sesuai kebutuhanmu
+
+      setPergi(dummy.pulangPergi.tanggalPergi);
+      setPulang(dummy.pulangPergi.tanggalPulang);
+      setAsal(dummy.asal);
+      setTujuan(dummy.tujuan);
+
+      setTransportPergi(dummy.transportPergi);
+      setTransportPulang(dummy.transportPulang);
+
+      setTaksiAsal(dummy.taksiAsal);
+      setTaksiTujuan(dummy.taksiTujuan);
+
+      setLamaTranslok(dummy.lamaTranslok);
+      setRateTranslok(dummy.rateTranslok);
+
+      setLamaHotel(dummy.lamaHotel);
+      setRateHotel(dummy.rateHotel);
+
+      setLamaUangHarian(dummy.lamaUangHarian);
+      setRateUangHarian(dummy.rateUangHarian);
+
+      setLamaUangSaku(dummy.lamaUangSaku);
+      setRateUangSaku(dummy.rateUangSaku);
+
+      setLamaRepresentatif(dummy.lamaRepresentatif);
+      setRateRepresentatif(dummy.rateRepresentatif);
+    }
+  }, [readOnly]);
+
+
   const handleSimpan = () => {
     onSave(totalSemua);
   };
@@ -159,7 +194,7 @@ const DialogForm = ({ data, onSave }: DialogFormProps) => {
             <div className="grid grid-cols-5 gap-4">
               <div>
                 <Label>Asal</Label>
-                <Select>
+                <Select value={asal} onValueChange={setAsal}>
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih Asal" />
                   </SelectTrigger>
@@ -175,7 +210,7 @@ const DialogForm = ({ data, onSave }: DialogFormProps) => {
 
               <div>
                 <Label>Tujuan</Label>
-                <Select>
+                <Select value={tujuan} onValueChange={setTujuan}>
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih Tujuan" />
                   </SelectTrigger>

@@ -15,8 +15,9 @@ import VStepFormSimulasi from "./import-simulasi/import-simulasi";
 import VStepFormPeserta from "./import-peserta/import-peserta";
 interface DataTableToolbarProps {
   table: Table<any>;
+  readOnly?: boolean;
 }
-export function DataTableToolbar({ table }: DataTableToolbarProps) {
+export function DataTableToolbar({ table, readOnly }: DataTableToolbarProps) {
   const globalFilter = table.getState().globalFilter as string;
 
   const statusColumn = table.getColumn("status");
@@ -39,7 +40,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
     table.resetColumnFilters(); // Reset filters
     table.setGlobalFilter(""); // Reset global search
   };
-  
+
   // const statusColumn = table.getColumn("status");
   // const priorityColumn = table.getColumn("priority");
 
@@ -49,15 +50,15 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
       <div className="flex flex-1 items-center gap-2">
         {/* Tombol Refresh (di luar max-w-sm) */}
         <Button
-  type="button"
-  color="primary"
-  variant="outline"
-  size="md"
-  icon={Refresh}
-  onClick={handleRefresh}
->
-  Refresh
-</Button>
+          type="button"
+          color="primary"
+          variant="outline"
+          size="md"
+          icon={Refresh}
+          onClick={handleRefresh}
+        >
+          Refresh
+        </Button>
 
 
         {/* Container kecil untuk Search & Reset (max-w-sm) */}
@@ -78,17 +79,26 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
               <X className="ltr:ml-2 rtl:mr-2 h-4 w-4" />
             </Button>
           )}
-        </div>  
+        </div>
       </div>
 
       {/* Container kanan: Semua tombol di kanan */}
-      <div className="flex items-center gap-2">
-      <VStepFormSimulasi/>
-      <VStepFormPeserta/>
-      <Button type="button" color="destructive" variant="outline" size="md" icon={Trash2Icon}>
-          Kosongkan Tabel
-        </Button>
-      </div>
+
+      {!readOnly && (
+        <div className="flex items-center gap-2">
+          <VStepFormSimulasi />
+          <VStepFormPeserta />
+          <Button
+            type="button"
+            color="destructive"
+            variant="outline"
+            size="md"
+            icon={Trash2Icon}
+          >
+            Kosongkan Tabel
+          </Button>
+        </div>
+      )}
     </div>
 
   );
@@ -101,7 +111,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
         className="h-9 min-w-[200px] max-w-sm"
       /> */}
 
-      {/* {statusColumn && (
+{/* {statusColumn && (
         <DataTableFacetedFilter
           column={statusColumn}
           title="Status"
@@ -125,4 +135,4 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
           <X className="ltr:ml-2 rtl:mr-2 h-4 w-4" />
         </Button>
       )} */}
-      {/* <DataTableViewOptions table={table} /> */}
+{/* <DataTableViewOptions table={table} /> */ }

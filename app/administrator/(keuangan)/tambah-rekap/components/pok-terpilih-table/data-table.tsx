@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Fragment } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from '@/components/ui/button'
 import Select from "react-select";
@@ -30,23 +31,63 @@ import {
 
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
-interface DataTableProps<TData> {
+import { ChevronDown } from "lucide-react";
+import { FormPOK } from "@/lib/interface";
+import { useState } from "react";
+import { formatRupiah } from "@/lib/utils";
+import DialogForm from "./simulasi-perjalanan/simulasi-perjalanan";
+
+interface DataTableProps<TData extends FormPOK> {
   columns: ColumnDef<TData>[];
   data: TData[];
 }
 
-export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
+export function DataTable<TData extends FormPOK>({ columns, data }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
     { id: "paguSisa", value: ["tersedia"] }, // filter pagu > 0
     { id: "status", value: ["terpakai"] },        // filter status terpakai
-  ]);  
+  ]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [expandedRows, setExpandedRows] = useState<string[]>([]);
+
+  const toggleExpand = (rowId: string) => {
+    setExpandedRows((prev) =>
+      prev.includes(rowId)
+        ? prev.filter((id) => id !== rowId)
+        : [...prev, rowId]
+    );
+  };
+
+  const columnsWithExpand = React.useMemo<ColumnDef<TData>[]>(
+    () => [
+      {
+        id: "expand",
+        header: "",
+        cell: ({ row }) => (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => toggleExpand(row.id)}
+          >
+            <ChevronDown
+              className={`h-4 w-4 transition-transform ${expandedRows.includes(row.id) ? "rotate-180" : ""
+                }`}
+            />
+          </Button>
+        ),
+        enableSorting: false,
+        enableHiding: false,
+      },
+      ...columns,
+    ],
+    [columns, expandedRows]
+  );
 
   const table = useReactTable({
     data,
-    columns,
+    columns: columnsWithExpand,
     state: {
       sorting,
       columnVisibility,
@@ -67,125 +108,39 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   });
 
   const selectedRows = table.getFilteredSelectedRowModel().rows;
-const selectedCount = selectedRows.length;
+  const selectedCount = selectedRows.length;
 
-const handleCancel = () => {
-  // Reset row selection
-  setRowSelection({});
-};
+  const handleCancel = () => {
+    // Reset row selection
+    setRowSelection({});
+  };
 
-const handleSaveSelected = () => {
-  console.log("Menyimpan data: ", selectedRows);
-  // Tambah logika simpan di sini
-};
-
-const satker: { value: string, label: string }[] = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-  
-const styles = {
-  control: (provided: any, state: any) => ({
-    ...provided,
-    minHeight: '2.25rem',
-    height: '2.25rem',
-    fontSize: '0.875rem',
-
-    backgroundColor: state.hasValue ? '#FFFFFF' : '#1D4ED8', // putih kalau ada value, biru-700 kalau belum dipilih
-    borderColor: '#1D4ED8', // selalu biru-700 border-nya
-
-    boxShadow: state.isFocused ? '0 0 0 1px #1D4ED8' : 'none',
-    '&:hover': {
-      borderColor: '#1D4ED8',
-    },
-  }),
-
-  placeholder: (provided: any, state: any) => ({
-    ...provided,
-    color: '#FFFFFF', // placeholder putih (belum ada value)
-    fontWeight: '500',
-  }),
-
-  singleValue: (provided: any, state: any) => ({
-    ...provided,
-    color: '#1D4ED8', // text biru-700 (kalau udah dipilih)
-    fontWeight: '500',
-  }),
-
-  valueContainer: (provided: any) => ({
-    ...provided,
-    height: '32px',
-    padding: '0 8px',
-  }),
-
-  indicatorsContainer: (provided: any) => ({
-    ...provided,
-    height: '32px',
-  }),
-
-  dropdownIndicator: (provided: any, state: any) => ({
-    ...provided,
-    padding: '4px',
-    color: state.hasValue
-      ? '#1D4ED8' // icon biru-700 kalau udah dipilih
-      : '#FFFFFF', // icon putih kalau belum
-    '&:hover': {
-      color: '#1D4ED8',
-    },
-  }),
-
-  clearIndicator: (provided: any, state: any) => ({
-    ...provided,
-    padding: '4px',
-    color: state.hasValue ? '#1D4ED8' : '#FFFFFF',
-    '&:hover': {
-      color: '#1D4ED8',
-    },
-  }),
-
-  menu: (provided: any) => ({
-    ...provided,
-    fontSize: '12px',
-  }),
-
-  option: (provided: any, state: any) => ({
-    ...provided,
-    fontSize: '12px',
-    backgroundColor: state.isSelected
-      ? '#1D4ED8'
-      : state.isFocused
-      ? '#DBEAFE'
-      : '#FFFFFF',
-    color: state.isSelected ? '#FFFFFF' : '#111827',
-    '&:hover': {
-      backgroundColor: '#DBEAFE',
-      color: '#111827',
-    },
-  }),
-};
+  const handleSaveSelected = () => {
+    console.log("Menyimpan data: ", selectedRows);
+    // Tambah logika simpan di sini
+  };
 
 
   return (
     <div className="space-y-4">
       {/* <DataTableFilter /> */}
       {selectedCount > 0 ? (
-    // Action Bar yang tadi kita bikin
-    <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 border rounded-full bg-primary-50 text-primary-700">
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="text-sm font-medium">
-        <Badge variant="outline">{selectedCount}/{table.getRowModel().rows.length} Selected</Badge>
+        // Action Bar yang tadi kita bikin
+        <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 border rounded-full bg-primary-50 text-primary-700">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="text-sm font-medium">
+              <Badge variant="outline">{selectedCount}/{table.getRowModel().rows.length} Selected</Badge>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Button onClick={handleCancel} size="xs" color="secondary" variant="outline" className="rounded-full bg-white">Batal</Button>
+            <Button onClick={handleSaveSelected} size="xs" color="destructive" className="rounded-full">Hapus POK Terpilih</Button>
+          </div>
         </div>
-      </div>
-      <div className="flex gap-2">
-        <Button onClick={handleCancel} size="xs" color="secondary" variant="outline" className="rounded-full bg-white">Batal</Button>
-        <Button onClick={handleSaveSelected} size="xs" color="primary" className="rounded-full">Tambah</Button>
-      </div>
-    </div>
-  ) : (
-    // Toolbar default kalau nggak ada row yang di-select
-    <DataTableToolbar table={table} />
-  )}
+      ) : (
+        // Toolbar default kalau nggak ada row yang di-select
+        <DataTableToolbar table={table} />
+      )}
       <div className="relative rounded-md border overflow-x-auto">
         <Table className="table-auto min-w-max">
           {/* HEADER */}
@@ -195,33 +150,32 @@ const styles = {
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
-                          key={header.id}
-                          colSpan={header.colSpan}
-                          className={
-                            header.column.id === "grup" || header.column.id === "aksi"
-                              ? "sticky z-10 drop-shadow-md bg-default-100"
-                              : header.column.id === "checkbox" || header.column.id === "status"
-                              ? "sticky z-10 bg-default-100"
-                              : ""
-                          }                                                  
-                          style={
-                            header.column.id === "checkbox"
-                              ? { left: 0, width: 50, minWidth: 50, zIndex: 20 }
-                              : header.column.id === "status"
-                              ? { left: 50, width: 60, minWidth: 60, zIndex: 25 }
-                              : header.column.id === "grup"
-                              ? { left: 110, width: 160, minWidth: 160, zIndex: 20 }
-                              : header.column.id === "aksi"
-                              ? { right: 0, width: 100, minWidth: 100, zIndex: 20 }
-                              : {}
-                          }
-                        >
-                        {header.isPlaceholder
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      className={
+                        ["aksi", "expand"].includes(
+                          header.column.id
+                        )
+                          ? "sticky z-10 drop-shadow-md bg-default-100"
+                          : ""
+                      }
+                      style={(() => {
+                        switch (header.column.id) {
+                          case "expand":
+                            return { left: 0, width: 50 };
+                          case "aksi":
+                            return { right: 0, width: 100 };
+                          default:
+                            return {};
+                        }
+                      })()}
+                    >
+                      {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
@@ -233,38 +187,81 @@ const styles = {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="group hover:bg-muted">
-                  {row.getVisibleCells().map((cell) => {
-                    const isSticky = cell.column.id === "grup" || cell.column.id === "aksi"  || cell.column.id === "checkbox" || cell.column.id === "status";
-                    return (
-                      <TableCell
-                        key={cell.id}
-                        className={`transition-colors duration-200 ease-in-out ${
-                          isSticky
-                            ? `sticky z-10 
-                               ${cell.column.id === "grup" || cell.column.id === "aksi" ? "drop-shadow-md" : ""} 
-                               ${row.getIsSelected() ? "bg-muted" : "bg-background"} 
-                               group-hover:bg-muted`
-                            : ""
-                        }`}                        
-                        style={
-                          cell.column.id === "checkbox"
-                            ? { left: 0, width: 50, minWidth: 50, zIndex: 20 }
-                            : cell.column.id === "status"
-                            ? { left: 50, width: 60, minWidth: 60, zIndex: 25 }
-                            : cell.column.id === "grup"
-                            ? { left: 110, width: 200, minWidth: 200, zIndex: 20 }
-                            : cell.column.id === "aksi"
-                            ? { right: 0, width: 100, minWidth: 100, zIndex: 10 }
-                            : {}
-                        }                        
+                <Fragment key={row.id}>
+                  <TableRow
+                    data-state={row.getIsSelected() && "selected"}
+                    className={`group hover:bg-muted ${expandedRows.includes(row.id) ? "bg-muted" : ""
+                      }`}
+                  >
+                    {row.getVisibleCells().map((cell) => {
+                      const isSticky = ["aksi", "expand"].includes(cell.column.id);
+                      return (
+                        <TableCell
+                          key={cell.id}
+                          className={`transition-colors duration-200 ease-in-out ${isSticky
+                            ? `sticky z-10 drop-shadow-md ${
+                                row.getIsSelected() || expandedRows.includes(row.id)
+                                  ? "bg-muted"
+                                  : "bg-background"
+                              } group-hover:bg-muted`
+                            : expandedRows.includes(row.id)
+                              ? "bg-muted"
+                              : ""
+                          }`}                          
+                          style={{
+                            ...(cell.column.id === "expand" && { left: 0, width: 50 }),
+                            ...(cell.column.id === "aksi" && { right: 0, width: 100 }),
+                          }}
                         >
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
 
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  {expandedRows.includes(row.id) && (
+                    <TableRow>
+                      <TableCell colSpan={table.getVisibleFlatColumns().length}>
+                        {(row.original as FormPOK).details && (
+                          <Table>
+                            <TableHeader className="bg-muted">
+                              <TableRow>
+                                <TableHead>Nama</TableHead>
+                                <TableHead>NIP</TableHead>
+                                <TableHead>Nomor SPD</TableHead>
+                                <TableHead>Tanggal SPD</TableHead>
+                                <TableHead>Tujuan</TableHead>
+                                <TableHead>Booked</TableHead>
+                                <TableHead>Realisasi</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Aksi</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {(row.original as FormPOK).details!.map((d, idx) => (
+                                <TableRow key={`${row.id}-${idx}`}>
+                                  <TableCell>{d.nama}</TableCell>
+                                  <TableCell>{d.nip}</TableCell>
+                                  <TableCell>{d.nomorSpd}</TableCell>
+                                  <TableCell>{d.tanggalSpd}</TableCell>
+                                  <TableCell>{d.tujuan}</TableCell>
+                                  <TableCell>{formatRupiah(d.booked)}</TableCell>
+                                  <TableCell>{formatRupiah(d.realisasi)}</TableCell>
+                                  <TableCell>
+                                    <Badge variant="outline">{d.status}</Badge>
+                                  </TableCell>
+                                  <TableCell>
+                                    <DialogForm />
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        )}
                       </TableCell>
-                    );
-                  })}
-                </TableRow>
+                    </TableRow>
+                  )}
+                </Fragment>
               ))
             ) : (
               <TableRow>
@@ -274,6 +271,7 @@ const styles = {
               </TableRow>
             )}
           </TableBody>
+
         </Table>
       </div>
       <DataTablePagination table={table} />

@@ -34,9 +34,10 @@ import { DataTableToolbar } from "./data-table-toolbar";
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
   data: TData[];
+  readOnly?: boolean;
 }
 
-export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
+export function DataTable<TData>({ columns, data, readOnly }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
@@ -169,7 +170,7 @@ const styles = {
 
   return (
     <div className="space-y-4">
-    <DataTableToolbar table={table} />
+    <DataTableToolbar table={table} readOnly={readOnly}/>
       <div className="relative rounded-md border overflow-x-auto">
         <Table className="table-auto min-w-max">
           {/* HEADER */}

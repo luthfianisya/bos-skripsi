@@ -1,22 +1,25 @@
 import { Fragment } from "react";
 import { getColumns } from "./columns";
 import { DataTable } from "./data-table";
-import { PerjalananDinas } from "./columns";
+import { Peserta } from "./columns";
 
 interface PesertaTableProps {
-  data: PerjalananDinas[];
+  data: Peserta[];
   onUpdateTotal: (index: number, total: number) => void;
+  readOnly: boolean;
 }
 
-export default function PesertaTable({ data, onUpdateTotal }: PesertaTableProps) {
-  const columns = getColumns(onUpdateTotal);
+export default function PesertaTable({ data, onUpdateTotal, readOnly }: PesertaTableProps) {
+  const columns = getColumns(onUpdateTotal, readOnly);
 
   return (
     <Fragment>
       <DataTable
         data={data}
         columns={columns}
+        readOnly={readOnly}
       />
     </Fragment>
   );
 }
+

@@ -1,26 +1,6 @@
-// export const TIPE_FORM_MAP: Record<string, string> = {
-//     "FORM - JLN": "Belanja Perjalanan Dinas Biasa",
-//     "FORM - NON OPR": "Belanja Barang Non Operasional",
-//     "FORM - BAHAN": "Belanja Bahan",
-//     "FORM - PERSEDIAAN": "Belanja Persediaan Barang Konsumsi",
-//     "FORM - PEMELIHARAAN": "Belanja Pemeliharaan",
-//     "FORM - MODAL": "Belanja Modal",
-//     "FORM - SEWA": "Belanja Sewa",
-//     "FORM - JASA KONSULTAN": "Belanja Jasa Konsultan",
-//     "FORM - JASA PROFESI": "Belanja Jasa Profesi",
-//     "FORM - HONOR": "Honor Output Kegiatan",
-//     "FORM - FULLDAY/HALFDAY": "Paket Pertemuan Fullday / Halfday",
-//     "FORM - FULLBOARD DALAM KOTA": "Fullboard Dalam Kota",
-//     "FORM - FULLBOARD LUAR KOTA": "Fullboard Luar Kota",
-//     "FORM - TRANSLOK": "Perjalanan Dalam Kota/Translok",
-//     "FORM -JASA LAINNYA": "Jasa Lainnya",
-//     "FORM - PERKANTORAN": "Operasional Perkantoran",
-//     "FORM – PAKET MEETING LAINNYA": "Paket Meeting Lainnya",
-//     "FORM - OPERASIONAL": "Operasional Barang Lainnya",
-//     "FORM - BELANJA LANGGANAN": "Belanja Langganan (Listrik/Air/Telepon)",
-//     "FORM - LEMBUR": "Lembur",
-//     "FORM - PENGHASILAN": "Belanja Penghasilan"
-// };
+import { dummyForms } from "@/data/form-permintaan-f";
+import { POKs } from "@/data/entri-pembiayaan";
+import { FormPOK, PegawaiDetail } from "@/lib/interface";
 
 export const statuses = [
     { label: "Terpakai", value: "terpakai" },
@@ -135,3 +115,42 @@ export const STATUS_PENCAIRAN_MAP: Record<string, string> = {
     { value: "ptup", label: "Pertanggungjawaban TUP (PTUP)" },
     { value: "tup", label: "Tambahan UP (TUP)" },
   ];
+
+
+
+  const dummyPegawai: PegawaiDetail[] = [
+    {
+      nama: "Budi Santoso",
+      nip: "198312122008031001",
+      nomorSpd: "SPD001",
+      tanggalSpd: "2025-07-01",
+      tujuan: "Jakarta",
+      booked: 500000,
+      realisasi: 450000,
+      status: "Selesai",
+    },
+    {
+      nama: "Ani Lestari",
+      nip: "198702182009032002",
+      nomorSpd: "SPD002",
+      tanggalSpd: "2025-07-02",
+      tujuan: "Bandung",
+      booked: 600000,
+      realisasi: 600000,
+      status: "Selesai",
+    },
+  ];
+  
+  export const combinedForms: FormPOK[] = dummyForms.map((form, index) => ({
+    id: `form-${index}`,
+    grup: POKs[index % POKs.length].grup, // ambil grup POK berurutan, looping jika habis
+    deskripsi: form.deskripsi,
+    detail: "-",
+    noSurat: form.noSurat,
+    paguBooked: 100000, // constant
+    paguReali: 100000,  // constant
+    noPermintaan: form.noPermintaan,
+    details: dummyPegawai, // ← tambahkan dummyPegawai di setiap baris
+  }));
+  
+  

@@ -23,26 +23,7 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/24/solid";
-import { Form } from "@/lib/interface";
-
-// export interface POK {
-//   grup: string;
-//   detail: string;
-//   paguAwal: number;
-//   paguRevisi: number;
-//   paguBooked: number;
-//   paguReali: number;
-//   selfBlocking: number;
-//   kodeBeban: string;
-//   jenisP: string;
-//   hargaSatuan: number;
-//   volume: number;
-//   satuan: string;
-//   tipeForm: string;
-//   ppk: string;
-//   unitKerja: string;
-//   status: "terpakai" | "revisi" | "tidak_terpakai"; // ✅ Tambah properti status
-// }
+import { FormPOK } from "@/lib/interface";
 
 const formatRupiah = (value: number): string =>
   new Intl.NumberFormat("id-ID", {
@@ -86,10 +67,8 @@ const EllipsisTooltip = ({ children }: { children: string }) => {
   );
 };
 
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-
-export const columns = (onTambah: (item: Form) => void): ColumnDef<Form>[] => [
+export const columns = (onTambah: (item: FormPOK) => void): ColumnDef<FormPOK>[] => [
   {
     accessorKey: "checkbox",
     header: ({ table }) => (
@@ -116,11 +95,11 @@ export const columns = (onTambah: (item: Form) => void): ColumnDef<Form>[] => [
     enableHiding: false,
   },
   {
-    accessorKey: "grup",
+    accessorKey: "noPermintaan",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="GRUP POK" />
+      <DataTableColumnHeader column={column} title="NOMOR PERMINTAAN" />
     ),
-    cell: ({ row }) => <div>{row.getValue("grup")}</div>,
+    cell: ({ row }) => <div>{row.getValue("noPermintaan")}</div>,
   },
   {
     accessorKey: "deskripsi",
@@ -150,6 +129,13 @@ export const columns = (onTambah: (item: Form) => void): ColumnDef<Form>[] => [
     cell: ({ row }) => <div>{row.getValue("noSurat")}</div>,
   },
   {
+    accessorKey: "grup",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="GRUP POK" />
+    ),
+    cell: ({ row }) => <div>{row.getValue("grup")}</div>,
+  },
+  {
     accessorKey: "paguBooked",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="PAGU BOOKED" />
@@ -162,13 +148,6 @@ export const columns = (onTambah: (item: Form) => void): ColumnDef<Form>[] => [
       <DataTableColumnHeader column={column} title="PAGU REALISASI" />
     ),
     cell: ({ row }) => <div className="text-right">{formatRupiah(row.getValue("paguReali"))}</div>,
-  },
-  {
-    accessorKey: "noPermintaan",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="NOMOR PERMINTAAN" />
-    ),
-    cell: ({ row }) => <div>{row.getValue("noPermintaan")}</div>,
   },
   {
     accessorKey: "aksi",
@@ -189,25 +168,4 @@ export const columns = (onTambah: (item: Form) => void): ColumnDef<Form>[] => [
     enableSorting: false,
     enableHiding: false,
   },
-
-
-  // {
-  //   accessorKey: "aksi",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="AKSI" />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <div className="flex justify-end">
-  //       <Button
-  //         size="sm"
-  //         variant="outline"
-  //         icon={ClockIcon}
-  //       >
-  //         Riwayat
-  //       </Button>
-  //     </div>
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
 ];

@@ -1,4 +1,4 @@
-import { PerjalananDinas } from "@/app/administrator/(permintaan)/tambah-permintaan/components/peserta-berangkat-table/columns";
+import { Peserta } from "@/app/administrator/(permintaan)/tambah-permintaan/components/peserta-berangkat-table/columns";
 import { ApprovalStatus } from "./type";
 
 // for calendar
@@ -52,8 +52,31 @@ export interface FullForm {
     ppk: ApprovalStatus;
   };
   pokTerpilih: any[]; // bisa ditentukan lebih spesifik
-  pesertaBerangkat: PerjalananDinas[];
+  pesertaBerangkat: Peserta[];
   kategoriPeserta: string;
+}
+
+export interface FormPOK {
+  id: string; 
+  grup: string;
+  deskripsi: string;
+  detail: string;
+  noSurat: string;
+  paguBooked: number;
+  paguReali: number;
+  noPermintaan: string;
+  details?: PegawaiDetail[]; 
+}
+
+export interface PegawaiDetail {
+  nama: string;
+  nip: string;
+  nomorSpd: string;
+  tanggalSpd: string;
+  tujuan: string;
+  booked: number;
+  realisasi: number;
+  status: string;
 }
 
 export interface Realisasi {
