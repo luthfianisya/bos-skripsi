@@ -10,8 +10,7 @@ import { PencilIcon } from "lucide-react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import DialogForm from "./simulasi-perjalanan/simulasi-perjalanan";
 import { useState } from "react";
-import { asalOptions, tujuanOptions } from "../../steps/step3";
-
+import { asalOptions, tujuanOptions } from "@/app/administrator/(permintaan)/tambah-permintaan/steps/step3";
 // Interface baru sesuai kebutuhan
 export interface Peserta {
   nama: string;
