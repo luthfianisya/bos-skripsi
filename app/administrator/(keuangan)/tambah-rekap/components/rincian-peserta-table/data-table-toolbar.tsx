@@ -10,9 +10,6 @@ import Refresh from "@/components/svg/duel-tone/arrow-path.svg";
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
-import VStepFormStatic from "./import-simulasi/import-simulasi";
-import VStepFormSimulasi from "./import-simulasi/import-simulasi";
-import VStepFormPeserta from "./import-peserta/import-peserta";
 interface DataTableToolbarProps {
   table: Table<any>;
 }
