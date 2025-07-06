@@ -25,9 +25,9 @@ const ErrorBlock = () => {
             The page you are looking for might have been removed had <br /> its
             name changed or is temporarily unavailable.
           </div>
-          <Button asChild className="mt-9  md:min-w-[300px]" size="lg">
+          {/* <Button asChild className="mt-9  md:min-w-[300px]" size="lg">
             <Link href="/dashboard">Go to Homepage</Link>
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>
