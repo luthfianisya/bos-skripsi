@@ -1,19 +1,16 @@
-import { format } from "date-fns";
-import { CalendarIcon, PencilIcon, CheckIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
 import { SaveIcon } from "lucide-react";
+import { PencilSquareIcon } from "@heroicons/react/24/solid";
 
 interface RowData {
   asal: string;
   tujuan: string;
   pergi: {
-    tanggal: string; // "2025-04-06"
+    tanggal: string;
     kendaraan: string;
   };
   pulang: {
@@ -22,8 +19,7 @@ interface RowData {
   };
 }
 
-
-export const columns: ColumnDef<any>[] = [
+export const columns = (isBlokTranslokActive: boolean): ColumnDef<any>[] => [
   {
     accessorKey: "asal",
     header: "Asal",
@@ -43,7 +39,7 @@ export const columns: ColumnDef<any>[] = [
       const [kendaraan, setKendaraan] = useState(row.original.pergi.kendaraan || "");
 
       return (
-        <div className="flex items-center gap-2  min-w-[150px]">
+        <div className="flex items-center gap-2 min-w-[150px]">
           {isEdit ? (
             <>
               <div className="flex flex-col gap-1 flex-1">
@@ -74,14 +70,16 @@ export const columns: ColumnDef<any>[] = [
                 <p className="text-sm">{tanggal || "-"}</p>
                 <p className="text-sm text-muted-foreground">{kendaraan || "-"}</p>
               </div>
-              <Button variant="ghost" size="icon" onClick={() => setIsEdit(true)} className="mt-1">
-                <PencilSquareIcon className="h-4 w-4" />
-              </Button>
+              {!isBlokTranslokActive && (
+                <Button variant="ghost" size="icon" onClick={() => setIsEdit(true)} className="mt-1">
+                  <PencilSquareIcon className="h-4 w-4" />
+                </Button>
+              )}
             </>
           )}
         </div>
       );
-    }
+    },
   },
   {
     accessorKey: "pulang",
@@ -123,14 +121,16 @@ export const columns: ColumnDef<any>[] = [
                 <p className="text-sm">{tanggal || "-"}</p>
                 <p className="text-sm text-muted-foreground">{kendaraan || "-"}</p>
               </div>
-              <Button variant="ghost" size="icon" onClick={() => setIsEdit(true)} className="mt-1">
-                <PencilSquareIcon className="h-4 w-4" />
-              </Button>
+              {!isBlokTranslokActive && (
+                <Button variant="ghost" size="icon" onClick={() => setIsEdit(true)} className="mt-1">
+                  <PencilSquareIcon className="h-4 w-4" />
+                </Button>
+              )}
             </>
           )}
         </div>
       );
-    }
+    },
   },
 ];
 
@@ -147,52 +147,4 @@ export const data: RowData[] = [
       kendaraan: "Mobil",
     },
   },
-  // {
-  //   asal: "Surabaya",
-  //   tujuan: "Yogyakarta",
-  //   pergi: {
-  //     tanggal: "2025-04-05",
-  //     kendaraan: "Pesawat",
-  //   },
-  //   pulang: {
-  //     tanggal: "2025-04-07",
-  //     kendaraan: "Pesawat",
-  //   },
-  // },
-  // {
-  //   asal: "Medan",
-  //   tujuan: "Jakarta",
-  //   pergi: {
-  //     tanggal: "2025-04-10",
-  //     kendaraan: "Mobil",
-  //   },
-  //   pulang: {
-  //     tanggal: "2025-04-12",
-  //     kendaraan: "Kereta",
-  //   },
-  // },
-  // {
-  //   asal: "Jakarta",
-  //   tujuan: "Bandung",
-  //   pergi: {
-  //     tanggal: "2025-04-01",
-  //     kendaraan: "Kereta",
-  //   },
-  //   pulang: {
-  //     tanggal: "2025-04-03",
-  //     kendaraan: "Mobil",
-  //   },
-  // },
-  // {
-  //   asal: "Jakarta",
-  //   tujuan: "Bandung",
-  //   pergi: {
-  //     tanggal: "2025-04-01",
-  //     kendaraan: "Kereta",
-  //   },
-  //   pulang: {
-  //     tanggal: "2025-04-03",
-  //     kendaraan: "Mobil",
-  //   },
-  // },
 ];

@@ -1,3 +1,5 @@
+import { namaDepanPerempuan, namaDepanLaki, namaBelakangPerempuan, namaBelakangLaki, wilayahList, organisasiOptions, domainAlternatif } from "../constants";
+
 export interface Mitra {
     id: number;
     nama: string;
@@ -10,36 +12,7 @@ export interface Mitra {
     email: string;
     wilayah: string;
   }
-  
-  const organisasiOptions = [
-    "[03100] Mitra Pengemudi",
-    "[04100] Mitra Taman",
-    "[04110] Mitra Taman Komplek",
-    "[04400] Mitra Resepsionis",
-    "[04500] Mitra Poliklinik",
-    "[04900] Mitra Penata Arsip",
-    "[05100] Mitra Petugas Kebersihan",
-    "[05400] Mitra Teknisi",
-    "[05500] Mitra Satpam",
-    "[05800] Mitra Administrasi",
-    "[05900] Mitra STIS",
-    "[06600] Mitra Orang luar",
-    "[06770] Mitra Sensus/Survei Sobat",
-    "[06790] Mitra Pengolahan",
-    "[08500] Mitra Magang"
-  ];
-  
-  const wilayahList = [
-    "Jakarta", "Bandung", "Surabaya", "Medan", "Semarang", 
-    "Yogyakarta", "Makassar", "Palembang", "Denpasar", "Padang"
-  ];
-  
-  const namaDepanLaki = ["Andi", "Budi", "Dedi", "Eko", "Fajar", "Gilang", "Hadi", "Iqbal", "Joko", "Kurniawan"];
-  const namaBelakangLaki = ["Saputra", "Santoso", "Wijaya", "Purnama", "Haryanto"];
-  const namaDepanPerempuan = ["Ayu", "Bella", "Citra", "Dewi", "Eka", "Fitri", "Gita", "Indah", "Lestari", "Maya"];
-  const namaBelakangPerempuan = ["Susanti", "Permata", "Anggraini", "Melati", "Wulandari"];
-  
-  const domainAlternatif = ["gmail.com", "yahoo.com", "outlook.com", "mail.com"];
+
   
   function generateNIPLama(i: number): string {
     const kodeInstansi = String(Math.floor(Math.random() * 99) + 1).padStart(2, '0');
@@ -59,11 +32,18 @@ export interface Mitra {
         ? namaBelakangPerempuan[Math.floor(Math.random() * namaBelakangPerempuan.length)]
         : namaBelakangLaki[Math.floor(Math.random() * namaBelakangLaki.length)];
       const fullName = `${depan} ${belakang}`;
+  
       const wilayah = wilayahList[Math.floor(Math.random() * wilayahList.length)];
-      const organisasi = organisasiOptions[Math.floor(Math.random() * organisasiOptions.length)];
+  
+      // Ambil organisasiObj dari organisasiOptions (value=kode, label=nama)
+      const organisasiObj = organisasiOptions[Math.floor(Math.random() * organisasiOptions.length)];
+      const organisasi = organisasiObj.label;
+      const organisasiKode = organisasiObj.value; // jika nanti ingin disimpan
   
       // Email domain
-      const domain = Math.random() < 0.7 ? "bps.go.id" : domainAlternatif[Math.floor(Math.random() * domainAlternatif.length)];
+      const domain = Math.random() < 0.7 
+        ? "bps.go.id" 
+        : domainAlternatif[Math.floor(Math.random() * domainAlternatif.length)];
       const email = `${depan.toLowerCase()}.${belakang.toLowerCase()}${i}@${domain}`;
   
       // Default optional fields
@@ -127,4 +107,3 @@ export interface Mitra {
   
     return data;
   }
-  

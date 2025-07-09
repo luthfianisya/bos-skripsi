@@ -39,7 +39,7 @@ import {
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 import DataTableFilter from "./data-table-filter";
-import { CalculatorIcon, LockClosedIcon, PaperAirplaneIcon, PrinterIcon } from "@heroicons/react/24/solid";
+import { CalculatorIcon, LockClosedIcon, LockOpenIcon, PaperAirplaneIcon, PrinterIcon } from "@heroicons/react/24/solid";
 import { realisasis, Realisasi } from "./columns";
 
 
@@ -48,6 +48,8 @@ interface DataTableProps<TData> {
   data: TData[];
 }
 import { getColumns } from "./columns"; // ganti path sesuai lokasi file columns.tsx
+import RealisasiTranslok from "./realisasi-translok/realisasi-translok";
+import RealisasiTranslokGroup from "./realisasi-translok-group/realisasi-translok";
 
 export function DataTable<TData extends Realisasi>({
   data,
@@ -59,8 +61,8 @@ export function DataTable<TData extends Realisasi>({
   const [isBlokTranslokActive, setIsBlokTranslokActive] = React.useState(false);
   const [isKirimTranslokActive, setIsKirimTranslokActive] = React.useState(false);
 
-// Panggil getColumns dengan state aktif
-const columns = React.useMemo(() => getColumns(isBlokTranslokActive), [isBlokTranslokActive]);
+  // Panggil getColumns dengan state aktif
+  const columns = React.useMemo(() => getColumns(isBlokTranslokActive), [isBlokTranslokActive]);
 
 
   const handleToggleKirimTranslok = () => {
@@ -102,97 +104,6 @@ const columns = React.useMemo(() => getColumns(isBlokTranslokActive), [isBlokTra
     setRowSelection({});
   };
 
-  const handleSaveSelected = () => {
-    console.log("Menyimpan data: ", selectedRows);
-    // Tambah logika simpan di sini
-  };
-
-  const satker: { value: string, label: string }[] = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
-
-  const styles = {
-    control: (provided: any, state: any) => ({
-      ...provided,
-      minHeight: '2.25rem',
-      height: '2.25rem',
-      fontSize: '0.875rem',
-
-      backgroundColor: state.hasValue ? '#FFFFFF' : '#1D4ED8', // putih kalau ada value, biru-700 kalau belum dipilih
-      borderColor: '#1D4ED8', // selalu biru-700 border-nya
-
-      boxShadow: state.isFocused ? '0 0 0 1px #1D4ED8' : 'none',
-      '&:hover': {
-        borderColor: '#1D4ED8',
-      },
-    }),
-
-    placeholder: (provided: any, state: any) => ({
-      ...provided,
-      color: '#FFFFFF', // placeholder putih (belum ada value)
-      fontWeight: '500',
-    }),
-
-    singleValue: (provided: any, state: any) => ({
-      ...provided,
-      color: '#1D4ED8', // text biru-700 (kalau udah dipilih)
-      fontWeight: '500',
-    }),
-
-    valueContainer: (provided: any) => ({
-      ...provided,
-      height: '32px',
-      padding: '0 8px',
-    }),
-
-    indicatorsContainer: (provided: any) => ({
-      ...provided,
-      height: '32px',
-    }),
-
-    dropdownIndicator: (provided: any, state: any) => ({
-      ...provided,
-      padding: '4px',
-      color: state.hasValue
-        ? '#1D4ED8' // icon biru-700 kalau udah dipilih
-        : '#FFFFFF', // icon putih kalau belum
-      '&:hover': {
-        color: '#1D4ED8',
-      },
-    }),
-
-    clearIndicator: (provided: any, state: any) => ({
-      ...provided,
-      padding: '4px',
-      color: state.hasValue ? '#1D4ED8' : '#FFFFFF',
-      '&:hover': {
-        color: '#1D4ED8',
-      },
-    }),
-
-    menu: (provided: any) => ({
-      ...provided,
-      fontSize: '12px',
-    }),
-
-    option: (provided: any, state: any) => ({
-      ...provided,
-      fontSize: '12px',
-      backgroundColor: state.isSelected
-        ? '#1D4ED8'
-        : state.isFocused
-          ? '#DBEAFE'
-          : '#FFFFFF',
-      color: state.isSelected ? '#FFFFFF' : '#111827',
-      '&:hover': {
-        backgroundColor: '#DBEAFE',
-        color: '#111827',
-      },
-    }),
-  };
-
 
   return (
     <div className="space-y-4">
@@ -211,14 +122,9 @@ const columns = React.useMemo(() => getColumns(isBlokTranslokActive), [isBlokTra
                     <Button
                       size="sm"
                       onClick={handleBlokTranslok}
-                      icon={LockClosedIcon}
-                      className={isBlokTranslokActive
-                        ? ""
-                        : "bg-white"}
-                      variant={isBlokTranslokActive
-                        ? undefined
-                        : "outline"}
-                      color="primary"
+                      icon={isBlokTranslokActive ? LockClosedIcon : LockOpenIcon}
+                      color={isBlokTranslokActive ? "secondary" : "primary"}
+                      variant={isBlokTranslokActive ? "outline" : null}
                     >
                       {isBlokTranslokActive ? "Unblok Translok" : "Blok Translok"}
                     </Button>
@@ -230,18 +136,7 @@ const columns = React.useMemo(() => getColumns(isBlokTranslokActive), [isBlokTra
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-
-
-
-              <Button size="sm" variant="outline" color="primary" className="bg-white" icon={CalculatorIcon} onClick={() => console.log("Hitung Realisasi")}>
-                Hitung Realisasi
-              </Button>
-              {/* <Button size="sm" variant="outline" color="primary" className="bg-white" icon={PrinterIcon} onClick={() => console.log("Cetak SPJ")}>
-                Cetak SPJ
-              </Button> */}
-              {/* <Button size="sm" color="primary" icon={PaperAirplaneIcon} onClick={() => console.log("Kirim Translok")}>
-                Kirim Translok
-              </Button> */}
+              <RealisasiTranslokGroup/>
             </div>
 
           </div>

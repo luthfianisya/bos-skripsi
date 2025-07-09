@@ -1,14 +1,8 @@
 "use client";
 import { X, Plus, PlusCircleIcon, PrinterIcon } from "lucide-react";
-import * as Icon from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import { DataTableViewOptions } from "./data-table-view-options";
-import Importb from "@/components/svg/duel-tone/document-arrow-up.svg";
 import Refresh from "@/components/svg/duel-tone/arrow-path.svg";
-import CreateTask from "./tambah-mitra";
-// import { priorities, statuses } from "../data/data";
-// import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
 import VStepFormPembiayaan from "./import-pembiayaan/import-pembiayaan";
@@ -95,7 +89,6 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
         </Button>
         <VStepFormPembiayaan/>
       </div>
-      <CreateTask open={open} onClose={handleSheetOpen} />
     </div>
 
   );

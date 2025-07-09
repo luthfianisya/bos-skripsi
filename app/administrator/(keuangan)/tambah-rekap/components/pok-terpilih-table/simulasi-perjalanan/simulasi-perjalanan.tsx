@@ -9,6 +9,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
+
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -19,10 +22,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CalculatorIcon } from "@heroicons/react/24/solid";
+import { CalculatorIcon, InformationCircleIcon } from "@heroicons/react/24/solid";
 import { InputGroup, InputGroupText } from "@/components/ui/input-group";
+import { Badge } from "@/components/ui/badge";
 
 const DialogForm = () => {
+  const promise = () =>
+    new Promise((resolve) => setTimeout(() => resolve({ name: "Sonner" }), 1000));
+
   const [pergi, setPergi] = useState("");
   const [pulang, setPulang] = useState("");
   const [lamaHari, setLamaHari] = useState(0);
@@ -31,34 +38,34 @@ const DialogForm = () => {
   const [transportPergi, setTransportPergi] = useState(0);
   const [transportPulang, setTransportPulang] = useState(0);
 
-    // TAKSI
-    const [taksiAsal, setTaksiAsal] = useState(0);
-    const [taksiTujuan, setTaksiTujuan] = useState(0);
+  // TAKSI
+  const [taksiAsal, setTaksiAsal] = useState(0);
+  const [taksiTujuan, setTaksiTujuan] = useState(0);
 
-    // TRANSLOK
-    const [lamaTranslok, setLamaTranslok] = useState(0);
-    const [rateTranslok, setRateTranslok] = useState(0);
-    const [totalTranslok, setTotalTranslok] = useState(0);
+  // TRANSLOK
+  const [lamaTranslok, setLamaTranslok] = useState(0);
+  const [rateTranslok, setRateTranslok] = useState(0);
+  const [totalTranslok, setTotalTranslok] = useState(0);
 
-    // HOTEL
-    const [lamaHotel, setLamaHotel] = useState(0);
-    const [rateHotel, setRateHotel] = useState(0);
-    const [totalHotel, setTotalHotel] = useState(0);
+  // HOTEL
+  const [lamaHotel, setLamaHotel] = useState(0);
+  const [rateHotel, setRateHotel] = useState(0);
+  const [totalHotel, setTotalHotel] = useState(0);
 
-    // UANG HARIAN
-    const [lamaUangHarian, setLamaUangHarian] = useState(0);
-    const [rateUangHarian, setRateUangHarian] = useState(0);
-    const [totalUangHarian, setTotalUangHarian] = useState(0);
+  // UANG HARIAN
+  const [lamaUangHarian, setLamaUangHarian] = useState(0);
+  const [rateUangHarian, setRateUangHarian] = useState(0);
+  const [totalUangHarian, setTotalUangHarian] = useState(0);
 
-    // UANG SAKU
-    const [lamaUangSaku, setLamaUangSaku] = useState(0);
-    const [rateUangSaku, setRateUangSaku] = useState(0);
-    const [totalUangSaku, setTotalUangSaku] = useState(0);
+  // UANG SAKU
+  const [lamaUangSaku, setLamaUangSaku] = useState(0);
+  const [rateUangSaku, setRateUangSaku] = useState(0);
+  const [totalUangSaku, setTotalUangSaku] = useState(0);
 
-    // REPRESENTATIF
-    const [lamaRepresentatif, setLamaRepresentatif] = useState(0);
-    const [rateRepresentatif, setRateRepresentatif] = useState(0);
-    const [totalRepresentatif, setTotalRepresentatif] = useState(0);
+  // REPRESENTATIF
+  const [lamaRepresentatif, setLamaRepresentatif] = useState(0);
+  const [rateRepresentatif, setRateRepresentatif] = useState(0);
+  const [totalRepresentatif, setTotalRepresentatif] = useState(0);
 
 
   // Fungsi untuk hitung lama hari secara otomatis
@@ -87,29 +94,34 @@ const DialogForm = () => {
   useEffect(() => {
     setTotalHotel(lamaHotel * rateHotel);
   }, [lamaHotel, rateHotel]);
-  
+
   useEffect(() => {
     setTotalUangHarian(lamaUangHarian * rateUangHarian);
   }, [lamaUangHarian, rateUangHarian]);
-  
+
   useEffect(() => {
     setTotalUangSaku(lamaUangSaku * rateUangSaku);
   }, [lamaUangSaku, rateUangSaku]);
-  
+
   useEffect(() => {
     setTotalRepresentatif(lamaRepresentatif * rateRepresentatif);
   }, [lamaRepresentatif, rateRepresentatif]);
 
+  const [bruto, setBruto] = useState(0);
+  const [ppn, setPpn] = useState(0);
+  const [pph22, setPph22] = useState(0);
+  const [pph23, setPph23] = useState(0);
+
   const totalSemua =
-  transportPergi +
-  transportPulang +
-  taksiAsal +
-  taksiTujuan +
-  totalTranslok +
-  totalHotel +
-  totalUangHarian +
-  totalUangSaku +
-  totalRepresentatif;
+    transportPergi +
+    transportPulang +
+    taksiAsal +
+    taksiTujuan +
+    totalTranslok +
+    totalHotel +
+    totalUangHarian +
+    totalUangSaku +
+    totalRepresentatif;
 
   const formatRupiah = (number: number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -117,7 +129,7 @@ const DialogForm = () => {
       currency: "IDR",
       minimumFractionDigits: 0,
     }).format(number);
-  };  
+  };
 
   return (
     <Dialog>
@@ -126,267 +138,118 @@ const DialogForm = () => {
           <CalculatorIcon className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent size="4xl">
+      <DialogContent size="2xl">
         <DialogHeader className="p-0 mb-4">
           <DialogTitle className="text-base font-semibold text-default-700">
-            Tambah Biaya Perjalanan
+            Tambah Nilai Realisasi
           </DialogTitle>
         </DialogHeader>
 
         <ScrollArea className="max-h-[70vh]">
-          <div className="flex flex-col gap-6">
-            {/* ASAL - TUJUAN - PERGI - PULANG - LAMA HARI */}
-            <div className="grid grid-cols-5 gap-4">
-              <div>
-                <Label>Asal</Label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih Asal" />
-                  </SelectTrigger>
-                  <SelectContent className="z-[10000]">
-                    <SelectItem value="jakarta">Jakarta</SelectItem>
-                    <SelectItem value="bandung">Bandung</SelectItem>
-                  </SelectContent>
-                </Select>
+          <div className="flex flex-col gap-4">
+            <div className="border-b pb-4 flex flex-col gap-4">
+              <div className="flex justify-between items-center border-b pb-2">
+                <h2 className="text-base font-semibold">Informasi Nota</h2>
+                <div className="flex gap-4 items-center">
+                  <Label className="text-sm">Tanggal</Label>
+                  <Input type="date" className="h-9 w-48" />
+                </div>
               </div>
 
-              <div>
-                <Label>Tujuan</Label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih Tujuan" />
-                  </SelectTrigger>
-                  <SelectContent className="z-[10000]">
-                    <SelectItem value="surabaya">Surabaya</SelectItem>
-                    <SelectItem value="medan">Medan</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label>Pergi</Label>
+              {/* Detail Uraian */}
+              <div className="flex flex-col gap-2">
+                <Label>Detail Uraian</Label>
                 <Input
-                  type="date"
-                  className="w-full"
-                  value={pergi}
-                  onChange={(e) => setPergi(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <Label>Pulang</Label>
-                <Input
-                  type="date"
-                  className="w-full"
-                  value={pulang}
-                  onChange={(e) => setPulang(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <Label>Lama Hari</Label>
-                <Input
-                  type="number"
-                  placeholder="0 Hari"
+                  type="text"
+                  placeholder="Tulis detail uraian di sini"
                   className="h-10"
-                  value={lamaHari}
-                  readOnly
                 />
               </div>
             </div>
 
-            {/* TRANSPORT */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label>Transport Utama Pergi</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Masukkan jumlah uang transport utama pergi"  className="h-10"
-                    value={transportPergi}
-                    onChange={(e) => setTransportPergi(Number(e.target.value))}
-                    />
-                </InputGroup>
-              </div>
-              <div>
-                <Label>Transport Utama Pulang</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Masukkan jumlah uang transport utama pulang"  className="h-10"
-                    value={transportPulang}
-                    onChange={(e) => setTransportPulang(Number(e.target.value))}/>
-                </InputGroup>
-              </div>
+
+            <div className="border-b pb-2 flex justify-between items-center">
+              <h2 className="text-base font-semibold">Biaya</h2>
+
+              <Badge variant="outline" className="flex items-center gap-1 text-sm font-semibold py-1 rounded-full">
+                <InformationCircleIcon className="h-4 w-4" />
+                <span>Total Booked Rp 500.000</span>
+              </Badge>
             </div>
 
-            {/* TAKSI */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label>Taksi Asal</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Masukkan jumlah uang taksi asal"  className="h-10" 
-                    value={taksiAsal}
-                    onChange={(e) => setTaksiAsal(Number(e.target.value))}
-                    />
-                </InputGroup>
-              </div>
-              <div>
-                <Label>Taksi Tujuan</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Masukkan jumlah uang taksi tujuan"  className="h-10"
-                    value={taksiTujuan}
-                    onChange={(e) => setTaksiTujuan(Number(e.target.value))}
-                    />
-                </InputGroup>
-              </div>
-            </div>
 
-            {/* TRANLOK */}
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <Label>Lama Translok</Label>
-                <Input type="number" placeholder="0" className="h-10" 
-                value={lamaTranslok}
-                onChange={(e) => setLamaTranslok(Number(e.target.value))}/>
-              </div>
-              <div>
-                <Label>Rate Translok</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Masukkan rate translok"  className="h-10"
-                    value={rateTranslok}
-                    onChange={(e) => setRateTranslok(Number(e.target.value))}
-                    />
-                </InputGroup>
-              </div>
-              <div>
-                <Label>Total Translok</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Total Translok"  className="h-10" value={totalTranslok}/>
-                </InputGroup>
-              </div>
-            </div>
 
-            {/* HOTEL */}
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <Label>Lama Hotel</Label>
-                <Input type="number" placeholder="0" className="h-10" 
-                value={lamaHotel}
-                onChange={(e) => setLamaHotel(Number(e.target.value))}
+            {/* Bruto */}
+            <div className="flex gap-8 items-center border-b pb-4">
+              <Label className="w-12">Bruto</Label>
+              <InputGroup className="h-10 flex flex-1">
+                <InputGroupText>Rp</InputGroupText>
+                <Input
+                  type="text"
+                  placeholder="Masukkan bruto"
+                  className="h-10 text-end text-sm"
+                  value={bruto}
+                  onChange={(e) => setBruto(Number(e.target.value))}
                 />
-              </div>
-              <div>
-                <Label>Rate Hotel</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Masukkan rate hotel"  className="h-10"
-                    value={rateHotel}
-                    onChange={(e) => setRateHotel(Number(e.target.value))}
-                    />
-                </InputGroup>
-              </div>
-              <div>
-                <Label>Total Biaya Hotel</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Total biaya hotel"  className="h-10" value={totalHotel}/>
-                </InputGroup>
-              </div>
+              </InputGroup>
             </div>
 
-            {/* UANG HARIAN */}
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <Label>Lama Uang Harian</Label>
-                <Input type="number" placeholder="0" className="h-10" 
-                value={lamaUangHarian}
-                onChange={(e) => setLamaUangHarian(Number(e.target.value))}
+            {/* PPN */}
+            <div className="flex gap-8 items-center justify-end">
+              <Label className="w-12">PPN</Label>
+              <InputGroup className="h-10 w-52">
+                <InputGroupText>Rp</InputGroupText>
+                <Input
+                  type="text"
+                  placeholder="Masukkan PPN"
+                  className="h-10 text-end text-sm"
+                  value={ppn}
+                  onChange={(e) => setPpn(Number(e.target.value))}
                 />
-              </div>
-              <div>
-                <Label>Rate Uang Harian</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Masukkan rate uang harian"  className="h-10"
-                    value={rateUangHarian}
-                    onChange={(e) => setRateUangHarian(Number(e.target.value))}
-                    />
-                </InputGroup>
-              </div>
-              <div>
-                <Label>Total Uang Harian</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Total uang harian"  className="h-10" value={totalUangHarian}/>
-                </InputGroup>
-              </div>
+              </InputGroup>
             </div>
 
-            {/* UANG SAKU */}
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <Label>Lama Uang Saku</Label>
-                <Input type="number" placeholder="0" className="h-10" 
-                value={lamaUangSaku}
-                onChange={(e) => setLamaUangSaku(Number(e.target.value))}
+            {/* PPh 22 */}
+            <div className="flex gap-8 items-center justify-end">
+              <Label className="w-12">PPh 22</Label>
+              <InputGroup className="h-10 w-52">
+                <InputGroupText>Rp</InputGroupText>
+                <Input
+                  type="text"
+                  placeholder="Masukkan PPh 22"
+                  className="h-10 text-end text-sm"
+                  value={pph22}
+                  onChange={(e) => setPph22(Number(e.target.value))}
                 />
-              </div>
-              <div>
-                <Label>Rate Uang Saku</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Masukkan rate uang saku"  className="h-10" 
-                    value={rateUangSaku}
-                    onChange={(e) => setRateUangSaku(Number(e.target.value))}
-                    />
-                </InputGroup>
-              </div>
-              <div>
-                <Label>Total Uang Saku</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Total uang saku"  className="h-10" value={totalUangSaku}/>
-                </InputGroup>
-              </div>
+              </InputGroup>
             </div>
 
-            {/* REPRESENTATIF */}
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <Label>Lama Representatif</Label>
-                <Input type="number" placeholder="0" className="h-10" 
-                value={lamaRepresentatif}
-                onChange={(e) => setLamaRepresentatif(Number(e.target.value))}
+            {/* PPh 23 */}
+            <div className="flex gap-8 items-center justify-end">
+              <Label className="w-12">PPh 23</Label>
+              <InputGroup className="h-10 w-52">
+                <InputGroupText>Rp</InputGroupText>
+                <Input
+                  type="text"
+                  placeholder="Masukkan PPh 23"
+                  className="h-10 text-end text-sm"
+                  value={pph23}
+                  onChange={(e) => setPph23(Number(e.target.value))}
                 />
-              </div>
-              <div>
-                <Label>Rate Representatif</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input 
-                    type="text" placeholder="Masukkan rate representatif"  className="h-10" 
-                    value={rateRepresentatif}
-                    onChange={(e) => setRateRepresentatif(Number(e.target.value))}/>
-                </InputGroup>
-              </div>
-              <div>
-                <Label>Total Representatif</Label>
-                <InputGroup className="h-10">
-                    <InputGroupText>Rp</InputGroupText>
-                    <Input type="text" placeholder="Total Representatif"  className="h-10" value={totalRepresentatif}/>
-                </InputGroup>
-              </div>
+              </InputGroup>
             </div>
 
-            {/* TOTAL */}
-            <div className="mt-4">
-              <Label className="font-semibold">TOTAL</Label>
-              <Input type="text" placeholder="Rp 0" className="h-12 font-bold text-lg text-right"   value={formatRupiah(totalSemua)}/>
+            <div className="border-t pt-4 flex gap-2 flex-col">
+              <Label>Netto</Label>
+              <Input
+                type="text"
+                className="h-10 font-bold text-base text-right"
+                value={formatRupiah(bruto - (ppn + pph22 + pph23))}
+                readOnly
+              />
             </div>
           </div>
+
         </ScrollArea>
 
         {/* BUTTONS */}
@@ -396,9 +259,24 @@ const DialogForm = () => {
               Batal
             </Button>
           </DialogClose>
-          <Button type="button" color="primary" size="md">
-            Simpan
-          </Button>
+          <DialogClose asChild>
+            <Button
+              type="button"
+              color="primary"
+              size="md"
+              onClick={() =>
+                toast.promise(promise(), {
+                  loading: "Menyimpan...",
+                  success: "Data realisasi berhasil disimpan.",
+                  error: "Terjadi kesalahan saat menyimpan.",
+                  position: "top-right",
+                
+                })
+              }
+            >
+              Tambah
+            </Button>
+          </DialogClose>
         </div>
       </DialogContent>
     </Dialog>

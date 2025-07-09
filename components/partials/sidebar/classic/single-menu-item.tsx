@@ -19,9 +19,9 @@ const SingleMenuItem = ({ item, collapsed, hovered }: {
         {!collapsed || hovered ? (
           <div
             className={cn(
-              "flex  gap-3 group  text-default-700 dark:text-default-950  font-medium  text-sm capitalize px-[10px] py-3 rounded cursor-pointer hover:bg-primary hover:text-primary-foreground",
+              "flex  gap-3 group  text-default-700 dark:text-default-950  font-medium  text-sm capitalize px-[10px] py-3 rounded cursor-pointer hover:bg-gradient-to-r hover:from-[#234C90] hover:to-[#3B82F6] hover:text-white",
               {
-                "bg-primary text-primary-foreground ": isLocationMatch(
+                "bg-gradient-to-r from-[#234C90] to-[#3B82F6] text-white": isLocationMatch(
                   href,
                   locationName
                 ),

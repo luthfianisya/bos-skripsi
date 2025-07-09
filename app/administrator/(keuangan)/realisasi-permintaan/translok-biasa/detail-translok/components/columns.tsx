@@ -3,14 +3,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "./data-table-column-header";
-// import { DataTableRowActions } from "./data-table-row-actions";
 import { ColumnDef } from "@tanstack/react-table";
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Icon } from "@iconify/react";
 import { ClockIcon, MinusCircleIcon } from "@heroicons/react/24/outline"
 import { LockClosedIcon, EyeIcon, TrashIcon, PrinterIcon } from "@heroicons/react/24/solid"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import RealisasiTranslok from "./realisasi-translok/realisasi-translok";
 
 function formatRupiah(amount: number): string {
@@ -157,16 +153,7 @@ export const getColumns = (isBlokTranslokActive: boolean): ColumnDef<Realisasi>[
       <div className="w-auto flex gap-3 justify-end">
         <RealisasiTranslok/>
         <Button size="icon" variant="outline" className="h-7 w-7" color="primary" icon={PrinterIcon} />
-        {/* <Button size="icon" variant="outline" color="warning" className="h-7 w-7" icon={EyeIcon} /> */}
         <Button size="icon" variant="outline" className="h-7 w-7" color="destructive" icon={TrashIcon} />
-        {/* <Button
-          size="icon"
-          variant={row.original.translok === "BLOK" || isBlokTranslokActive ? undefined : "outline"}
-          color="primary"
-          className="h-7 w-7"
-          icon={LockClosedIcon}
-        /> */}
-        
       </div>
     ),
     enableSorting: false,

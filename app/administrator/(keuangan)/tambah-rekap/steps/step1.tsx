@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Select from "react-select";
 import { jenisPencairanOptions, organisasi, satker, SUB_TIPE_FORM_MAP, tahun, TIPE_FORM_MAP } from "@/lib/constants";
+import { PROGRAMS } from "@/lib/constants";
 
 interface StepInformasiUmumProps {
   readOnly?: boolean;
@@ -32,9 +33,55 @@ const StepInformasiUmum = ({ readOnly = false }: StepInformasiUmumProps) => {
     }
   }, [getValues]);
 
+  const [selectedProgram, setSelectedProgram] = React.useState<{ value: string; label: string } | null>(null);
+  const [selectedKegiatan, setSelectedKegiatan] = React.useState<{ value: string; label: string } | null>(null);
+  const [selectedOutput, setSelectedOutput] = React.useState<{ value: string; label: string } | null>(null);
+  const [selectedSuboutput, setSelectedSuboutput] = React.useState<{ value: string; label: string } | null>(null);
+  const [selectedKomponen, setSelectedKomponen] = React.useState<{ value: string; label: string } | null>(null);
+
+  const programOptions = PROGRAMS.map(p => ({
+    value: p.code,
+    label: `[${p.code}] ${p.label}`
+  }));
+
+  const kegiatanOptions = selectedProgram
+    ? PROGRAMS.find(p => p.code === selectedProgram.value)?.kegiatan.map(k => ({
+      value: k.code,
+      label: `[${k.code}] ${k.label}`
+    }))
+    : [];
+
+  const outputOptions = selectedProgram && selectedKegiatan
+    ? PROGRAMS.find(p => p.code === selectedProgram.value)
+      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
+      ?.output?.map(o => ({
+        value: o.code,
+        label: `[${o.code}] ${o.label}`
+      })) ?? []
+    : [];
 
 
+  const subOutputOptions = selectedProgram && selectedKegiatan && selectedOutput
+    ? PROGRAMS.find(p => p.code === selectedProgram.value)
+      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
+      ?.output.find(o => o.code === selectedOutput.value)
+      ?.suboutput?.map(s => ({
+        value: s.code,
+        label: `[${s.code}] ${s.label}`
+      })) ?? []
+    : [];
 
+
+  const komponenOptions = selectedProgram && selectedKegiatan && selectedOutput && selectedSuboutput
+    ? PROGRAMS.find(p => p.code === selectedProgram.value)
+      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
+      ?.output.find(o => o.code === selectedOutput.value)
+      ?.suboutput.find(s => s.code === selectedSuboutput.value)
+      ?.komponen?.map(c => ({
+        value: c.code,
+        label: c.label
+      })) ?? []
+    : [];
 
   // Generate options dari TIPE_FORM_MAP
   const tipeFormOptions = Object.entries(TIPE_FORM_MAP).map(([key, value]) => ({
@@ -81,170 +128,210 @@ const StepInformasiUmum = ({ readOnly = false }: StepInformasiUmumProps) => {
 
       {/* Baris 2 */}
       <div className="col-span-12 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="satker">Satuan Kerja</Label>
-          <Select options={satker} value={defaultSatker} className="z-50" placeholder="Pilih Satuan Kerja" isDisabled />
+
+        {/* Kolom kiri */}
+        <div className="flex flex-col gap-4">
+
+          {/* Satuan Kerja */}
+          <div className="flex flex-col gap-2">
+            <Label>Satuan Kerja</Label>
+            <Controller
+              name="satker"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={satker}
+                  placeholder="Pilih Satuan Kerja"
+                  isDisabled={readOnly}
+                  onChange={(option) => field.onChange(option)}
+                />
+              )}
+            />
+          </div>
+
+          {/* Program */}
+          <div className="flex flex-col gap-2">
+            <Label>Program</Label>
+            <Controller
+              name="program"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={programOptions}
+                  value={selectedProgram}
+                  onChange={(option) => {
+                    field.onChange(option);
+                    setSelectedProgram(option);
+                    setSelectedKegiatan(null);
+                    setSelectedOutput(null);
+                    setSelectedSuboutput(null);
+                    setSelectedKomponen(null);
+                  }}
+                  placeholder="Pilih Program"
+                  isDisabled={readOnly}
+                />
+              )}
+            />
+          </div>
+
+          {/* Kegiatan */}
+          <div className="flex flex-col gap-2">
+            <Label>Kegiatan</Label>
+            <Controller
+              name="kegiatan"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={kegiatanOptions}
+                  value={selectedKegiatan}
+                  onChange={(option) => {
+                    field.onChange(option);
+                    setSelectedKegiatan(option);
+                    setSelectedOutput(null);
+                    setSelectedSuboutput(null);
+                    setSelectedKomponen(null);
+                  }}
+                  placeholder="Pilih Kegiatan"
+                  isDisabled={readOnly || !selectedProgram}
+                />
+              )}
+            />
+          </div>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="unitKerja">Output</Label>
-          <Select options={organisasi} value={defaultOrganisasi} className="z-50" placeholder="Pilih Unit Kerja" isDisabled />
+        {/* Kolom kanan */}
+        <div className="flex flex-col gap-4">
+
+          {/* Output */}
+          <div className="flex flex-col gap-2">
+            <Label>Output</Label>
+            <Controller
+              name="output"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={outputOptions}
+                  value={selectedOutput}
+                  onChange={(option) => {
+                    field.onChange(option);
+                    setSelectedOutput(option);
+                    setSelectedSuboutput(null);
+                    setSelectedKomponen(null);
+                  }}
+                  placeholder="Pilih Output"
+                  isDisabled={readOnly || !selectedKegiatan}
+                />
+              )}
+            />
+          </div>
+
+          {/* Sub Output */}
+          <div className="flex flex-col gap-2">
+            <Label>Sub Output</Label>
+            <Controller
+              name="suboutput"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={subOutputOptions}
+                  value={selectedSuboutput}
+                  onChange={(option) => {
+                    field.onChange(option);
+                    setSelectedSuboutput(option);
+                    setSelectedKomponen(null);
+                  }}
+                  placeholder="Pilih Sub Output"
+                  isDisabled={readOnly || !selectedOutput}
+                />
+              )}
+            />
+          </div>
+
+          {/* Komponen */}
+          <div className="flex flex-col gap-2">
+            <Label>Komponen</Label>
+            <Controller
+              name="komponen"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={komponenOptions}
+                  value={selectedKomponen}
+                  onChange={(option) => {
+                    field.onChange(option);
+                    setSelectedKomponen(option);
+                  }}
+                  placeholder="Pilih Komponen"
+                  isDisabled={readOnly || !selectedSuboutput}
+                />
+              )}
+            />
+          </div>
+
         </div>
 
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="tipeForm">Program</Label>
-          <Controller
-            name="tipeForm"
-            control={control}
-            rules={{ required: "Tipe Form wajib dipilih" }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={tipeFormOptions}
-                placeholder="Pilih Tipe Form"
-                className={`z-40 ${errors.tipeForm ? "border border-destructive rounded-md" : ""}`}
-                onChange={(option) => {
-                  field.onChange(option);
-                  setSelectedTipeForm(option);
-                  setSelectedSubTipe(null);
-                  if (option?.value === "FORM - TRANSLOK") {
-                    setJenisPok("single");
-                  }
-                }}
-                value={field.value}
-                isDisabled={readOnly}
-              />
-            )}
-          />
-
-
-          {errors.tipeForm && <p className="text-red-500 text-sm">{errors.tipeForm.message as string}</p>}
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="subTipeForm">Sub-Output</Label>
-          <Controller
-            name="subTipeForm"
-            control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={getSubTipeOptions()}
-                value={field.value}
-                onChange={(option) => {
-                  field.onChange(option);
-                  setSelectedSubTipe(option); // untuk jaga-jaga sinkron dengan state
-                }}
-                placeholder="Pilih Sub-Tipe"
-                isDisabled={readOnly || !selectedTipeForm || selectedTipeForm.value !== "FORM - TRANSLOK"}
-              />
-            )}
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="tipeForm">Kegiatan</Label>
-          <Controller
-            name="tipeForm"
-            control={control}
-            rules={{ required: "Tipe Form wajib dipilih" }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={tipeFormOptions}
-                placeholder="Pilih Tipe Form"
-                className={`z-40 ${errors.tipeForm ? "border border-destructive rounded-md" : ""}`}
-                onChange={(option) => {
-                  field.onChange(option);
-                  setSelectedTipeForm(option);
-                  setSelectedSubTipe(null);
-                  if (option?.value === "FORM - TRANSLOK") {
-                    setJenisPok("single");
-                  }
-                }}
-                value={field.value}
-                isDisabled={readOnly}
-              />
-            )}
-          />
-
-
-          {errors.tipeForm && <p className="text-red-500 text-sm">{errors.tipeForm.message as string}</p>}
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="subTipeForm">Komponen</Label>
-          <Controller
-            name="subTipeForm"
-            control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={getSubTipeOptions()}
-                value={field.value}
-                onChange={(option) => {
-                  field.onChange(option);
-                  setSelectedSubTipe(option); // untuk jaga-jaga sinkron dengan state
-                }}
-                placeholder="Pilih Sub-Tipe"
-                isDisabled={readOnly || !selectedTipeForm || selectedTipeForm.value !== "FORM - TRANSLOK"}
-              />
-            )}
-          />
-        </div>
       </div>
+
 
       {/* Baris 3 */}
       <div className="col-span-12 grid grid-cols-2 gap-4">
-      <div className="flex flex-col gap-2">
-          <Label htmlFor="noSurat">Judul Rekap</Label>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="judulRekap">Judul Rekap</Label>
           <Input
             size="lg"
             type="text"
-            id="noSurat"
-            placeholder="Nomor Surat"
-            {...register("noSurat", { required: "Nomor Surat wajib diisi" })}
-            className={`border rounded-md p-2 ${errors.noSurat ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
+            id="judulRekap"
+            placeholder="Masukkan Judul Rekap"
+            {...register("judulRekap", { required: "Judul Rekap wajib diisi" })}
+            className={`border rounded-md p-2 ${errors.judulRekap ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
             disabled={readOnly}
           />
-          {errors.noSurat && (
-            <p className="text-red-500 text-sm">{errors.noSurat.message as string}</p>
+          {errors.judulRekap && (
+            <p className="text-red-500 text-sm">{errors.judulRekap.message as string}</p>
           )}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          
+
 
           <div className="flex flex-col gap-2">
-            <Label htmlFor="noSurat">Perekap</Label>
+            <Label htmlFor="perekap">Perekap</Label>
             <Input
               size="lg"
               type="text"
-              id="noSurat"
-              placeholder="Nomor Surat"
-              {...register("noSurat", { required: "Nomor Surat wajib diisi" })}
-              className={`border rounded-md p-2 ${errors.noSurat ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
+              id="perekap"
+              placeholder="Masukkan Nama Perekap"
+              {...register("perekap", { required: "Perekap wajib diisi" })}
+              className={`border rounded-md p-2 ${errors.perekap ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
               disabled={readOnly}
             />
-            {errors.noSurat && (
-              <p className="text-red-500 text-sm">{errors.noSurat.message as string}</p>
+            {errors.perekap && (
+              <p className="text-red-500 text-sm">{errors.perekap.message as string}</p>
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="tanggalSurat">Tanggal Rekap</Label>
+            <Label htmlFor="tanggalRekap">Tanggal Rekap</Label>
             <Input
               size="lg"
               type="date"
-              id="tanggalSurat"
-              {...register("tanggalSurat", { required: "Tanggal Surat wajib diisi" })}
-              className={`border rounded-md p-2 ${errors.tanggalSurat ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
+              id="tanggalRekap"
+              {...register("tanggalRekap", { required: "Tanggal Rekap wajib diisi" })}
+              className={`border rounded-md p-2 ${errors.tanggalRekap ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
               disabled={readOnly}
             />
-            {errors.tanggalSurat && <p className="text-red-500 text-sm">{errors.tanggalSurat.message as string}</p>}
+            {errors.tanggalRekap && (
+              <p className="text-red-500 text-sm">{errors.tanggalRekap.message as string}</p>
+            )}
           </div>
         </div>
 
 
-        
+
 
 
 
@@ -262,6 +349,11 @@ const StepInformasiUmum = ({ readOnly = false }: StepInformasiUmumProps) => {
                 options={jenisPencairanOptions}
                 placeholder="Pilih Jenis Pencairan"
                 isDisabled={readOnly}
+                menuPortalTarget={document.body}
+                styles={{
+                  menuPortal: base => ({ ...base, zIndex: 9999 }) // pastikan zIndex tinggi
+                }}
+                menuPlacement="top"
               />
             )}
           />

@@ -3,19 +3,16 @@ import { X, Plus, PlusCircleIcon, PrinterIcon } from "lucide-react";
 import * as Icon from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import { DataTableViewOptions } from "./data-table-view-options";
 import Importb from "@/components/svg/duel-tone/document-arrow-up.svg";
 import Refresh from "@/components/svg/duel-tone/arrow-path.svg";
-import CreateTask from "./tambah-mitra";
-// import { priorities, statuses } from "../data/data";
-// import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { TipeForm } from "./columns"
 import Link from "next/link";
-import TambahRekapDialog from "../tambah-rekap/hstep-form-dialog";
+import TambahRekapDialog from "../../tambah-rekap/vstep-form-dialog";
+
 // import TambahRekap from "./tambah-rekap/tambah-rekap";
 
 const tipeFormOptions = [
@@ -147,7 +144,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
                 </Link> */}
                 <TambahRekapDialog/>
       </div>
-      <CreateTask open={open} onClose={handleSheetOpen} />
+
     </div>
 
   );

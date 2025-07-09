@@ -5,19 +5,19 @@ import { Plus } from "lucide-react";
 import VStepForm from "./vstep-form";
 
 
-export default function TambahPermintaanDialog() {
+export default function TambahRekapDialog() {
   const [open, setOpen] = useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button type="button" color="primary" size="md" icon={Plus}>
-          Tambah Permintaan
+          Tambah Rekap
         </Button>
       </DialogTrigger>
       <DialogContent size="9xl" overlayClass="backdrop-blur-none" className="h-[90vh] flex flex-col">
         <DialogHeader>
-          <DialogTitle className="text-lg">Tambah Form Permintaan</DialogTitle>
+          <DialogTitle className="text-lg">Tambah Rekap</DialogTitle>
         </DialogHeader>
         <div className="flex-1 overflow-auto">
           <VStepForm />

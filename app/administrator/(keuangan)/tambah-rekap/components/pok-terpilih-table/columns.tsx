@@ -1,15 +1,10 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "./data-table-column-header";
-import { JENIS_PENGELUARAN_MAP, KODE_BEBAN_MAP, TIPE_FORM_MAP} from "@/lib/constants";
-// import { DataTableRowActions } from "./data-table-row-actions";
 import { Column, ColumnDef, Row } from "@tanstack/react-table";
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
-import { ClockIcon } from "@heroicons/react/24/outline"
 import {
   Tooltip,
   TooltipContent,
@@ -17,12 +12,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useEffect, useRef, useState } from "react";
-import {
-  CheckCircleIcon,
-  ExclamationTriangleIcon,
-  XCircleIcon,
-} from "@heroicons/react/24/outline";
-import { PlusIcon } from "@heroicons/react/24/solid";
 import { FormPOK } from "@/lib/interface";
 
 const formatRupiah = (value: number): string =>

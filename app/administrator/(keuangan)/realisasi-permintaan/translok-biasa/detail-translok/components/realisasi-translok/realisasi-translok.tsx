@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { format } from "date-fns";
+import { differenceInCalendarDays, format } from "date-fns";
 import {
     Dialog,
     DialogClose,
@@ -22,6 +22,9 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import React from "react";
 import { InputGroup, InputGroupText } from "@/components/ui/input-group";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { id } from "date-fns/locale/id";
+import { toast } from "sonner";
 
 // Helper format rupiah
 const formatRupiah = (value: number) =>
@@ -44,13 +47,17 @@ const presensiStatusMap: Record<string, { color: "secondary" | "success" | "defa
 };
 
 
+
 const RealisasiTranslok = () => {
+    const promise = () =>
+        new Promise((resolve) => setTimeout(() => resolve({ name: "Sonner" }), 1000));
     const [open, setOpen] = useState(false);
 
     const tanggalPergi = new Date();
     const tanggalPulang = new Date();
-    const lamaHari = 3;
+    const lamaHari = differenceInCalendarDays(tanggalPulang, tanggalPergi) + 1;
     const [isBlokTranslokActive, setIsBlokTranslokActive] = React.useState(false);
+
 
     const handleBlokTranslok = () => {
         setIsBlokTranslokActive((prev) => !prev);
@@ -63,9 +70,12 @@ const RealisasiTranslok = () => {
         statusPresensi: "BLOK",
         statusSpj: "Dalam Proses",
         booked: 1500000,
-        realisasi: 2500000,
+        realisasi: 1500000,
         statusBerangkat: "Ya",
     };
+
+    const [nilaiRealisasi, setNilaiRealisasi] = useState<number>(0);
+
 
     const spjBadge = spjStatusMap[data.statusSpj] || { color: "default", variant: "outline" };
     const presensiBadge = presensiStatusMap[data.statusPresensi] || { color: "default", variant: "outline" };
@@ -94,8 +104,8 @@ const RealisasiTranslok = () => {
                                         {data.statusPresensi}
                                     </Badge>
                                 </Info>
-                                <Info label="Tanggal Pergi" value={format(tanggalPergi, "PPP")} />
-                                <Info label="Tanggal Pulang" value={format(tanggalPulang, "PPP")} />
+                                <Info label="Tanggal Pergi" value={format(tanggalPergi, "d MMMM yyyy", { locale: id })} />
+                                <Info label="Tanggal Pulang" value={format(tanggalPulang, "d MMMM yyyy", { locale: id })} />
                                 <Info label="Lama Hari" value={`${lamaHari} hari`} />
                                 <Info label="Status SPJ">
                                     <Badge variant={spjBadge.variant} color={spjBadge.color}>
@@ -103,7 +113,8 @@ const RealisasiTranslok = () => {
                                     </Badge>
                                 </Info>
                                 <Info label="Booked" value={formatRupiah(data.booked)} />
-                                <Info label="Realisasi" value={formatRupiah(data.realisasi)} />
+                                <Info label="Realisasi" value={formatRupiah(nilaiRealisasi)} />
+
                             </div>
 
                             <hr />
@@ -114,31 +125,12 @@ const RealisasiTranslok = () => {
                                 <div className="flex flex-col gap-3">
                                     <div className="flex justify-between items-center">
                                         <div className="flex gap-4 items-center">
+                                            <Switch
+                                                checked={isBerangkat}
+                                                onCheckedChange={(checked) => setIsBerangkat(checked)}
+                                            />
                                             <Label className="text-sm font-medium">Berangkat</Label>
-                                            <div className="flex items-center gap-4">
-                                                <label className="flex items-center space-x-2 text-sm">
-                                                    <input
-                                                        type="radio"
-                                                        name="jenisPok"
-                                                        value="ya"
-                                                        className="accent-primary"
-                                                        checked={isBerangkat}
-                                                        onChange={() => setIsBerangkat(true)}
-                                                    />
-                                                    <span>Ya</span>
-                                                </label>
-                                                <label className="flex items-center space-x-2 text-sm">
-                                                    <input
-                                                        type="radio"
-                                                        name="jenisPok"
-                                                        value="tidak"
-                                                        className="accent-primary"
-                                                        checked={!isBerangkat}
-                                                        onChange={() => setIsBerangkat(false)}
-                                                    />
-                                                    <span>Tidak</span>
-                                                </label>
-                                            </div>
+                                            {/* <span className="text-sm">{isBerangkat ? "Ya" : "Tidak"}</span> */}
                                         </div>
 
                                         <TooltipProvider>
@@ -163,7 +155,7 @@ const RealisasiTranslok = () => {
                                     </div>
                                     <div>
                                         <div className={`transition-opacity ${isBerangkat ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}>
-                                            <AdvancedTable />
+                                            <AdvancedTable isBlokTranslokActive={isBlokTranslokActive} />
                                         </div>
 
                                     </div>
@@ -183,18 +175,38 @@ const RealisasiTranslok = () => {
                                         <Label className="text-sm font-medium">Nilai Translok Booked</Label>
                                         <InputGroup className="h-10">
                                             <InputGroupText>Rp</InputGroupText>
-                                            <Input type="text" placeholder="Masukkan nilai booked" className="h-10" />
+                                            <Input type="text" placeholder="Masukkan nilai booked" className="h-10 text-end text-sm" value={data.booked} />
                                         </InputGroup>
                                     </div>
                                     <div className="flex-1 flex flex-col gap-2">
                                         <Label className="text-sm font-medium">Nilai Translok Realisasi</Label>
                                         <InputGroup className="h-10">
                                             <InputGroupText>Rp</InputGroupText>
-                                            <Input type="text" placeholder="Masukkan nilai realisasi" className="h-10" />
+                                            <Input
+                                                type="number"
+                                                placeholder="Masukkan nilai realisasi"
+                                                className="h-10 text-end text-sm"
+                                                value={nilaiRealisasi}
+                                                onChange={(e) => setNilaiRealisasi(Number(e.target.value))}
+                                            />
+
                                         </InputGroup>
                                         <div className="flex items-center gap-2 pt-1">
-                                            <input type="checkbox" id="samaDenganBooked" className="accent-primary" />
-                                            <Label htmlFor="samaDenganBooked" className="text-xs font-normal">
+                                            <input
+                                                type="checkbox"
+                                                id="samaDenganBooked"
+                                                className="accent-primary"
+                                                onChange={(e) => {
+                                                    if (e.target.checked) {
+                                                        setNilaiRealisasi(data.booked);
+                                                    } else {
+                                                        setNilaiRealisasi(0);
+                                                    }
+                                                }}
+                                            />
+
+
+                                            <Label htmlFor="samaDenganBooked" className="text-sm font-normal">
                                                 Nilai realisasi sama dengan booked
                                             </Label>
                                         </div>
@@ -208,9 +220,27 @@ const RealisasiTranslok = () => {
                 {/* Footer */}
                 <div className="flex justify-end gap-3 mt-4 p-4">
                     <DialogClose asChild>
-                        <Button type="button" color="secondary" size="md">Cancel</Button>
+                        <Button type="button" color="secondary" size="md" variant="soft">Batal</Button>
                     </DialogClose>
-                    <Button type="button" color="primary" size="md">Simpan</Button>
+                    <DialogClose asChild>
+                        <Button
+                            type="button"
+                            color="primary"
+                            size="md"
+                            onClick={() =>
+                                toast.promise(promise(), {
+                                    loading: "Menyimpan...",
+                                    success: "Data realisasi berhasil disimpan.",
+                                    error: "Terjadi kesalahan saat menyimpan.",
+                                    position: "top-right",
+
+                                })
+                            }
+                        >
+                            Simpan
+                        </Button>
+                    </DialogClose>
+
                 </div>
             </DialogContent>
         </Dialog>

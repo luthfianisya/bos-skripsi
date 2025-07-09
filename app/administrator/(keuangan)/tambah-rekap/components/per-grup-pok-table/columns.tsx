@@ -60,19 +60,22 @@ export const columns: ColumnDef<Pegawai>[] = [
     },
   },
   {
-    accessorKey: "netto",
+    id: "bruto",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="NETTO" />
+      <DataTableColumnHeader column={column} title="BRUTO" />
     ),
     cell: ({ row }) => {
       const netto = row.getValue("netto") as number;
+      const pajak = row.getValue("pajak") as number;
+      const bruto = netto + pajak;
+
       return (
         <div>
           {new Intl.NumberFormat("id-ID", {
             style: "currency",
             currency: "IDR",
             minimumFractionDigits: 0,
-          }).format(netto)}
+          }).format(bruto)}
         </div>
       );
     },
@@ -96,22 +99,19 @@ export const columns: ColumnDef<Pegawai>[] = [
     },
   },
   {
-    id: "bruto",
+    accessorKey: "netto",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="BRUTO" />
+      <DataTableColumnHeader column={column} title="NETTO" />
     ),
     cell: ({ row }) => {
       const netto = row.getValue("netto") as number;
-      const pajak = row.getValue("pajak") as number;
-      const bruto = netto + pajak;
-
       return (
         <div>
           {new Intl.NumberFormat("id-ID", {
             style: "currency",
             currency: "IDR",
             minimumFractionDigits: 0,
-          }).format(bruto)}
+          }).format(netto)}
         </div>
       );
     },

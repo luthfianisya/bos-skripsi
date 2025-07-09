@@ -1,12 +1,14 @@
 "use client"
 import { Breadcrumbs, BreadcrumbItem } from "@/components/ui/breadcrumbs";
-const DataMitraBreadCrumbs = () => {
+const DetailTranslokBreadCrumbs = () => {
   return (
     <Breadcrumbs>
-      <BreadcrumbItem>Anggaran</BreadcrumbItem>
-      <BreadcrumbItem>Entri Pembiayaan</BreadcrumbItem>
+      <BreadcrumbItem>Keuangan</BreadcrumbItem>
+      <BreadcrumbItem>Realisasi Permintaan</BreadcrumbItem>
+      <BreadcrumbItem>Translok Biasa</BreadcrumbItem>
+      <BreadcrumbItem>Detail Translok</BreadcrumbItem>
     </Breadcrumbs>
   );
 };
 
-export default DataMitraBreadCrumbs;
+export default DetailTranslokBreadCrumbs;

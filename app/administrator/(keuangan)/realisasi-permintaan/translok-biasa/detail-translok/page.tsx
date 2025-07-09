@@ -7,11 +7,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import AdvancedTable from "./index";
-import DataMitraBreadCrumbs from "./components/bread-crumbs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { ArrowUturnLeftIcon, PaperAirplaneIcon, PrinterIcon, XCircleIcon } from "@heroicons/react/24/solid";
+import { ArrowUturnLeftIcon, PaperAirplaneIcon, PrinterIcon, } from "@heroicons/react/24/solid";
+import DetailTranslokBreadCrumbs from "./components/bread-crumbs";
 
 const dummyData = {
   noPermintaan: "FP-2025-000001-00001-1",
@@ -40,7 +40,7 @@ const DataTablePage = () => {
           Detail Translok
         </div>
         <div className="flex-none">
-          <DataMitraBreadCrumbs />
+          <DetailTranslokBreadCrumbs />
         </div>
       </div>
 
@@ -49,7 +49,7 @@ const DataTablePage = () => {
           <CardTitle className="text-lg font-semibold">
             Detail {dummyData.noPermintaan}
           </CardTitle>
-          <Badge color="default" className="text-sm font-semibold py-1 rounded-full">
+          <Badge color="default" variant="outline" className="text-sm font-semibold py-1 rounded-full">
             SPJ {dummyData.prosesSpj}
           </Badge>
         </CardHeader>

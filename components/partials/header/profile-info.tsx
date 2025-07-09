@@ -45,12 +45,11 @@ const ProfileInfo = () => {
             <div className="text-sm font-medium text-default-800 capitalize ">
               {"Andi Pratama"}
             </div>
-            <Link
-              href="/dashboard"
+            <div
               className="text-xs text-default-600 hover:text-primary"
             >
               1985051010010005
-            </Link>
+            </div>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuGroup>
@@ -61,7 +60,17 @@ const ProfileInfo = () => {
               href: "/user-profile"
             },
             {
+              name: "Pengentri Operator",
+              icon: "heroicons:user",
+              href: "/user-profile"
+            },
+            {
               name: "Admin Anggaran",
+              icon: "heroicons:user",
+              href: "/user-profile"
+            },
+            {
+              name: "Anggaran",
               icon: "heroicons:user",
               href: "/user-profile"
             },
@@ -71,12 +80,17 @@ const ProfileInfo = () => {
               href: "/user-profile"
             },
             {
-              name: "Bagian Umum",
+              name: "Bendahara",
               icon: "heroicons:user",
               href: "/user-profile"
             },
             {
-              name: "PJ",
+              name: "Pegawai",
+              icon: "heroicons:user",
+              href: "/user-profile"
+            },
+            {
+              name: "Bagian/Subbagian Umum",
               icon: "heroicons:user",
               href: "/user-profile"
             },
