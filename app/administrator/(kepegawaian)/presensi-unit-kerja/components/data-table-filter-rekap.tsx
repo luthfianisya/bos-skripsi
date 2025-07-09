@@ -5,16 +5,6 @@ import { FilterState } from "./types";
 import { DUMMY_PEGAWAIS } from "@/data/pegawai-dummy";
 import { organisasi, satker, tahun } from "@/lib/constants"
 
-// interface FilterState {
-//   periode: string | null;
-//   tahun: string | null;
-//   bulan?: string | null; // untuk bulanan
-//   mode?: string | null;  // untuk tahunan
-//   satker: string | null;
-//   unitKerja: string | null;
-//   pegawai: string | null;
-// }
-
 
 const periodeOptions = [
   { value: "tahunan", label: "Tahunan" },

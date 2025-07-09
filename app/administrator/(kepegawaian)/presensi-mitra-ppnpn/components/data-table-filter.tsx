@@ -85,7 +85,7 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
   return (
     <div className="grid grid-cols-1 w-full gap-y-4">
       <div className="flex items-center gap-3">
-  {/* Rentang Waktu */}
+        {/* Rentang Waktu */}
         <label className="w-48 font-medium z-50">Rentang Waktu</label>
 
         {/* Container untuk ketiga Select */}
@@ -93,57 +93,57 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
           {/* Select 1 */}
           <div className="flex items-center gap-2 flex-1">
             <label className="font-medium">Tipe</label>
-              <Select
-                className="react-select flex-1 z-50 rounded-md"
-                classNamePrefix="select"
-                options={periodeOptions}
-                defaultValue={periodeOptions[0]}
-                styles={styles}
-                onChange={(selected) => {
-                  const value = selected?.value ?? "rentang";
-                  setSelectedPeriode(value);
-                  handleFilterChange("periode", value);
-                }}
-              />
+            <Select
+              className="react-select flex-1 z-50 rounded-md"
+              classNamePrefix="select"
+              options={periodeOptions}
+              defaultValue={periodeOptions[0]}
+              styles={styles}
+              onChange={(selected) => {
+                const value = selected?.value ?? "rentang";
+                setSelectedPeriode(value);
+                handleFilterChange("periode", value);
+              }}
+            />
           </div>
 
           {/* Select 2 */}
           <div className="flex items-center gap-2 flex-1">
             <label className="font-medium">Tahun</label>
             <Select
-                className="react-select flex-1 z-50 rounded-md"
-                classNamePrefix="select"
-                options={tahunOptions}
-                styles={styles}
-                placeholder="Pilih Tahun"
-                name="tahun"
-                onChange={(selected) => handleFilterChange("tahun", selected?.value ?? null)}
-              />
+              className="react-select flex-1 z-50 rounded-md"
+              classNamePrefix="select"
+              options={tahunOptions}
+              styles={styles}
+              placeholder="Pilih Tahun"
+              name="tahun"
+              onChange={(selected) => handleFilterChange("tahun", selected?.value ?? null)}
+            />
           </div>
 
-    {/* Select 3 */}
-    <div className="flex items-center gap-2 flex-1">
-    <label className="font-medium">
-          {selectedPeriode === "rentang" ? "Rentang" : "Bulan"}
-        </label>
-        {selectedPeriode === "rentang" ? (
-          <DatePickerWithRange
-            className="flex-1"
-            onSelect={(date: DateRange | undefined) => handleFilterChange("rentang", date ?? null)}
-          />
-        ) : (
-          <Select
-            className="react-select flex-1 rounded-md"
-            classNamePrefix="select"
-            options={bulanOptions}
-            styles={styles}
-            placeholder="Pilih Bulan"
-            onChange={(selected) => handleFilterChange("bulan", selected?.value ?? null)}
-          />
-        )}
+          {/* Select 3 */}
+          <div className="flex items-center gap-2 flex-1">
+            <label className="font-medium">
+              {selectedPeriode === "rentang" ? "Rentang" : "Bulan"}
+            </label>
+            {selectedPeriode === "rentang" ? (
+              <DatePickerWithRange
+                className="flex-1"
+                onSelect={(date: DateRange | undefined) => handleFilterChange("rentang", date ?? null)}
+              />
+            ) : (
+              <Select
+                className="react-select flex-1 rounded-md"
+                classNamePrefix="select"
+                options={bulanOptions}
+                styles={styles}
+                placeholder="Pilih Bulan"
+                onChange={(selected) => handleFilterChange("bulan", selected?.value ?? null)}
+              />
+            )}
+          </div>
+        </div>
       </div>
-  </div>
-</div>
 
 
 
@@ -179,9 +179,8 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
       <div className="flex items-center gap-3">
         <label className="w-48 font-medium">Pegawai</label>
         <Select
-          className={`react-select flex-1 rounded-md ${
-            selectedPeriode === "bulanan" ? "bg-slate-100 border-slate-300 text-slate-400 cursor-not-allowed" : ""
-          }`}
+          className={`react-select flex-1 rounded-md ${selectedPeriode === "bulanan" ? "bg-slate-100 border-slate-300 text-slate-400 cursor-not-allowed" : ""
+            }`}
           classNamePrefix="select"
           placeholder="Pilih Pegawai"
           styles={styles}
@@ -198,7 +197,7 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
 
 export default DataTableFilter;
 
- {/* <CustomSelect>
+{/* <CustomSelect>
       <SelectTrigger size="md" radius="md" className="text-sm">
         <SelectValue placeholder="Select a subject" />
       </SelectTrigger>

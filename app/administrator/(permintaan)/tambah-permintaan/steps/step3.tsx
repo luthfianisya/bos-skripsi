@@ -14,7 +14,6 @@ import { Plus } from "lucide-react";
 import { DUMMY_PEGAWAIS } from "@/data/pegawai-dummy";
 import Select from "react-select";
 import { Peserta } from "../components/peserta-berangkat-table/columns";
-import { toast } from "@/components/ui/use-toast";
 import { z } from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +27,7 @@ import { Icon } from "@iconify/react";
 import { CustomIcon } from "@/components/svg";
 import { cn } from "@/lib/utils";
 import { DetailPesertas } from "@/data/peserta-berangkat";
+import { toast } from "sonner";
 
 
 interface AccordionTriggerProps {
@@ -151,17 +151,6 @@ const StepPeserta = ({ dataPeserta, setDataPeserta, readOnly }: StepPesertaProps
   const tanggalPergi = watch("tanggalPergi");
 
   useEffect(() => {
-    if (tanggalPergi) {
-      const pergiDate = new Date(tanggalPergi);
-      const minDate = pergiDate.toISOString().split("T")[0];
-      const maxDate = new Date(pergiDate.setDate(pergiDate.getDate() + 1)).toISOString().split("T")[0];
-      setMinTanggalPulang(minDate);
-      setMaxTanggalPulang(maxDate);
-      setValue("tanggalPulang", "");
-    }
-  }, [tanggalPergi, setValue]);
-
-  useEffect(() => {
     if (readOnly) {
       const mapped = DetailPesertas.map((d) => ({
         nama: d.nama,
@@ -191,10 +180,11 @@ const StepPeserta = ({ dataPeserta, setDataPeserta, readOnly }: StepPesertaProps
 
     setDataPeserta([...dataPeserta, newPeserta]);
 
-    toast({
-      title: "Peserta Ditambahkan",
-      description: `${newPeserta.nama} berhasil ditambahkan ke tabel.`,
+    toast(`${newPeserta.nama} berhasil ditambahkan ke tabel.`, {
+      description: "Peserta Ditambahkan",
+      position: "top-right",
     });
+
 
     reset();
   };
@@ -335,9 +325,9 @@ const StepPeserta = ({ dataPeserta, setDataPeserta, readOnly }: StepPesertaProps
                             <Input
                               type="date"
                               className="w-full"
+                              min={tanggalPergi}
                               {...register("tanggalPulang")}
-                              min={minTanggalPulang}
-                              max={maxTanggalPulang} />
+                            />
                             {errors.tanggalPulang && <span className="text-red-500 text-sm">{errors.tanggalPulang.message}</span>}
                           </div>
                         </div>

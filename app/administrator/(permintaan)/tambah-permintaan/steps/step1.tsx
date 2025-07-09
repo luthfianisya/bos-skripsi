@@ -28,16 +28,15 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
   React.useEffect(() => {
     const tipeFormValue = getValues("tipeForm");
     const subTipeValue = getValues("subTipeForm");
-  
+
     if (tipeFormValue) setSelectedTipeForm(tipeFormValue);
     if (subTipeValue) setSelectedSubTipe(subTipeValue);
-  
+
     if (tipeFormValue?.value === "FORM - TRANSLOK") {
       setJenisPok("single");
     }
   }, [getValues]);
-  
-  
+
 
 
 
@@ -186,10 +185,16 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
             type="text"
             id="noSurat"
             placeholder="Nomor Surat"
-            {...register("noSurat", { required: "Nomor Surat wajib diisi" })}
-            className={`border rounded-md p-2 ${errors.noSurat ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
+            {...register("noSurat", {
+              required: "Nomor Surat wajib diisi",
+              validate: (value) =>
+                value !== "B-0001A/92810/KU.600/07/2025" || "Nomor Surat harus diubah dari default value",
+            })}
+            className={`border rounded-md p-2 ${errors.noSurat ? "border-destructive" : "border-gray-300 focus:border-primary"
+              }`}
             disabled={readOnly}
           />
+
           {errors.noSurat && (
             <p className="text-red-500 text-sm">{errors.noSurat.message as string}</p>
           )}
@@ -234,6 +239,7 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
                 options={linkOptions}
                 placeholder="Pilih Link Permintaan"
                 isDisabled={readOnly}
+                menuPlacement="top"
               />
             )}
           />

@@ -3,7 +3,7 @@
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { ColumnDef } from "@tanstack/react-table";
 
-interface Presensi {
+export interface Presensi {
   nip: string;
   nama: string;
   hk: number;
@@ -45,8 +45,8 @@ interface Presensi {
 }
 
 export const columnsRkpTahun: ColumnDef<Presensi>[] = [
-  { accessorKey: "nip", header: ({ column }) => <DataTableColumnHeader column={column} title="NIP" />, cell: ({ row }) => <div>{row.getValue("nip")}</div> },
   { accessorKey: "nama", header: ({ column }) => <DataTableColumnHeader column={column} title="NAMA" />, cell: ({ row }) => <div>{row.getValue("nama")}</div> },
+  { accessorKey: "nip", header: ({ column }) => <DataTableColumnHeader column={column} title="NIP" />, cell: ({ row }) => <div>{row.getValue("nip")}</div> },
   { accessorKey: "hk", header: "HK", cell: ({ row }) => <div>{row.getValue("hk")}</div> },
   { accessorKey: "hd", header: "HD", cell: ({ row }) => <div>{row.getValue("hd")}</div> },
   { accessorKey: "tk", header: "TK", cell: ({ row }) => <div>{row.getValue("tk")}</div> },

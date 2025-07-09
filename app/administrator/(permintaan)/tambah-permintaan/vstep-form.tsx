@@ -36,7 +36,7 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
     reValidateMode: "onChange",
     defaultValues: {
       uploadKAK: undefined,
-      noSurat: defaultValues?.noSurat ?? "",
+      noSurat: defaultValues?.noSurat ?? "B-0001A/92810/KU.600/07/2025",
       tanggalSurat: defaultValues?.tanggalSurat ?? "",
       deskripsiPermintaan: defaultValues?.deskripsi ?? "",
       tipeForm: defaultValues?.tipeForm
@@ -124,8 +124,6 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
       text: 'Pastikan data sudah benar sebelum dikirim.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#2563eb', // biru
-      cancelButtonColor: '#d33', // merah
       confirmButtonText: 'Ya, Kirim!',
       cancelButtonText: 'Batal',
       customClass: {
@@ -135,11 +133,6 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
     }).then((result) => {
       if (result.isConfirmed) {
         handleSubmitFinal(); // jalankan fungsi kirim PJ asli
-        MySwal.fire(
-          'Terkirim!',
-          'Form permintaan berhasil dikirim ke PJ.',
-          'success'
-        );
       }
     });
   };

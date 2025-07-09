@@ -82,6 +82,7 @@
     "d3-shape": "^3.2.0",
     "dagre": "^0.8.5",
     "date-fns": "^3.3.1",
+    "date-fns-tz": "^3.2.0",
     "dayjs": "^1.11.10",
     "embla-carousel-auto-height": "^8.0.0-rc17",
     "embla-carousel-autoplay": "^8.0.0-rc17",

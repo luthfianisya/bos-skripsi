@@ -197,12 +197,12 @@ export const menusConfig = {
           },
           {
             title: "Knowledge Base",
-            href: "/auth/login2",
+            href: "https://backofficeselindo.tawk.help/",
             onClick: () => {},
           },
           {
             title: "Buku Panduan BOS 2024",
-            href: "/pusat-bantuan",
+            href: "https://drive.google.com/file/d/1oUQ7bENzojj-ErYZn7LOi5dk6LykNBbJ/view?usp=sharing",
             onClick: () => {},
           },
         ],

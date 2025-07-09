@@ -8,82 +8,121 @@ import { ColumnDef } from "@tanstack/react-table";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { NoSymbolIcon, PencilSquareIcon, CalendarDaysIcon, ClockIcon } from "@heroicons/react/24/outline";
 
-interface Presensi {
+// ENUM untuk kategori
+export enum KategoriPresensi {
+  BLOK = "BLOK",
+  MANUAL = "MANUAL",
+  LIBUR = "LIBUR",
+  TERLAMBAT = "TERLAMBAT",
+}
+
+export type Presensi = {
   id: number;
   tanggal: string;
-  masuk: string;
-  pulang: string;
-  status: string;
-  kodeAbsen: string;
-  terlambatKe: string;
-  keterangan: string;
+  masuk?: string | null;       // ✅ Opsional
+  pulang?: string | null;      // ✅ Opsional
+  kodeAbsen?: string | null;   // ✅ Opsional
+  status?: string| null;
+  terlambatKe?: string | null; // ✅ Opsional
+  keterangan?: string | null;  // ✅ Opsional
   diperbarui: string;
-}
+  kategori?: KategoriPresensi | null; // ✅ Opsional
+};
 
 export const columnsRentang: ColumnDef<Presensi>[] = [
   {
+    accessorKey: "kategori",
+    header: "#",
+    cell: ({ row }) => {
+      const kategori = row.getValue("kategori") as KategoriPresensi | null;
+
+      const icons: Record<KategoriPresensi, JSX.Element> = {
+        BLOK: <NoSymbolIcon className="h-5 w-5 text-red-700" />,
+        MANUAL: <PencilSquareIcon className="h-5 w-5 text-gray-600" />,
+        LIBUR: <CalendarDaysIcon className="h-5 w-5 text-red-700" />,
+        TERLAMBAT: <ClockIcon className="h-5 w-5 text-yellow-500" />,
+      };
+
+      const descriptions: Record<KategoriPresensi, string> = {
+        BLOK: "Blok Presensi",
+        MANUAL: "Presensi Manual",
+        LIBUR: "Hari Libur",
+        TERLAMBAT: "Terlambat",
+      };
+
+      if (!kategori) {
+        return <div></div>;
+      }
+
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex justify-center cursor-pointer">{icons[kategori]}</div>
+            </TooltipTrigger>
+            <TooltipContent color="secondary">
+              <p>{descriptions[kategori]}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    },
+  },
+  {
     accessorKey: "tanggal",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="HARI/TANGGAL"
-      />
-    ),
-    cell: ({ row }) => <div>{row.getValue("tanggal")}</div>,
-    enableSorting: true,
-    enableHiding: false,
+    header: "HARI/TANGGAL",
+    cell: ({ row }) => {
+      const rawTanggal = row.getValue("tanggal");
+      const tanggal = typeof rawTanggal === "string" ? rawTanggal : "";
+      const hari = tanggal ? tanggal.split(",")[0] : "Tidak diketahui";
+
+      // Cek apakah hari libur atau weekend
+      const kategori = row.getValue("kategori") as KategoriPresensi | null;
+      const isLibur = kategori === KategoriPresensi.LIBUR || hari === "Sabtu" || hari === "Minggu";
+
+      return (
+        <span className={isLibur ? "text-red-500" : ""}>
+          {tanggal || "Tidak diketahui"}
+        </span>
+      );
+    },
   },
   {
     accessorKey: "masuk",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="MASUK" />,
-    cell: ({ row }) => <div>{row.getValue("masuk")}</div>,
+    header: "MASUK",
+    cell: ({ row }) => <div>{row.getValue("masuk") || "-"}</div>,
   },
   {
     accessorKey: "pulang",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="PULANG" />,
-    cell: ({ row }) => <div>{row.getValue("pulang")}</div>,
+    header: "PULANG",
+    cell: ({ row }) => <div>{row.getValue("pulang") || "-"}</div>,
   },
   {
     accessorKey: "status",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="STATUS" />,
-    cell: ({ row }) => <div>{row.getValue("status")}</div>,
+    header: "STATUS",
+    cell: ({ row }) => <div>{row.getValue("status") || "-"}</div>,
   },
   {
     accessorKey: "kodeAbsen",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="KODE ABSEN" />,
-    cell: ({ row }) => <div>{row.getValue("kodeAbsen")}</div>,
+    header: "KODE ABSEN",
+    cell: ({ row }) => <div>{row.getValue("kodeAbsen") || "-"}</div>,
   },
   {
     accessorKey: "terlambatKe",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="TERLAMBAT KE-" />,
-    cell: ({ row }) => <div>{row.getValue("terlambatKe")}</div>,
+    header: "TERLAMBAT KE-",
+    cell: ({ row }) => <div>{row.getValue("terlambatKe") || "-"}</div>,
   },
   {
     accessorKey: "keterangan",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="KETERANGAN" />,
-    cell: ({ row }) => <div>{row.getValue("keterangan")}</div>,
+    header: "KETERANGAN",
+    cell: ({ row }) => <div>{row.getValue("keterangan") || "-"}</div>,
   },
   {
     accessorKey: "diperbarui",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="DIPERBAHARUI" />,
-    cell: ({ row }) => <div>{row.getValue("diperbarui")}</div>,
+    header: "DIPERBAHARUI",
+    cell: ({ row }) => <div>{row.getValue("diperbarui") || "-"}</div>,
   },
-  // {
-  //   accessorKey: "aksi",
-  //   header: ({ column }) => <DataTableColumnHeader column={column} title="Aksi" />,
-  //   cell: ({ row }) => (
-  //     <div className="flex gap-3 justify-end">
-  //       <Button size="icon" variant="outline" className="h-7 w-7">
-  //         <Icon icon="heroicons:pencil-square" className="h-4 w-4" />
-  //       </Button>
-  //       <Button size="icon" variant="outline" className="h-7 w-7" color="destructive">
-  //         <Icon icon="heroicons:trash" className="h-4 w-4" />
-  //       </Button>
-  //     </div>
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
 ];
-

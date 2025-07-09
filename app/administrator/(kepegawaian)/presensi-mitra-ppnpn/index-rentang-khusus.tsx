@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { columnsRentang } from "./components/columns-rentang-khusus";
 import { DataTable } from "./components/data-table";
-import { presensiData } from "./data/rentang-khusus";
+import { dataPresensiRentang } from "@/data/presensi-rentang-data";
 import { isWithinInterval, parseISO } from "date-fns";
 
 // Definisi tipe props
@@ -18,7 +18,7 @@ interface RentangTableProps {
 
 export default function RentangTable({ filters }: RentangTableProps) {
   // Filter data berdasarkan filters yang diterima
-  const filteredData = presensiData.filter((item) => {
+  const filteredData = dataPresensiRentang.filter((item) => {
     // // Filter berdasarkan tahun
     // if (filters.tahun && item.tahun !== filters.tahun) return false;
 
