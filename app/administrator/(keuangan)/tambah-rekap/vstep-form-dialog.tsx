@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import VStepForm from "./vstep-form";
 
+interface TambahRekapDialogProps {
+  filterState: Record<string, any>;
+}
 
-export default function TambahRekapDialog() {
+export default function TambahRekapDialog({ filterState }: TambahRekapDialogProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -20,7 +23,7 @@ export default function TambahRekapDialog() {
           <DialogTitle className="text-lg">Tambah Rekap</DialogTitle>
         </DialogHeader>
         <div className="flex-1 overflow-auto">
-          <VStepForm />
+          <VStepForm defaultValues={filterState} />
         </div>
       </DialogContent>
     </Dialog>

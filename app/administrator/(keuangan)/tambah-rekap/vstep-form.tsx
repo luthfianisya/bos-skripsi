@@ -151,15 +151,6 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
   const handleBack = () => setActiveStep((prev) => prev - 1);
   const handleReset = () => setActiveStep(0);
 
-  // const handleSubmitFinal = () => {
-  //   stoast.success("Data Form Permintaan berhasil di-submit ke PJ", { position: "top-right" });
-  //   setTimeout(() => router.push("/administrator/form-permintaan"), 1500);
-  // };
-
-  const handleSimpan = () => {
-    stoast.info("Data Form permintaan berhasil disimpan", { position: "top-right" });
-  };
-
   const { getValues } = methods;
 
   const handleSubmitFinal = () => {
@@ -230,7 +221,7 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
             <form>
               <div className="grid grid-cols-12 gap-4">
                 {activeStep === 0 && (
-                  <StepInformasiUmum readOnly={readOnly} />
+                  <StepInformasiUmum readOnly={readOnly} defaultValues={defaultValues}/>
                 )}
 
                 {activeStep === 1 && (

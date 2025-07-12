@@ -1,65 +1,78 @@
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
 import { PROGRAMS, satker, organisasi, tahun } from "@/lib/constants";
 
 type OptionType = { value: string; label: string };
 
+type FilterState = {
+  tahun?: OptionType | null;
+  satker?: OptionType | null;
+  program?: OptionType | null;
+  kegiatan?: OptionType | null;
+  output?: OptionType | null;
+  suboutput?: OptionType | null;
+  komponen?: OptionType | null;
+};
+
+interface DataTableFilterProps {
+  filterState: FilterState;
+  setFilterState: React.Dispatch<React.SetStateAction<FilterState>>;
+}
+
 const styles = {
-  option: (provided: any) => ({
-    ...provided,
-    fontSize: "14px",
-  }),
+  option: (provided: any) => ({ ...provided, fontSize: "14px" }),
   menuPortal: (base: any) => ({ ...base, zIndex: 9999 }),
 };
 
-const DataTableFilter = () => {
-  const [selectedProgram, setSelectedProgram] = useState<OptionType | null>(null);
-  const [selectedKegiatan, setSelectedKegiatan] = useState<OptionType | null>(null);
-  const [selectedOutput, setSelectedOutput] = useState<OptionType | null>(null);
-  const [selectedSuboutput, setSelectedSuboutput] = useState<OptionType | null>(null);
-  const [selectedKomponen, setSelectedKomponen] = useState<OptionType | null>(null);
-
+const DataTableFilter = ({ filterState, setFilterState }: DataTableFilterProps) => {
   const programOptions = PROGRAMS.map(p => ({
     value: p.code,
     label: `[${p.code}] ${p.label}`,
   }));
 
-  const kegiatanOptions = selectedProgram
-    ? PROGRAMS.find(p => p.code === selectedProgram.value)?.kegiatan.map(k => ({
-      value: k.code,
-      label: `[${k.code}] ${k.label}`,
-    })) ?? []
-    : [];
-
-  const outputOptions = selectedProgram && selectedKegiatan
-    ? PROGRAMS.find(p => p.code === selectedProgram.value)
-      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
-      ?.output.map(o => ({
-        value: o.code,
-        label: `[${o.code}] ${o.label}`,
+  const kegiatanOptions =
+    filterState.program?.value
+      ? PROGRAMS.find(p => p.code === filterState.program!.value)?.kegiatan.map(k => ({
+        value: k.code,
+        label: `[${k.code}] ${k.label}`,
       })) ?? []
-    : [];
+      : [];
 
-  const subOutputOptions = selectedProgram && selectedKegiatan && selectedOutput
-    ? PROGRAMS.find(p => p.code === selectedProgram.value)
-      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
-      ?.output.find(o => o.code === selectedOutput.value)
-      ?.suboutput?.map(s => ({
-        value: s.code,
-        label: `[${s.code}] ${s.label}`,
-      })) ?? []
-    : [];
+  const outputOptions =
+    filterState.program?.value && filterState.kegiatan?.value
+      ? PROGRAMS.find(p => p.code === filterState.program!.value)
+        ?.kegiatan.find(k => k.code === filterState.kegiatan!.value)
+        ?.output.map(o => ({
+          value: o.code,
+          label: `[${o.code}] ${o.label}`,
+        })) ?? []
+      : [];
 
-  const komponenOptions = selectedProgram && selectedKegiatan && selectedOutput && selectedSuboutput
-    ? PROGRAMS.find(p => p.code === selectedProgram.value)
-      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
-      ?.output.find(o => o.code === selectedOutput.value)
-      ?.suboutput.find(s => s.code === selectedSuboutput.value)
-      ?.komponen?.map(c => ({
-        value: c.code,
-        label: c.label,
-      })) ?? []
-    : [];
+  const subOutputOptions =
+    filterState.program?.value && filterState.kegiatan?.value && filterState.output?.value
+      ? PROGRAMS.find(p => p.code === filterState.program!.value)
+        ?.kegiatan.find(k => k.code === filterState.kegiatan!.value)
+        ?.output.find(o => o.code === filterState.output!.value)
+        ?.suboutput?.map(s => ({
+          value: s.code,
+          label: `[${s.code}] ${s.label}`,
+        })) ?? []
+      : [];
+
+  const komponenOptions =
+    filterState.program?.value &&
+      filterState.kegiatan?.value &&
+      filterState.output?.value &&
+      filterState.suboutput?.value
+      ? PROGRAMS.find(p => p.code === filterState.program!.value)
+        ?.kegiatan.find(k => k.code === filterState.kegiatan!.value)
+        ?.output.find(o => o.code === filterState.output!.value)
+        ?.suboutput.find(s => s.code === filterState.suboutput!.value)
+        ?.komponen?.map(c => ({
+          value: c.code,
+          label: c.label,
+        })) ?? []
+      : [];
 
   return (
     <div className="grid grid-cols-1 w-full gap-y-4">
@@ -68,10 +81,11 @@ const DataTableFilter = () => {
         <Select
           className="react-select flex-1 z-30"
           classNamePrefix="select"
-          defaultValue={tahun[0]}
+          placeholder="Pilih Tahun"
           styles={styles}
-          name="clear"
           options={tahun}
+          value={filterState.tahun ?? null}
+          onChange={(option) => setFilterState(prev => ({ ...prev, tahun: option }))}
           isClearable
           menuPortalTarget={document.body}
         />
@@ -79,15 +93,15 @@ const DataTableFilter = () => {
       <div className="flex gap-10">
         <div className="flex-1 flex flex-col gap-3">
           <div className="flex items-center gap-3">
-            {/* Pastikan semua label memiliki lebar yang sama */}
             <label className="w-48 font-medium z-30">Satuan Kerja</label>
             <Select
               className="react-select flex-1 z-30"
               classNamePrefix="select"
               placeholder="Pilih Satuan Kerja"
               styles={styles}
-              name="clear"
               options={satker}
+              value={filterState.satker ?? null}
+              onChange={(option) => setFilterState(prev => ({ ...prev, satker: option }))}
               isClearable
               menuPortalTarget={document.body}
             />
@@ -97,18 +111,20 @@ const DataTableFilter = () => {
             <Select
               className="react-select flex-1 z-20"
               classNamePrefix="select"
-              placeholder="Pilih Unit Kerja"
+              placeholder="Pilih Program"
               styles={styles}
-              name="clear"
               options={programOptions}
-              value={selectedProgram}
-              onChange={(option) => {
-                setSelectedProgram(option);
-                setSelectedKegiatan(null);
-                setSelectedOutput(null);
-                setSelectedSuboutput(null);
-                setSelectedKomponen(null);
-              }}
+              value={filterState.program ?? null}
+              onChange={(option) =>
+                setFilterState(prev => ({
+                  ...prev,
+                  program: option,
+                  kegiatan: null,
+                  output: null,
+                  suboutput: null,
+                  komponen: null,
+                }))
+              }
               isClearable
               menuPortalTarget={document.body}
             />
@@ -120,81 +136,83 @@ const DataTableFilter = () => {
               classNamePrefix="select"
               placeholder="Pilih Kegiatan"
               styles={styles}
-              name="clear"
               options={kegiatanOptions}
-              value={selectedKegiatan}
-              onChange={(option) => {
-                setSelectedKegiatan(option);
-                setSelectedOutput(null);
-                setSelectedSuboutput(null);
-                setSelectedKomponen(null);
-              }}
+              value={filterState.kegiatan ?? null}
+              onChange={(option) =>
+                setFilterState(prev => ({
+                  ...prev,
+                  kegiatan: option,
+                  output: null,
+                  suboutput: null,
+                  komponen: null,
+                }))
+              }
               isClearable
               menuPortalTarget={document.body}
             />
           </div>
         </div>
         <div className="flex-1 flex flex-col gap-3">
-          <div className="flex items-center gap-3">
-            <label className="w-24 font-medium z-20">Output</label>
-            <Select
-              className="react-select flex-1 z-20"
-              classNamePrefix="select"
-              placeholder="Pilih Output"
-              styles={styles}
-              name="clear"
-               options={outputOptions}
-              value={selectedOutput}
-              onChange={(option) => {
-                setSelectedOutput(option);
-                setSelectedSuboutput(null);
-                setSelectedKomponen(null);
-              }}
-              
-              isClearable
-              isDisabled={!selectedKegiatan}
-              menuPortalTarget={document.body}
-            />
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="w-24 font-medium z-20">Sub Output</label>
-            <Select
-              className="react-select flex-1 z-20"
-              classNamePrefix="select"
-              placeholder="Pilih Sub Output"
-              styles={styles}
-              name="clear"
-               options={subOutputOptions}
-              value={selectedSuboutput}
-              onChange={(option) => {
-                setSelectedSuboutput(option);
-                setSelectedKomponen(null);
-              }}
-              
-              isClearable
-              isDisabled={!selectedOutput}
-              menuPortalTarget={document.body}
-            />
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="w-24 font-medium z-20">Komponen</label>
-            <Select
-              className="react-select flex-1 z-20"
-              classNamePrefix="select"
-              placeholder="Pilih Komponen"
-              styles={styles}
-              name="clear"
-              options={komponenOptions}
-              value={selectedKomponen}
-              onChange={(option) => {
-                setSelectedKomponen(option);
-              }}
-              
-              isClearable
-              isDisabled={!selectedSuboutput}
-              menuPortalTarget={document.body}
-            />
-          </div>
+            <div className="flex items-center gap-3">
+              <label className="w-24 font-medium z-20">Output</label>
+              <Select
+                className="react-select flex-1 z-20"
+                classNamePrefix="select"
+                placeholder="Pilih Output"
+                styles={styles}
+                options={outputOptions}
+                value={filterState.output ?? null}
+                onChange={(option) =>
+                  setFilterState(prev => ({
+                    ...prev,
+                    output: option,
+                    suboutput: null,
+                    komponen: null,
+                  }))
+                }
+                isClearable
+                menuPortalTarget={document.body}
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <label className="w-24 font-medium z-20">Sub Output</label>
+              <Select
+                className="react-select flex-1 z-20"
+                classNamePrefix="select"
+                placeholder="Pilih Sub Output"
+                styles={styles}
+                options={subOutputOptions}
+                value={filterState.suboutput ?? null}
+                onChange={(option) =>
+                  setFilterState(prev => ({
+                    ...prev,
+                    suboutput: option,
+                    komponen: null,
+                  }))
+                }
+                isClearable
+                menuPortalTarget={document.body}
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <label className="w-24 font-medium z-20">Komponen</label>
+              <Select
+                className="react-select flex-1 z-20"
+                classNamePrefix="select"
+                placeholder="Pilih Komponen"
+                styles={styles}
+                options={komponenOptions}
+                value={filterState.komponen ?? null}
+                onChange={(option) =>
+                  setFilterState(prev => ({
+                    ...prev,
+                    komponen: option,
+                  }))
+                }
+                isClearable
+                menuPortalTarget={document.body}
+              />
+            </div>
         </div>
       </div>
     </div>

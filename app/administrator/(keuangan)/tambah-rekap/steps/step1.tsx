@@ -8,10 +8,11 @@ import { PROGRAMS } from "@/lib/constants";
 
 interface StepInformasiUmumProps {
   readOnly?: boolean;
+  defaultValues?: Record<string, any>;
 }
 
-const StepInformasiUmum = ({ readOnly = false }: StepInformasiUmumProps) => {
-  // const { register, control, formState: { errors } } = useFormContext();
+const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmumProps) => {
+
   const {
     register,
     control,
@@ -20,6 +21,34 @@ const StepInformasiUmum = ({ readOnly = false }: StepInformasiUmumProps) => {
   } = useFormContext();
 
   const { getValues } = useFormContext();
+
+  React.useEffect(() => {
+    if (!defaultValues) return;
+
+    if (defaultValues.tahun) setValue("tahun", defaultValues.tahun);
+    if (defaultValues.satker) setValue("satker", defaultValues.satker);
+    if (defaultValues.program) {
+      setValue("program", defaultValues.program);
+      setSelectedProgram(defaultValues.program);
+    }
+    if (defaultValues.kegiatan) {
+      setValue("kegiatan", defaultValues.kegiatan);
+      setSelectedKegiatan(defaultValues.kegiatan);
+    }
+    if (defaultValues.output) {
+      setValue("output", defaultValues.output);
+      setSelectedOutput(defaultValues.output);
+    }
+    if (defaultValues.suboutput) {
+      setValue("suboutput", defaultValues.suboutput);
+      setSelectedSuboutput(defaultValues.suboutput);
+    }
+    if (defaultValues.komponen) {
+      setValue("komponen", defaultValues.komponen);
+      setSelectedKomponen(defaultValues.komponen);
+    }
+  }, [defaultValues]);
+
 
   React.useEffect(() => {
     const tipeFormValue = getValues("tipeForm");

@@ -13,7 +13,10 @@ import { TipeForm } from "./columns"
 import Link from "next/link";
 import TambahRekapDialog from "../../tambah-rekap/vstep-form-dialog";
 
-// import TambahRekap from "./tambah-rekap/tambah-rekap";
+interface DataTableToolbarProps {
+  table: Table<any>;
+  filterState: any;
+}
 
 const tipeFormOptions = [
   { label: "Translokasi", value: TipeForm.TRANSLOK }, // "TRANSLOK"
@@ -45,7 +48,7 @@ const approvalFilterOptions = approvalRoles.flatMap((role) => {
 interface DataTableToolbarProps {
   table: Table<any>;
 }
-export function DataTableToolbar({ table }: DataTableToolbarProps) {
+export function DataTableToolbar({ table, filterState }: DataTableToolbarProps) {
   const globalFilter = table.getState().globalFilter as string;
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -66,12 +69,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
     table.resetColumnFilters(); // Reset filters
     table.setGlobalFilter(""); // Reset global search
   };
-
-  // const approvalsColumn = table.getColumn("approvals");
-  // const tipeFormColumn = table.getColumn("tipeForm");
-
-  // const statusColumn = table.getColumn("status");
-  // const priorityColumn = table.getColumn("priority");
+  
 
   return (
     <div className="flex w-full justify-between items-center gap-4">
@@ -113,36 +111,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
 
       {/* Container kanan: Semua tombol di kanan */}
       <div className="flex items-center gap-2">
-        {/* <Button type="button" color="primary" variant="outline" size="md" icon={PrinterIcon}>
-          Cetak POK
-        </Button> */}
-        {/* <DataTableViewOptions table={table} /> */}
-        {/* {tipeFormColumn && (
-          <DataTableFacetedFilter
-            column={tipeFormColumn}
-            title="Filter Tipe Form"
-            options={tipeFormOptions}
-          />
-        )}
-        {approvalsColumn && (
-          <DataTableFacetedFilter
-            column={approvalsColumn}
-            title="Filter Status"
-            options={approvalFilterOptions}
-          />
-        )} */}
-        {/* <Button type="button" color="primary" size="md" icon={Plus} onClick={handleSheetOpen}>
-          Tambah Rekap
-        </Button> */}
-        {/* <TambahRekap/> */}
-        {/* <Link href="/administrator/rekap-bendahara/tambah-rekap">
-                <Button
-                  color="primary" size="md" icon={Plus}
-                >
-                  Tambah Rekap
-                </Button>
-                </Link> */}
-                <TambahRekapDialog/>
+        <TambahRekapDialog filterState={filterState} />
       </div>
 
     </div>
