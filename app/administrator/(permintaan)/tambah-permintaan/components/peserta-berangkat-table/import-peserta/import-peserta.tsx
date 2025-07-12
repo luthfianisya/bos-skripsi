@@ -70,27 +70,27 @@ const VStepFormPeserta = () => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: showSelects ? 1 : 0, height: showSelects ? "auto" : 0 }}
                   transition={{ duration: 0.2 }}
-                  className="overflow-hidden"
+                  className="overflow-visible z-[9999]"
                 >
-                  <div className="grid grid-cols-1 w-full space-y-4">
+                  <div className="grid grid-cols-1 w-full space-y-4 z-[9999]">
                     <div>
                       <label className="font-medium block mb-1">Tahun Anggaran</label>
-                      <Select className="react-select w-full" classNamePrefix="select" styles={styles} options={tahun} isClearable />
+                      <Select className="react-select w-full z-[9999]" classNamePrefix="select" styles={styles} options={tahun} isClearable />
                     </div>
 
                     <div>
                       <label className="font-medium block mb-1">Satuan Kerja</label>
-                      <Select className="react-select w-full" classNamePrefix="select" styles={styles} options={satker} isClearable />
+                      <Select className="react-select w-full z-[9998]" classNamePrefix="select" styles={styles} options={satker} isClearable />
                     </div>
 
                     <div>
                       <label className="font-medium block mb-1">Unit Kerja</label>
-                      <Select className="react-select w-full" classNamePrefix="select" styles={styles} options={organisasi} isClearable />
+                      <Select className="react-select w-full z-[9997]" classNamePrefix="select" styles={styles} options={satker} isClearable />
                     </div>
                   </div>
                 </motion.div>
 
-                <Button variant="outline" size="md" icon={ArrowDownTrayIcon} className="w-full mt-4 mb-6">
+                <Button variant="outline" size="md" icon={ArrowDownTrayIcon} className="w-full mt-4 mb-6 z-1000">
                   Download Excel
                 </Button>
               </Step>

@@ -25,7 +25,7 @@ import { toast } from "sonner";
 
 
 
-const RealisasiTranslokGroup = () => {
+const RealisasiTranslokGroup = ({ isBerangkat }: { isBerangkat: boolean }) => {
     const promise = () =>
         new Promise((resolve) => setTimeout(() => resolve({ name: "Sonner" }), 1000));
     const [open, setOpen] = useState(false);
@@ -45,7 +45,7 @@ const RealisasiTranslokGroup = () => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button size="xs" color="primary" icon={BanknotesIcon} >
+                <Button size="xs" color="primary" icon={BanknotesIcon}    disabled={!isBerangkat}>
                     Hitung Realisasi
                 </Button>
             </DialogTrigger>

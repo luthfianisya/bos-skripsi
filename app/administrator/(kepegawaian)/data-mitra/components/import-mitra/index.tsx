@@ -7,7 +7,7 @@ export default function AdvancedTable() {
   return (
     <Fragment>
       <DataTable
-        data={pegawais}
+        data={[]}
         columns={columns}
       />
     </Fragment>

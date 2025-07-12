@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import Select from "react-select";
 import { SingleValue } from "react-select";
 import { organisasi, satker, SUB_TIPE_FORM_MAP, tahun, TIPE_FORM_MAP } from "@/lib/constants";
+import { Icon } from "@iconify/react";
+import { Switch } from "@/components/ui/switch";
 
 interface StepInformasiUmumProps {
   fileKAK: File | null;
@@ -64,6 +66,15 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
   };
 
   const [jenisPok, setJenisPok] = useState<string>("single");
+
+  const [isMultiPok, setIsMultiPok] = useState(false);
+
+// Sinkronkan default value saat komponen mount
+React.useEffect(() => {
+  const jenisPokValue = getValues("jenisPok");
+  setIsMultiPok(jenisPokValue === "multi");
+}, [getValues]);
+
 
   return (
     <>
@@ -148,29 +159,23 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
 
         <div className="flex flex-col gap-2">
           <Label>Jenis POK</Label>
-          <div className="flex items-center gap-4 mt-2">
-            <label className="flex items-center space-x-2">
-              <input
-                type="radio"
-                value="single"
-                {...register("jenisPok")}
-                checked={jenisPok === "single"}
-                onChange={() => setJenisPok("single")}
-                disabled={readOnly}
-              />
-              <span>Single POK</span>
-            </label>
-            <label className="flex items-center space-x-2">
-              <input
-                type="radio"
-                value="multi"
-                {...register("jenisPok")}
-                checked={jenisPok === "multi"}
-                onChange={() => setJenisPok("multi")}
-                disabled={selectedTipeForm?.value === "FORM - TRANSLOK" || readOnly}
-              />
-              <span>Multi POK</span>
-            </label>
+
+          <div className="flex items-center space-x-2.5 mt-2">
+            <Switch
+              id="jenisPokSwitch"
+              checked={isMultiPok}
+              onCheckedChange={(checked) => {
+                setIsMultiPok(checked);
+                setValue("jenisPok", checked ? "multi" : "single");
+              }}
+              disabled={selectedTipeForm?.value === "FORM - TRANSLOK" || readOnly}
+            />
+            <Label
+              htmlFor="jenisPokSwitch"
+              className="text-sm font-normal"
+            >
+              Multi POK
+            </Label>
           </div>
         </div>
 
@@ -260,7 +265,20 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
             disabled={readOnly}
           />
 
-          {fileKAK && <span className="text-sm text-gray-500">File: {fileKAK.name}</span>}
+          {fileKAK && (
+            <div className="flex items-center gap-3 border rounded-md p-2 mt-2">
+              <div className="w-5 h-5 flex items-center justify-center bg-muted rounded">
+                <Icon icon="tabler:file-description" />
+              </div>
+              <div className="flex items-center justify-between flex-1">
+                <span className="text-sm text-gray-700">{fileKAK.name}</span>
+                <span className="text-xs text-gray-500">
+                  {`${(fileKAK.size / 1024).toFixed(1)} KB`}
+                </span>
+              </div>
+            </div>
+          )}
+
           {errors.uploadKAK && (
             <p className="text-red-500 text-sm">{errors.uploadKAK.message as string}</p>
           )}

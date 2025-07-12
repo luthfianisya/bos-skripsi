@@ -323,6 +323,11 @@ export const jenisPencairanOptions = [
   { value: "tup", label: "Tambahan UP (TUP)" },
 ];
 
+export const PPKOptions = [
+  { value: "1", label: "Maura Delvina" },
+  { value: "2", label: "Luthfiani Nur Aisyah" },
+  { value: "3", label: "Andi  Santoso" },
+];
 
 
 const dummyPegawai: PegawaiDetail[] = [

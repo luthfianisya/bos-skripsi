@@ -16,7 +16,7 @@ const VStepFormPembiayaan = () => {
     <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
         <Button type="button" color="primary" size="md" icon={DocumentArrowUpIcon}>
-          Assign Pembiayaan
+          Import Assign
         </Button>
       </DialogTrigger>
       <DialogContent size="7xl" overlayClass="backdrop-blur-none">

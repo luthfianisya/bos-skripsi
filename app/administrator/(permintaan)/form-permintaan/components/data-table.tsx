@@ -39,6 +39,8 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [openUploadModal, setOpenUploadModal] = React.useState(false);
+  const [selectedRow, setSelectedRow] = React.useState<TData | null>(null);
 
   const table = useReactTable({
     data,
@@ -67,7 +69,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
       <DataTableFilter />
       <DataTableToolbar table={table} />
       <div className="relative rounded-md border overflow-x-auto">
-      <Table className="table-auto min-w-max">
+        <Table className="table-auto min-w-max">
           {/* HEADER */}
           <TableHeader className="bg-default-100">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -76,23 +78,23 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                   const isSticky = header.column.id === "noPermintaan" || header.column.id === "aksi";
                   return (
                     <TableHead
-                        key={header.id}
-                        colSpan={header.colSpan}
-                        className={isSticky ? "sticky z-10 drop-shadow-md bg-default-100" : ""}
-                        style={
-                          header.column.id === "noPermintaan"
-                            ? { left: 0 }
-                            : header.column.id === "aksi"
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      className={isSticky ? "sticky z-10 drop-shadow-md bg-default-100" : ""}
+                      style={
+                        header.column.id === "noPermintaan"
+                          ? { left: 0 }
+                          : header.column.id === "aksi"
                             ? { right: 0 }
                             : {}
-                        }
-                      >
+                      }
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
@@ -110,20 +112,19 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     return (
                       <TableCell
                         key={cell.id}
-                        className={`transition-colors duration-200 ease-in-out ${
-                          isSticky
-                            ? `sticky z-10 
+                        className={`transition-colors duration-200 ease-in-out ${isSticky
+                          ? `sticky z-10 
                                ${cell.column.id === "noPermintaan" || cell.column.id === "aksi" ? "drop-shadow-md" : ""} 
                                ${row.getIsSelected() ? "bg-muted" : "bg-background"} 
                                group-hover:bg-muted`
-                            : ""
-                        }`}   
+                          : ""
+                          }`}
                         style={
                           cell.column.id === "noPermintaan"
                             ? { left: 0 }
                             : cell.column.id === "aksi"
-                            ? { right: 0 }
-                            : {}
+                              ? { right: 0 }
+                              : {}
                         }
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

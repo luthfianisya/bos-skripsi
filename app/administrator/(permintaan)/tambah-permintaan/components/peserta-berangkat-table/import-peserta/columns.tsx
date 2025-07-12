@@ -116,41 +116,6 @@ export const columns: ColumnDef<PerjalananDinas>[] = [
       return <div>{formatted}</div>;
     },
   },
-  {
-    accessorKey: "aksi",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="AKSI" />
-    ),
-    cell: () => (
-      <div className="flex gap-3 justify-end">
-        {/* <DialogForm
-        data={data}
-        onSave={(updatedTotal) => {
-          // Update data pegawai kalau perlu
-          console.log("Total baru untuk", data.nama, "adalah", updatedTotal);
-        }}
-      /> */}
-        <Button
-          size="icon"
-          variant="outline"
-          color="warning"
-          className="h-7 w-7"
-          icon={PencilSquareIcon}
-        >
-        </Button>
-        <Button
-          size="icon"
-          variant="outline"
-          className="h-7 w-7"
-          color="destructive"
-        >
-          <Icon icon="heroicons:trash" className="h-4 w-4" />
-        </Button>
-      </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
 ];
 
 export const pegawais: PerjalananDinas[] = [

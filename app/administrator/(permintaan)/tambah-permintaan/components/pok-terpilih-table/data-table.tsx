@@ -41,7 +41,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
     { id: "paguSisa", value: ["tersedia"] }, // filter pagu > 0
     { id: "status", value: ["terpakai"] },        // filter status terpakai
-  ]);  
+  ]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -67,125 +67,125 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   });
 
   const selectedRows = table.getFilteredSelectedRowModel().rows;
-const selectedCount = selectedRows.length;
+  const selectedCount = selectedRows.length;
 
-const handleCancel = () => {
-  // Reset row selection
-  setRowSelection({});
-};
+  const handleCancel = () => {
+    // Reset row selection
+    setRowSelection({});
+  };
 
-const handleSaveSelected = () => {
-  console.log("Menyimpan data: ", selectedRows);
-  // Tambah logika simpan di sini
-};
+  const handleSaveSelected = () => {
+    console.log("Menyimpan data: ", selectedRows);
+    // Tambah logika simpan di sini
+  };
 
-const satker: { value: string, label: string }[] = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-  
-const styles = {
-  control: (provided: any, state: any) => ({
-    ...provided,
-    minHeight: '2.25rem',
-    height: '2.25rem',
-    fontSize: '0.875rem',
+  const satker: { value: string, label: string }[] = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
 
-    backgroundColor: state.hasValue ? '#FFFFFF' : '#1D4ED8', // putih kalau ada value, biru-700 kalau belum dipilih
-    borderColor: '#1D4ED8', // selalu biru-700 border-nya
+  const styles = {
+    control: (provided: any, state: any) => ({
+      ...provided,
+      minHeight: '2.25rem',
+      height: '2.25rem',
+      fontSize: '0.875rem',
 
-    boxShadow: state.isFocused ? '0 0 0 1px #1D4ED8' : 'none',
-    '&:hover': {
-      borderColor: '#1D4ED8',
-    },
-  }),
+      backgroundColor: state.hasValue ? '#FFFFFF' : '#1D4ED8', // putih kalau ada value, biru-700 kalau belum dipilih
+      borderColor: '#1D4ED8', // selalu biru-700 border-nya
 
-  placeholder: (provided: any, state: any) => ({
-    ...provided,
-    color: '#FFFFFF', // placeholder putih (belum ada value)
-    fontWeight: '500',
-  }),
+      boxShadow: state.isFocused ? '0 0 0 1px #1D4ED8' : 'none',
+      '&:hover': {
+        borderColor: '#1D4ED8',
+      },
+    }),
 
-  singleValue: (provided: any, state: any) => ({
-    ...provided,
-    color: '#1D4ED8', // text biru-700 (kalau udah dipilih)
-    fontWeight: '500',
-  }),
+    placeholder: (provided: any, state: any) => ({
+      ...provided,
+      color: '#FFFFFF', // placeholder putih (belum ada value)
+      fontWeight: '500',
+    }),
 
-  valueContainer: (provided: any) => ({
-    ...provided,
-    height: '32px',
-    padding: '0 8px',
-  }),
+    singleValue: (provided: any, state: any) => ({
+      ...provided,
+      color: '#1D4ED8', // text biru-700 (kalau udah dipilih)
+      fontWeight: '500',
+    }),
 
-  indicatorsContainer: (provided: any) => ({
-    ...provided,
-    height: '32px',
-  }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      height: '32px',
+      padding: '0 8px',
+    }),
 
-  dropdownIndicator: (provided: any, state: any) => ({
-    ...provided,
-    padding: '4px',
-    color: state.hasValue
-      ? '#1D4ED8' // icon biru-700 kalau udah dipilih
-      : '#FFFFFF', // icon putih kalau belum
-    '&:hover': {
-      color: '#1D4ED8',
-    },
-  }),
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      height: '32px',
+    }),
 
-  clearIndicator: (provided: any, state: any) => ({
-    ...provided,
-    padding: '4px',
-    color: state.hasValue ? '#1D4ED8' : '#FFFFFF',
-    '&:hover': {
-      color: '#1D4ED8',
-    },
-  }),
+    dropdownIndicator: (provided: any, state: any) => ({
+      ...provided,
+      padding: '4px',
+      color: state.hasValue
+        ? '#1D4ED8' // icon biru-700 kalau udah dipilih
+        : '#FFFFFF', // icon putih kalau belum
+      '&:hover': {
+        color: '#1D4ED8',
+      },
+    }),
 
-  menu: (provided: any) => ({
-    ...provided,
-    fontSize: '12px',
-  }),
+    clearIndicator: (provided: any, state: any) => ({
+      ...provided,
+      padding: '4px',
+      color: state.hasValue ? '#1D4ED8' : '#FFFFFF',
+      '&:hover': {
+        color: '#1D4ED8',
+      },
+    }),
 
-  option: (provided: any, state: any) => ({
-    ...provided,
-    fontSize: '12px',
-    backgroundColor: state.isSelected
-      ? '#1D4ED8'
-      : state.isFocused
-      ? '#DBEAFE'
-      : '#FFFFFF',
-    color: state.isSelected ? '#FFFFFF' : '#111827',
-    '&:hover': {
-      backgroundColor: '#DBEAFE',
-      color: '#111827',
-    },
-  }),
-};
+    menu: (provided: any) => ({
+      ...provided,
+      fontSize: '12px',
+    }),
+
+    option: (provided: any, state: any) => ({
+      ...provided,
+      fontSize: '12px',
+      backgroundColor: state.isSelected
+        ? '#1D4ED8'
+        : state.isFocused
+          ? '#DBEAFE'
+          : '#FFFFFF',
+      color: state.isSelected ? '#FFFFFF' : '#111827',
+      '&:hover': {
+        backgroundColor: '#DBEAFE',
+        color: '#111827',
+      },
+    }),
+  };
 
 
   return (
     <div className="space-y-4">
       {/* <DataTableFilter /> */}
       {selectedCount > 0 ? (
-    // Action Bar yang tadi kita bikin
-    <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 border rounded-full bg-primary-50 text-primary-700">
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="text-sm font-medium">
-        <Badge variant="outline">{selectedCount}/{table.getRowModel().rows.length} Selected</Badge>
+        // Action Bar yang tadi kita bikin
+        <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 border rounded-md bg-primary-50">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="text-sm font-medium">
+              <Badge variant="outline">{selectedCount}/{table.getRowModel().rows.length} Selected</Badge>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Button onClick={handleCancel} size="sm" color="secondary" variant="soft" className="border border-gray-300">Batal</Button>
+            <Button onClick={handleSaveSelected} size="sm" color="primary">Tambah</Button>
+          </div>
         </div>
-      </div>
-      <div className="flex gap-2">
-        <Button onClick={handleCancel} size="xs" color="secondary" variant="outline" className="rounded-full bg-white">Batal</Button>
-        <Button onClick={handleSaveSelected} size="xs" color="primary" className="rounded-full">Tambah</Button>
-      </div>
-    </div>
-  ) : (
-    // Toolbar default kalau nggak ada row yang di-select
-    <DataTableToolbar table={table} />
-  )}
+      ) : (
+        // Toolbar default kalau nggak ada row yang di-select
+        <DataTableToolbar table={table} />
+      )}
       <div className="relative rounded-md border overflow-x-auto">
         <Table className="table-auto min-w-max">
           {/* HEADER */}
@@ -195,31 +195,31 @@ const styles = {
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
-                          key={header.id}
-                          colSpan={header.colSpan}
-                          className={
-                            header.column.id === "grup" || header.column.id === "aksi"
-                              ? "sticky z-10 drop-shadow-md bg-default-100"
-                              : header.column.id === "checkbox" || header.column.id === "status"
-                              ? "sticky z-10 bg-default-100"
-                              : ""
-                          }                                                  
-                          style={
-                            header.column.id === "status"
-                            ? { left: 0, width: 60, minWidth: 60, zIndex: 25 }
-                            : header.column.id === "grup"
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      className={
+                        header.column.id === "grup" || header.column.id === "aksi"
+                          ? "sticky z-10 drop-shadow-md bg-default-100"
+                          : header.column.id === "checkbox" || header.column.id === "status"
+                            ? "sticky z-10 bg-default-100"
+                            : ""
+                      }
+                      style={
+                        header.column.id === "status"
+                          ? { left: 0, width: 60, minWidth: 60, zIndex: 25 }
+                          : header.column.id === "grup"
                             ? { left: 60, width: 200, minWidth: 200, zIndex: 20 }
                             : header.column.id === "aksi"
-                            ? { right: 0, width: 100, minWidth: 100, zIndex: 10 }
-                            : {}
-                          }
-                        >
-                        {header.isPlaceholder
+                              ? { right: 0, width: 100, minWidth: 100, zIndex: 10 }
+                              : {}
+                      }
+                    >
+                      {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
@@ -233,28 +233,27 @@ const styles = {
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="group hover:bg-muted">
                   {row.getVisibleCells().map((cell) => {
-                    const isSticky = cell.column.id === "grup" || cell.column.id === "aksi"  || cell.column.id === "checkbox" || cell.column.id === "status";
+                    const isSticky = cell.column.id === "grup" || cell.column.id === "aksi" || cell.column.id === "checkbox" || cell.column.id === "status";
                     return (
                       <TableCell
                         key={cell.id}
-                        className={`transition-colors duration-200 ease-in-out ${
-                          isSticky
+                        className={`transition-colors duration-200 ease-in-out ${isSticky
                             ? `sticky z-10 
                                ${cell.column.id === "grup" || cell.column.id === "aksi" ? "drop-shadow-md" : ""} 
                                ${row.getIsSelected() ? "bg-muted" : "bg-background"} 
                                group-hover:bg-muted`
                             : ""
-                        }`}                        
+                          }`}
                         style={
                           cell.column.id === "status"
                             ? { left: 0, width: 60, minWidth: 60, zIndex: 25 }
                             : cell.column.id === "grup"
-                            ? { left: 60, width: 200, minWidth: 200, zIndex: 20 }
-                            : cell.column.id === "aksi"
-                            ? { right: 0, width: 100, minWidth: 100, zIndex: 10 }
-                            : {}
-                        }                        
-                        >
+                              ? { left: 60, width: 200, minWidth: 200, zIndex: 20 }
+                              : cell.column.id === "aksi"
+                                ? { right: 0, width: 100, minWidth: 100, zIndex: 10 }
+                                : {}
+                        }
+                      >
 
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>

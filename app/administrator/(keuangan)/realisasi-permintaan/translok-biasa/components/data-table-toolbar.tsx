@@ -33,7 +33,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
     table.resetColumnFilters(); // Reset filters
     table.setGlobalFilter(""); // Reset global search
   };
-  
+
   // const statusColumn = table.getColumn("status");
   // const priorityColumn = table.getColumn("priority");
 
@@ -43,15 +43,15 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
       <div className="flex flex-1 items-center gap-2">
         {/* Tombol Refresh (di luar max-w-sm) */}
         <Button
-  type="button"
-  color="primary"
-  variant="outline"
-  size="md"
-  icon={Refresh}
-  onClick={handleRefresh}
->
-  Refresh
-</Button>
+          type="button"
+          color="primary"
+          variant="outline"
+          size="md"
+          icon={Refresh}
+          onClick={handleRefresh}
+        >
+          Refresh
+        </Button>
 
 
         {/* Container kecil untuk Search & Reset (max-w-sm) */}
@@ -72,7 +72,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
               <X className="ltr:ml-2 rtl:mr-2 h-4 w-4" />
             </Button>
           )}
-        </div>  
+        </div>
       </div>
 
       {/* Container kanan: Semua tombol di kanan */}
@@ -88,36 +88,3 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
 
   );
 }
-
-{/* <Input
-        placeholder="Cari data mitra/PPNPN..."
-        value={table.getColumn("title")?.getFilterValue() as string || ""}
-        onChange={handleFilterChange}
-        className="h-9 min-w-[200px] max-w-sm"
-      /> */}
-
-      {/* {statusColumn && (
-        <DataTableFacetedFilter
-          column={statusColumn}
-          title="Status"
-          options={statuses}
-        />
-      )}
-      {priorityColumn && (
-        <DataTableFacetedFilter
-          column={priorityColumn}
-          title="Priority"
-          options={priorities}
-        />
-      )}
-      {isFiltered && (
-        <Button
-          variant="outline"
-          onClick={() => table.resetColumnFilters()}
-          className="h-8 px-2 lg:px-3"
-        >
-          Reset
-          <X className="ltr:ml-2 rtl:mr-2 h-4 w-4" />
-        </Button>
-      )} */}
-      {/* <DataTableViewOptions table={table} /> */}

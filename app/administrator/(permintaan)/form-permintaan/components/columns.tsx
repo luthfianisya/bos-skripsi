@@ -33,47 +33,6 @@ import { Form } from "@/lib/interface";
 import { formatRupiah } from "@/lib/utils";
 import { FullFormPermintaan } from "@/data/form-permintaan-f";
 
-// type ApprovalStatus = "approved" | "pending" | "submit" | "rejected";
-
-
-// export enum TipeForm {
-//   JLN = "FORM - JLN",
-//   NONOPR = "FORM - NON OPR",
-//   BHN = "FORM - BAHAN",
-//   PERSEDIAAN = "FORM - PERSEDIAAN",
-//   PMLH = "FORM - PEMELIHARAAN",
-//   MDL = "FORM - MODAL",
-//   SEWA = "FORM - SEWA",
-//   JS_KONSLTN = "FORM - JASA KONSULTAN",
-//   JS = "FORM - JASA PROFESI",
-//   UPH = "FORM - HONOR",
-//   FD_HD = "FORM - FULLDAY/HALFDAY",
-//   KONSI_DK = "FORM - FULLBOARD DALAM KOTA",
-//   KONSI_LK = "FORM - FULLBOARD LUAR KOTA",
-//   TRANSLOK = "FORM - TRANSLOK",
-//   JS_LAINNYA = "FORM - JASA LAINNYA",
-//   KPRL_KANTOR = "FORM - PERKANTORAN",
-//   PLT = "FORM - PAKET MEETING LAINNYA",
-//   OPR = "FORM - OPERASIONAL",
-//   LANGGANAN = "FORM - BELANJA LANGGANAN",
-//   LEMBUR = "FORM - LEMBUR",
-//   PENGHASILAN = "FORM - PENGHASILAN",
-// }
-
-// export interface Form {
-//   noPermintaan: string;
-//   deskripsi: string;
-//   noSurat: string;
-//   pembuat: string;
-//   jumlahUsulan: number;
-//   tipeForm: TipeForm;
-//   approvals: {
-//     operator: ApprovalStatus;
-//     pj: ApprovalStatus;
-//     ppk: ApprovalStatus;
-//   };
-// }
-
 const EllipsisTooltip = ({ children }: { children: string }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isTruncated, setIsTruncated] = useState(false);
@@ -130,12 +89,6 @@ const approvalFilterOptions = approvalRoles.flatMap((role) => {
 const getNormalizedStatus = (status: ApprovalStatus | undefined): ApprovalStatus => {
   return status ?? "pending"; // undefined dianggap pending
 };
-
-// const tipeFormOptions = Object.entries(TipeForm).map(([key, value]) => ({
-//   label: value,
-//   value: value,
-// }));
-
 
 // Function buat mapping badge props berdasarkan status
 const getBadgeProps = (status: ApprovalStatus): {
@@ -204,7 +157,8 @@ const ApprovalBadge = ({
 // Tabel Kolom
 
 export const columns = (
-  onDetailClick: (form: FullFormPermintaan) => void
+  onDetailClick: (form: FullFormPermintaan) => void,
+  onUploadAttachment: (form: FullFormPermintaan) => void
 ): ColumnDef<Form>[] => [
     {
       accessorKey: "noPermintaan",
@@ -381,7 +335,10 @@ export const columns = (
                 <p className="text-sm">Duplikat Permintaan</p>
               </DropdownMenuItem>
 
-              <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-primary-50 focus:text-primary-600 cursor-pointer">
+              <DropdownMenuItem
+                className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-primary-50 focus:text-primary-600 cursor-pointer"
+                onClick={() => onUploadAttachment(row.original as FullFormPermintaan)}
+              >
                 <ArrowUpOnSquareIcon className="w-5 h-5 text-primary-700" />
                 <p className="text-sm">Upload Ulang Attachment</p>
               </DropdownMenuItem>

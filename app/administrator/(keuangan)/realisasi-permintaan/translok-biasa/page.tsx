@@ -29,26 +29,6 @@ const DataTablePage = () => {
           <AdvancedTable />
         </CardContent>
       </Card>
-
-      {/* Basic Table (Jika diperlukan, bisa di-uncomment) */}
-      {/* <Card>
-        <CardHeader>
-          <CardTitle>Basic</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-          <BasicDataTable />
-        </CardContent>
-      </Card> */}
-
-      {/* Draggable Table (Jika diperlukan, bisa di-uncomment) */}
-      {/* <Card>
-        <CardHeader>
-          <CardTitle>Draggable Table</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <DraggableTable />
-        </CardContent>
-      </Card> */}
     </div>
   );
 };

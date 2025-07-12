@@ -73,7 +73,6 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  const isSticky = header.column.id === "nama" || header.column.id === "nip";
                   return (
                     <TableHead
                       key={header.id}

@@ -173,15 +173,15 @@ const styles = {
       <DataTableFilter/>
       {selectedCount > 0 ? (
     // Action Bar yang tadi kita bikin
-    <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 border rounded-full bg-primary-50 text-primary-700">
+    <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 border rounded-md bg-primary-50">
       <div className="flex flex-wrap items-center gap-4">
         <div className="text-sm font-medium">
         <Badge variant="outline">{selectedCount}/{table.getRowModel().rows.length} Selected</Badge>
         </div>
       </div>
       <div className="flex gap-2">
-        <Button onClick={handleCancel} size="xs" color="secondary" variant="outline" className="rounded-full bg-white">Batal</Button>
-        <Button onClick={handleSaveSelected} size="xs" color="primary" className="rounded-full">Tambah</Button>
+        <Button onClick={handleCancel} size="sm" color="secondary" variant="soft" className="border border-gray-300">Batal</Button>
+        <Button onClick={handleSaveSelected} size="sm" color="primary">Tambah</Button>
       </div>
     </div>
   ) : (

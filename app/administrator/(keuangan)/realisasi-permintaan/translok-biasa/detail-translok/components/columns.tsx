@@ -6,7 +6,7 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ClockIcon, MinusCircleIcon } from "@heroicons/react/24/outline"
-import { LockClosedIcon, EyeIcon, TrashIcon, PrinterIcon } from "@heroicons/react/24/solid"
+import { LockClosedIcon, EyeIcon, TrashIcon, PrinterIcon, PaperAirplaneIcon } from "@heroicons/react/24/solid"
 import RealisasiTranslok from "./realisasi-translok/realisasi-translok";
 
 function formatRupiah(amount: number): string {
@@ -69,11 +69,11 @@ export const getColumns = (isBlokTranslokActive: boolean): ColumnDef<Realisasi>[
   },
   {
     accessorKey: "translok",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="TRANSLOK" className="flex justify-center"/>,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="TRANSLOK" className="flex justify-center" />,
     cell: ({ row }) => {
       const translok = row.getValue("translok") as "BLOK" | "BELUM" | undefined;
       const isBlok = translok === "BLOK";
-  
+
       return (
         <div className="w-auto whitespace-nowrap flex justify-center">
           <Badge color={isBlok ? "default" : "secondary"} className="w-20 justify-center">
@@ -89,26 +89,25 @@ export const getColumns = (isBlokTranslokActive: boolean): ColumnDef<Realisasi>[
     },
     enableSorting: true,
     enableHiding: false,
-  },  
+  },
   {
     accessorKey: "berangkat",
     header: ({ column }) => <DataTableColumnHeader column={column} title="BERANGKAT" />,
     cell: ({ row }) => {
       const berangkat = row.getValue("berangkat") as "ya" | "tidak";
-    
+
       return (
         <div className="w-auto whitespace-nowrap flex justify-center">
           <Badge
-            className={`w-16 justify-center ${
-              berangkat === "ya" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
-            }`}
+            className={`w-16 justify-center ${berangkat === "ya" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
+              }`}
           >
             {berangkat === "ya" ? "YA" : "TIDAK"}
           </Badge>
         </div>
       );
     },
-    
+
     enableSorting: false,
     enableHiding: false,
   },
@@ -148,12 +147,13 @@ export const getColumns = (isBlokTranslokActive: boolean): ColumnDef<Realisasi>[
   },
   {
     accessorKey: "aksi",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="AKSI" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="AKSI" className="flex justify-center"/>,
     cell: ({ row }) => (
-      <div className="w-auto flex gap-3 justify-end">
-        <RealisasiTranslok/>
-        <Button size="icon" variant="outline" className="h-7 w-7" color="primary" icon={PrinterIcon} />
-        <Button size="icon" variant="outline" className="h-7 w-7" color="destructive" icon={TrashIcon} />
+      <div className="w-auto flex gap-2 justify-end">
+        <RealisasiTranslok />
+        <Button size="icon" variant="soft" className="h-7 w-7" color="primary" icon={PrinterIcon} />
+        <Button size="icon" variant="soft" className="h-7 w-7" color="destructive" icon={TrashIcon} />
+        <Button size="icon" className="h-7 w-7" color="primary" icon={PaperAirplaneIcon} />
       </div>
     ),
     enableSorting: false,

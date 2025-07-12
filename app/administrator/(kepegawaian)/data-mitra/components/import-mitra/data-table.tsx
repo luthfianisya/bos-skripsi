@@ -103,13 +103,20 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="hover:bg-muted">
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="group hover:bg-muted">
                   {row.getVisibleCells().map((cell) => {
                     const isSticky = cell.column.id === "nama" || cell.column.id === "aksi";
                     return (
                       <TableCell
                         key={cell.id}
-                        className={isSticky ? "sticky z-10 bg-background drop-shadow-md" : ""}
+                        className={`transition-colors duration-200 ease-in-out ${
+                          isSticky
+                            ? `sticky z-10 
+                               ${cell.column.id === "grup" || cell.column.id === "aksi" ? "drop-shadow-md" : ""} 
+                               ${row.getIsSelected() ? "bg-muted" : "bg-background"} 
+                               group-hover:bg-muted`
+                            : ""
+                        }`}  
                         style={
                           cell.column.id === "nama"
                             ? { left: 0 }

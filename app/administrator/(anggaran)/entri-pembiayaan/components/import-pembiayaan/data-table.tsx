@@ -39,7 +39,10 @@ interface DataTableProps<TData> {
 export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
+      { id: "status", value: ["terpakai"] },        // filter status terpakai
+    ]);  
+  // const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -166,7 +169,7 @@ const styles = {
 
   return (
     <div className="space-y-4">
-      
+    
     <DataTableToolbar table={table} />
       <div className="relative rounded-md border overflow-x-auto">
         <Table className="table-auto min-w-max">
@@ -180,17 +183,21 @@ const styles = {
                           key={header.id}
                           colSpan={header.colSpan}
                           className={
-                            header.column.id === "grup" || header.column.id === "checkbox" || header.column.id === "aksi" || header.column.id === "status"
+                            header.column.id === "grup" || header.column.id === "aksi"
                               ? "sticky z-10 drop-shadow-md bg-default-100"
+                              : header.column.id === "checkbox" || header.column.id === "status"
+                              ? "sticky z-10 bg-default-100"
                               : ""
-                          }
+                          }                                                  
                           style={
-                              header.column.id === "status"
-                              ? { left: 0, width: 100, minWidth: 100 }
+                            header.column.id === "checkbox"
+                              ? { left: 0, width: 50, minWidth: 50, zIndex: 20 }
+                              : header.column.id === "status"
+                              ? { left: 50, width: 60, minWidth: 60, zIndex: 25 }
                               : header.column.id === "grup"
-                              ? { left: 150, width: 100, minWidth: 100 } // posisi setelah checkbox
+                              ? { left: 110, width: 160, minWidth: 160, zIndex: 20 }
                               : header.column.id === "aksi"
-                              ? { right: 0, width: 100, minWidth: 100 }
+                              ? { right: 0, width: 100, minWidth: 100, zIndex: 20 }
                               : {}
                           }
                         >
@@ -219,21 +226,24 @@ const styles = {
                         key={cell.id}
                         className={`transition-colors duration-200 ease-in-out ${
                           isSticky
-                            ? `sticky z-10 drop-shadow-md 
+                            ? `sticky z-10 
+                               ${cell.column.id === "grup" || cell.column.id === "aksi" ? "drop-shadow-md" : ""} 
                                ${row.getIsSelected() ? "bg-muted" : "bg-background"} 
                                group-hover:bg-muted`
                             : ""
-                        }`}
+                        }`}                        
                         style={
-                           cell.column.id === "status"
-                            ? { left: 0, width: 150, minWidth: 150 }
+                          cell.column.id === "checkbox"
+                            ? { left: 0, width: 50, minWidth: 50, zIndex: 20 }
+                            : cell.column.id === "status"
+                            ? { left: 50, width: 60, minWidth: 60, zIndex: 25 }
                             : cell.column.id === "grup"
-                            ? { left: 150, width: 150, minWidth: 150 } // posisi setelah checkbox
+                            ? { left: 110, width: 200, minWidth: 200, zIndex: 20 }
                             : cell.column.id === "aksi"
-                            ? { right: 0, width: 100, minWidth: 100 }
+                            ? { right: 0, width: 100, minWidth: 100, zIndex: 10 }
                             : {}
-                        }
-                      >
+                        }                        
+                        >
 
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>

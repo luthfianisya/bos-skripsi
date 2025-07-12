@@ -20,6 +20,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 
 export function DataTableFacetedFilter({ column, title, options }: {
   column: any,
@@ -33,7 +34,7 @@ export function DataTableFacetedFilter({ column, title, options }: {
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="outline" size="sm" className=" w-full">
-          <PlusCircle className="ltr:mr-2 rtl:ml-2 h-4 w-4" />
+          <AdjustmentsHorizontalIcon className="ltr:mr-2 rtl:ml-2 h-4 w-4" />
           {title}
           {selectedValues?.size > 0 && (
             <>

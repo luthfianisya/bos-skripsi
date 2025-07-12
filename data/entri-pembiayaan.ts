@@ -450,6 +450,24 @@ export const POKs: POK[] = [
       ppk: "Maura Delvina",
       unitKerja: "BPS Kabupaten/Kota",
       status: "revisi",
+    },
+    {
+      grup: "WA 2881 EBD 961 051 A 524111 1",
+      detail: "Kegiatan konsultasi data sektoral bersama instansi daerah",
+      paguAwal: 83802000,
+      paguRevisi: 0,
+      paguBooked: 7942000,
+      paguReali: 67058000,
+      selfBlocking: 5003000,
+      kodeBeban: "A",
+      jenisP: "12",
+      hargaSatuan: 13645000,
+      volume: 3,
+      satuan: "UNIT",
+      tipeForm: "FORM - MODAL",
+      ppk: "Maura Delvina",
+      unitKerja: "",
+      status: "terpakai",
     }
   ];
   

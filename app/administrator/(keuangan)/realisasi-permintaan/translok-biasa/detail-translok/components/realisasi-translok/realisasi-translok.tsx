@@ -84,7 +84,7 @@ const RealisasiTranslok = () => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button size="icon" variant="outline" className="h-7 w-7" icon={BanknotesIcon} />
+                <Button size="icon" variant="soft" color="primary" className="h-7 w-7" icon={BanknotesIcon} />
             </DialogTrigger>
             <DialogContent size="4xl" className="max-h-screen p-0">
                 <DialogHeader className="px-4 pt-4">
