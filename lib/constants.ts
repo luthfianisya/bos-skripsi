@@ -1,6 +1,27 @@
 import { dummyForms } from "@/data/form-permintaan-f";
 import { POKs } from "@/data/entri-pembiayaan";
 import { FormPOK, PegawaiDetail } from "@/lib/interface";
+import { DUMMY_PEGAWAIS } from "@/data/pegawai-dummy";
+
+export const stylesFilter = {
+  option: (provided: any) => ({ ...provided, fontSize: "14px" }),
+  menuPortal: (base: any) => ({ ...base, zIndex: 9999 }),
+};
+
+export const bulanOptions = [
+  { value: "01", label: "Januari" },
+  { value: "02", label: "Februari" },
+  { value: "03", label: "Maret" },
+  { value: "04", label: "April" },
+  { value: "05", label: "Mei" },
+  { value: "06", label: "Juni" },
+  { value: "07", label: "Juli" },
+  { value: "08", label: "Agustus" },
+  { value: "09", label: "September" },
+  { value: "10", label: "Oktober" },
+  { value: "11", label: "November" },
+  { value: "12", label: "Desember" },
+];
 
 export const organisasiOptions = [
   { value: "03100", label: "[03100] Mitra Pengemudi" },
@@ -20,7 +41,12 @@ export const organisasiOptions = [
   { value: "08500", label: "[08500] Mitra Magang" },
 ];
 
-// provinsiOptions.ts
+export const pegawaiOptions = [
+  ...DUMMY_PEGAWAIS.map((p) => ({
+    value: p.nip,
+    label: `[${p.nip}] ${p.nama}`,
+  })),
+];
 
 export const provinsiOptions = [
   { value: "00", label: "[0000000] Pusat" },
@@ -312,7 +338,6 @@ export const STATUS_PENCAIRAN_MAP: Record<string, string> = {
   Pengesahan: "Pengesahan",
 };
 
-
 export const jenisPencairanOptions = [
   { value: "up", label: "Dana Uang Persediaan (UP)" },
   { value: "nihil", label: "Nihil" },
@@ -322,6 +347,19 @@ export const jenisPencairanOptions = [
   { value: "ptup", label: "Pertanggungjawaban TUP (PTUP)" },
   { value: "tup", label: "Tambahan UP (TUP)" },
 ];
+
+// constants.ts
+export const STATUS_DOKUMEN_MAP: Record<string, string> = {
+  direkap_bendahara: "Direkap di Bendahara",
+  dikirim_verifikasi: "Dikirim ke Verifikasi",
+  dikembalikan_bendahara: "Dikembalikan ke Bendahara",
+  terbit_sp2d: "Terbit SP2D",
+  terbit_spm_clean: "Terbit SPM Clean",
+  terbit_spm_catatan: "Terbit SPM dengan Catatan",
+  dibatalkan_spp: "Dibatalkan/Ganti SPP",
+  dikirim_admin: "Dikirim ke Admin Verifikasi",
+};
+
 
 export const PPKOptions = [
   { value: "1", label: "Maura Delvina" },

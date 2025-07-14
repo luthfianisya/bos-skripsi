@@ -3,41 +3,12 @@ import * as React from "react";
 import { DateRange } from "react-day-picker";
 import { FilterState } from "./types";
 import { DUMMY_PEGAWAIS } from "@/data/pegawai-dummy";
-import { organisasi, satker, tahun } from "@/lib/constants"
+import { bulanOptions, organisasi, pegawaiOptions, satker, tahun } from "@/lib/constants"
 
 
 const periodeOptions = [
   { value: "tahunan", label: "Tahunan" },
   { value: "bulanan", label: "Bulanan" },
-];
-
-const bulanOptions = [
-  { value: "01", label: "Januari" },
-  { value: "02", label: "Februari" },
-  { value: "03", label: "Maret" },
-  { value: "04", label: "April" },
-  { value: "05", label: "Mei" },
-  { value: "06", label: "Juni" },
-  { value: "07", label: "Juli" },
-  { value: "08", label: "Agustus" },
-  { value: "09", label: "September" },
-  { value: "10", label: "Oktober" },
-  { value: "11", label: "November" },
-  { value: "12", label: "Desember" },
-];
-
-const tahunanModeOptions = [
-  { value: "pegawai", label: "Per Pegawai" },
-  { value: "unit_kerja", label: "Unit Kerja" },
-];
-
-
-const pegawaiOptions = [
-  { value: "", label: "Pilih Pegawai" },
-  ...DUMMY_PEGAWAIS.map((p) => ({
-    value: p.nip,
-    label: `[${p.nip}] ${p.nama}`,
-  })),
 ];
 
 const styles = {
@@ -57,6 +28,7 @@ const styles = {
     ...provided,
     color: state.isDisabled ? "#94a3b8" : provided.color,
   }),
+  menuPortal: (base: any) => ({ ...base, zIndex: 9999 }),
 };
 
 interface DataTableFilterProps {
@@ -67,6 +39,7 @@ const DataTableFilterRekap: React.FC<DataTableFilterProps> = ({ setFilters }) =>
   const [selectedPeriode, setSelectedPeriode] = React.useState<string>("tahunan");
   const [selectedBulan, setSelectedBulan] = React.useState<string | null>(null);
   const [selectedMode, setSelectedMode] = React.useState<string | null>(null);
+  const [selectedPegawai, setSelectedPegawai] = React.useState<string | null>(null);
 
   const handleFilterChange = (name: keyof FilterState, value: string | DateRange | null) => {
     setFilters((prev) => ({ ...prev, [name]: value }));
@@ -112,14 +85,16 @@ const DataTableFilterRekap: React.FC<DataTableFilterProps> = ({ setFilters }) =>
     }));
   };
 
-
   const handleModeChange = (selected: any) => {
     const value = selected?.value ?? null;
     setSelectedMode(value);
+    setSelectedPegawai(null); // reset UI pegawai juga
+
     setFilters((prev) => ({
       ...prev,
       mode: value,
-      bulan: null, // RESET bulan saat pilih mode (jaga-jaga)
+      bulan: null,
+      pegawai: null,
     }));
   };
 
@@ -139,6 +114,7 @@ const DataTableFilterRekap: React.FC<DataTableFilterProps> = ({ setFilters }) =>
               value={periodeOptions.find(p => p.value === selectedPeriode)}
               styles={styles}
               onChange={handlePeriodeChange}
+              menuPortalTarget={document.body}
             />
 
           </div>
@@ -153,6 +129,7 @@ const DataTableFilterRekap: React.FC<DataTableFilterProps> = ({ setFilters }) =>
               placeholder="Pilih Tahun"
               name="tahun"
               onChange={(selected) => handleFilterChange("tahun", selected?.value ?? null)}
+              menuPortalTarget={document.body}
             />
           </div>
           {/* Select Bulan ATAU Mode */}
@@ -184,6 +161,7 @@ const DataTableFilterRekap: React.FC<DataTableFilterProps> = ({ setFilters }) =>
                     : null
                 }
                 onChange={handleBulanChange}
+                menuPortalTarget={document.body}
               />
             </div>
           ) : (
@@ -207,58 +185,62 @@ const DataTableFilterRekap: React.FC<DataTableFilterProps> = ({ setFilters }) =>
                     : null
                 }
                 onChange={handleModeChange}
+                menuPortalTarget={document.body}
               />
             </div>
           )}
         </div>
       </div>
 
+      {/* Filter Satuan Kerja */}
       <div className="flex items-center gap-3">
         <label className="w-48 font-medium">Satuan Kerja</label>
         <Select
-          className="react-select flex-1 rounded-md z-45"
+          className="react-select flex-1 rounded-md"
           classNamePrefix="select"
           placeholder="Pilih Satuan Kerja"
           styles={styles}
           options={satker}
           isClearable
           onChange={(selected) => handleFilterChange("satker", selected?.value ?? null)}
+          menuPortalTarget={document.body}
         />
       </div>
 
+      {/* Filter Unit Kerja */}
       <div className="flex items-center gap-3">
         <label className="w-48 font-medium">Unit Kerja</label>
         <Select
-          className="react-select flex-1 rounded-md z-40"
+          className="react-select flex-1 rounded-md"
           classNamePrefix="select"
           placeholder="Pilih Unit Kerja"
           styles={styles}
           options={organisasi}
           isClearable
           onChange={(selected) => handleFilterChange("unitKerja", selected?.value ?? null)}
+          menuPortalTarget={document.body}
         />
       </div>
 
+      {/* Filter Pegawai */}
       <div className="flex items-center gap-3">
         <label className="w-48 font-medium">Pegawai</label>
         <Select
-          className={`react-select flex-1 rounded-md z-30 ${selectedPeriode === "bulanan" ? "bg-slate-100 border-slate-300 text-slate-400 cursor-not-allowed" : ""
+          className={`react-select flex-1 rounded-md ${selectedPeriode === "bulanan" ? "bg-slate-100 border-slate-300 text-slate-400 cursor-not-allowed" : ""
             }`}
           classNamePrefix="select"
           placeholder="Pilih Pegawai"
           styles={styles}
           options={pegawaiOptions}
+          value={pegawaiOptions.find(p => p.value === selectedPegawai) ?? null}
           isClearable
-          isDisabled={selectedPeriode === "bulanan"}
-          // value={
-          //   selectedPeriode === "bulanan"
-          //     ? { value: "all", label: "Semua Pegawai" }
-          //     : filters
-          //       ? pegawaiOptions.find((opt) => opt.value === filters.pegawai) ?? null
-          //       : null
-
-          // }
-          onChange={(selected) => handleFilterChange("pegawai", selected?.value ?? null)}
+          isDisabled={selectedPeriode === "bulanan" || selectedMode === "unit_kerja"}
+          onChange={(selected) => {
+            const value = selected?.value ?? null;
+            setSelectedPegawai(value); // ✅ update state UI
+            handleFilterChange("pegawai", value); // ✅ update state filter backend
+          }}
+          menuPortalTarget={document.body}
         />
       </div>
     </div>

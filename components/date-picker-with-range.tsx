@@ -38,18 +38,19 @@ export default function DatePickerWithRange({ className, onSelect }: DatePickerW
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            color={mode === "dark" ? "secondary" : "default"}
-            className={cn("font-normal justify-start", {
-              " bg-white text-default-500 border border-default-300": mode !== "dark",
+
+            className={cn("font-normal justify-start hover:bg-white data-[state=open]:ring-1 data-[state=open]:ring-[#2684FF] bg-background border border-default-300 rounded-md", {
+              " bg-white text-default-400 border border-default-300": mode !== "dark",
             })}
           >
             <CalendarIcon className="ltr:mr-2 rtl:ml-2 h-4 w-4" />
             {date?.from ? (
               date.to ? (
-                <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
-                </>
+                <span className="text-default-800">
+                  {date.to
+                    ? `${format(date.from, "LLL dd, y")} - ${format(date.to, "LLL dd, y")}`
+                    : format(date.from, "LLL dd, y")}
+                </span>
               ) : (
                 format(date.from, "LLL dd, y")
               )

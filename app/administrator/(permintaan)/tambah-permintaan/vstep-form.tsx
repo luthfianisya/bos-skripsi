@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Stepper, Step, StepLabel } from "@/components/ui/steps";
-import { toast as stoast } from "sonner";
+import { toast as stoast, toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useForm, FormProvider } from "react-hook-form";
 import StepInformasiUmum from "./steps/step1";
@@ -63,8 +63,8 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
 
   const { trigger } = methods;
 
- 
-  
+
+
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [pokTerpilih, setPokTerpilih] = React.useState<POK[]>([]);
@@ -94,7 +94,7 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
       }
     }
   }, [readOnly, data]);
-  
+
 
   const [dataPeserta, setDataPeserta] = React.useState<Peserta[]>(
     (data?.dataPeserta ?? []).map((p) => ({
@@ -121,7 +121,7 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
   const handleSubmitFinalConfirm = () => {
     MySwal.fire({
       title: 'Yakin Kirim ke PJ?',
-      text: 'Pastikan data sudah benar sebelum dikirim.',
+      text: 'Pastikan data form permintaan sudah benar sebelum dikirim.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Ya, Kirim!',
@@ -129,6 +129,8 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
       customClass: {
         confirmButton: 'swal-confirm-btn',
         cancelButton: 'swal-cancel-btn',
+        popup: 'z-[99999] pointer-events-auto', // ini penting
+        container: 'z-[99999] pointer-events-auto',
       },
     }).then((result) => {
       if (result.isConfirmed) {
@@ -151,16 +153,14 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
   const handleBack = () => setActiveStep((prev) => prev - 1);
   const handleReset = () => setActiveStep(0);
 
-  // const handleSubmitFinal = () => {
-  //   stoast.success("Data Form Permintaan berhasil di-submit ke PJ", { position: "top-right" });
-  //   setTimeout(() => router.push("/administrator/form-permintaan"), 1500);
-  // };
-
   const handleSimpan = () => {
     stoast.info("Data Form permintaan berhasil disimpan", { position: "top-right" });
   };
 
   const { getValues } = methods;
+
+  const promise = () =>
+    new Promise((resolve) => setTimeout(() => resolve({ name: "Sonner" }), 1000));
 
   const handleSubmitFinal = () => {
     const formData = {
@@ -171,13 +171,18 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
 
     console.log("FULL FORM:", formData);
 
-    stoast.success("Data Form Permintaan berhasil di-submit ke PJ", { position: "top-right" });
-    setTimeout(() => router.push("/administrator/form-permintaan"), 1500);
+    toast.promise(promise(), {
+      loading: "Menyimpan...",
+      success: "Form permintaan berhasil dikirim ke PJ.",
+      error: "Terjadi kesalahan saat menyimpan.",
+      position: "top-right",
+    });
+    router.push("/administrator/form-permintaan");
   };
 
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 h-full">
       {/* Stepper di atas konten */}
       <div className="sticky top-0 z-40 bg-white border-b p-4">
         <Stepper current={activeStep} direction="horizontal">
@@ -202,7 +207,7 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
       </div>
 
       {/* Step Form Content */}
-      <div className="flex-1 overflow-y-auto px-4 z-30">
+      <div className="flex-1 overflow-y-auto px-4 z-30 items-start">
         {activeStep === steps.length ? (
           <div className="flex flex-col items-center justify-center py-10">
             <div className="mb-4 text-center font-semibold">Semua langkah telah selesai!</div>
@@ -212,7 +217,7 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
           </div>
         ) : (
           <FormProvider {...methods}>
-            <form>
+            <form className="flex-1 flex flex-col">
               <div className="grid grid-cols-12 gap-4">
                 {activeStep === 0 && (
                   <StepInformasiUmum fileKAK={fileKAK} setFileKAK={setFileKAK} readOnly={readOnly} />
@@ -246,22 +251,25 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
         <div className="flex-1" />
 
         {activeStep === steps.length - 1 ? (
-          <div className="flex gap-2">
-            <Button size="xs" variant="outline" onClick={handleSimpan}>
-              Simpan
-            </Button>
-            <Button size="xs" color="primary" onClick={handleSubmitFinalConfirm}>
-              <PaperAirplaneIcon className="h-5 w-5 mr-1" />
-              Kirim PJ
-            </Button>
-
-          </div>
+          !readOnly && (
+            <div className="flex gap-2">
+              <Button size="xs" variant="outline" onClick={handleSimpan}>
+                Simpan
+              </Button>
+              <Button size="xs" color="primary" onClick={handleSubmitFinalConfirm}>
+                <PaperAirplaneIcon className="h-5 w-5 mr-1" />
+                Kirim PJ
+              </Button>
+            </div>
+          )
         ) : (
           <Button size="xs" variant="outline" onClick={handleNext}>
             Next
             <ArrowRightIcon className="h-5 w-5" />
           </Button>
         )}
+
+
       </div>
     </div>
   );

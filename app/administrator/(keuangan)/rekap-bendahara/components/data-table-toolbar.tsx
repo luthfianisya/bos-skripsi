@@ -9,7 +9,6 @@ import { Table } from "@tanstack/react-table";
 import { useState } from "react";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
-import { TipeForm } from "./columns"
 import Link from "next/link";
 import TambahRekapDialog from "../../tambah-rekap/vstep-form-dialog";
 
@@ -17,12 +16,6 @@ interface DataTableToolbarProps {
   table: Table<any>;
   filterState: any;
 }
-
-const tipeFormOptions = [
-  { label: "Translokasi", value: TipeForm.TRANSLOK }, // "TRANSLOK"
-  { label: "Jalan Dinas", value: TipeForm.JLN },      // "JALAN"
-  { label: "Bahan", value: TipeForm.BHN },            // "BAHAN"
-];
 
 // Approval data
 const approvalRoles = ["operator", "pj", "ppk"] as const;

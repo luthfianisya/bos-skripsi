@@ -9,13 +9,13 @@ import {
 import AdvancedTable from "./index";
 import DataMitraBreadCrumbs from "./components/bread-crumbs";
 import { useState } from "react";
-import { tahun } from "@/lib/constants";
+import { satker, tahun } from "@/lib/constants";
 // import DraggableTable from "./draggable-table";
 
 const DataTablePage = () => {
   const [filterState, setFilterState] = useState({
     tahun: tahun.find(t => t.value === "2025") ?? null,
-    satker: null,
+    satker: satker.find(s => s.value === "637148") ?? null,
     program: null,
     kegiatan: null,
     output: null,

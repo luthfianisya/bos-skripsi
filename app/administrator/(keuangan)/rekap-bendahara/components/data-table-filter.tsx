@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-import { PROGRAMS, satker, organisasi, tahun } from "@/lib/constants";
+import { PROGRAMS, satker, organisasi, tahun, stylesFilter } from "@/lib/constants";
 
 type OptionType = { value: string; label: string };
 
@@ -18,11 +18,6 @@ interface DataTableFilterProps {
   filterState: FilterState;
   setFilterState: React.Dispatch<React.SetStateAction<FilterState>>;
 }
-
-const styles = {
-  option: (provided: any) => ({ ...provided, fontSize: "14px" }),
-  menuPortal: (base: any) => ({ ...base, zIndex: 9999 }),
-};
 
 const DataTableFilter = ({ filterState, setFilterState }: DataTableFilterProps) => {
   const programOptions = PROGRAMS.map(p => ({
@@ -82,7 +77,7 @@ const DataTableFilter = ({ filterState, setFilterState }: DataTableFilterProps) 
           className="react-select flex-1 z-30"
           classNamePrefix="select"
           placeholder="Pilih Tahun"
-          styles={styles}
+          styles={stylesFilter}
           options={tahun}
           value={filterState.tahun ?? null}
           onChange={(option) => setFilterState(prev => ({ ...prev, tahun: option }))}
@@ -98,7 +93,7 @@ const DataTableFilter = ({ filterState, setFilterState }: DataTableFilterProps) 
               className="react-select flex-1 z-30"
               classNamePrefix="select"
               placeholder="Pilih Satuan Kerja"
-              styles={styles}
+              styles={stylesFilter}
               options={satker}
               value={filterState.satker ?? null}
               onChange={(option) => setFilterState(prev => ({ ...prev, satker: option }))}
@@ -112,7 +107,7 @@ const DataTableFilter = ({ filterState, setFilterState }: DataTableFilterProps) 
               className="react-select flex-1 z-20"
               classNamePrefix="select"
               placeholder="Pilih Program"
-              styles={styles}
+              styles={stylesFilter}
               options={programOptions}
               value={filterState.program ?? null}
               onChange={(option) =>
@@ -135,7 +130,7 @@ const DataTableFilter = ({ filterState, setFilterState }: DataTableFilterProps) 
               className="react-select flex-1 z-20"
               classNamePrefix="select"
               placeholder="Pilih Kegiatan"
-              styles={styles}
+              styles={stylesFilter}
               options={kegiatanOptions}
               value={filterState.kegiatan ?? null}
               onChange={(option) =>
@@ -159,7 +154,7 @@ const DataTableFilter = ({ filterState, setFilterState }: DataTableFilterProps) 
                 className="react-select flex-1 z-20"
                 classNamePrefix="select"
                 placeholder="Pilih Output"
-                styles={styles}
+                styles={stylesFilter}
                 options={outputOptions}
                 value={filterState.output ?? null}
                 onChange={(option) =>
@@ -180,7 +175,7 @@ const DataTableFilter = ({ filterState, setFilterState }: DataTableFilterProps) 
                 className="react-select flex-1 z-20"
                 classNamePrefix="select"
                 placeholder="Pilih Sub Output"
-                styles={styles}
+                styles={stylesFilter}
                 options={subOutputOptions}
                 value={filterState.suboutput ?? null}
                 onChange={(option) =>
@@ -200,7 +195,7 @@ const DataTableFilter = ({ filterState, setFilterState }: DataTableFilterProps) 
                 className="react-select flex-1 z-20"
                 classNamePrefix="select"
                 placeholder="Pilih Komponen"
-                styles={styles}
+                styles={stylesFilter}
                 options={komponenOptions}
                 value={filterState.komponen ?? null}
                 onChange={(option) =>

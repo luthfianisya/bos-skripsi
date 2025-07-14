@@ -95,15 +95,22 @@ const StepPOK = ({ pokTerpilih, setPokTerpilih, readOnly = false }: StepPOKProps
 
   return (
     <>
-     {!readOnly && (
-      <><div className="col-span-12">
-          <h4 className="text-lg font-semibold text-gray-800">Pilih POK</h4>
-          <p className="mt-1 text-sm text-gray-500">Pilih data POK yang sesuai untuk permintaan ini.</p>
-        </div><div className="col-span-12">
+      {!readOnly && (
+        <>
+          <div className="col-span-12">
+            <h4 className="text-lg font-semibold text-gray-800">Pilih POK</h4>
+            {/* <p className="mt-1 text-sm text-gray-500">Pilih data POK yang sesuai untuk permintaan ini.</p> */}
+          </div>
+          <div className="col-span-12 pb-6">
             <Accordion type="single" collapsible className="w-full space-y-3.5">
               <AccordionItem value="pok-table">
                 <AccordionTrigger value="pok-table" activeItem={activeItem} setActiveItem={setActiveItem}>
-                  <div className="text-base">Data POK</div>
+                  <div className="flex flex-col  text-start">
+                    <div className="text-base">Data POK</div>
+                    <div className=" text-xs  text-default-600  mt-1">
+                      Klik untuk memilih data POK yang sesuai untuk permintaan ini.
+                    </div>
+                  </div>
                 </AccordionTrigger>
                 <AccordionContent>
                   <AdvancedTable data={pokData} onTambah={handleTambah} />
@@ -114,12 +121,12 @@ const StepPOK = ({ pokTerpilih, setPokTerpilih, readOnly = false }: StepPOKProps
           </div></>
       )}
 
-      <div className="col-span-12 pt-6">
+      <div className="col-span-12">
         <h4 className="text-lg font-semibold text-gray-800">Preview Data POK Terpilih</h4>
       </div>
 
       <div className="col-span-12">
-      <POKTerpilihTable data={pokTerpilih} onHapus={handleHapus} readOnly={readOnly} />
+        <POKTerpilihTable data={pokTerpilih} onHapus={handleHapus} readOnly={readOnly} />
       </div>
     </>
   );

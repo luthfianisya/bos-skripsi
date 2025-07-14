@@ -2,38 +2,13 @@ import Select from "react-select";
 import * as React from "react";
 import { DateRange } from "react-day-picker";
 import DatePickerWithRange from "@/components/date-picker-with-range";
-import { organisasi, satker, tahun } from "@/lib/constants"
+import { bulanOptions, organisasi, pegawaiOptions, satker, tahun } from "@/lib/constants"
 import { FilterState } from "./types";
-import { DUMMY_PEGAWAIS } from "@/data/pegawai-dummy";
 
 const periodeOptions = [
   { value: "rentang", label: "Rentang Khusus" },
   { value: "bulanan", label: "Bulanan" },
 ];
-
-const bulanOptions = [
-  { value: "01", label: "Januari" },
-  { value: "02", label: "Februari" },
-  { value: "03", label: "Maret" },
-  { value: "04", label: "April" },
-  { value: "05", label: "Mei" },
-  { value: "06", label: "Juni" },
-  { value: "07", label: "Juli" },
-  { value: "08", label: "Agustus" },
-  { value: "09", label: "September" },
-  { value: "10", label: "Oktober" },
-  { value: "11", label: "November" },
-  { value: "12", label: "Desember" },
-];
-
-const pegawaiOptions = [
-  { value: "", label: "Pilih Pegawai" },
-  ...DUMMY_PEGAWAIS.map((p) => ({
-    value: p.nip,
-    label: `[${p.nip}] ${p.nama}`,
-  })),
-];
-
 
 const styles = {
   control: (provided: any, state: any) => ({
@@ -114,7 +89,7 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ filters, setFilters }
             </label>
             {selectedPeriode === "rentang" ? (
               <DatePickerWithRange
-                className="flex-1"
+                className="flex-1 h-full"
                 onSelect={(date: DateRange | undefined) => handleFilterChange("rentang", date ?? null)}
               />
             ) : (
@@ -173,14 +148,6 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ filters, setFilters }
           options={pegawaiOptions}
           isClearable
           isDisabled={selectedPeriode === "bulanan"}
-          // value={
-          //   selectedPeriode === "bulanan"
-          //     ? { value: "all", label: "Semua Pegawai" }
-          //     : filters
-          //       ? pegawaiOptions.find((opt) => opt.value === filters.pegawai) ?? null
-          //       : null
-
-          // }
           onChange={(selected) => handleFilterChange("pegawai", selected?.value ?? null)}
         />
       </div>
@@ -189,16 +156,3 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ filters, setFilters }
 };
 
 export default DataTableFilter;
-
-{/* <CustomSelect>
-      <SelectTrigger size="md" radius="md" className="text-sm">
-        <SelectValue placeholder="Select a subject" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="english">English</SelectItem>
-        <SelectItem value="mathmatics">Mathmatics</SelectItem>
-        <SelectItem value="physics">Physics</SelectItem>
-        <SelectItem value="chemistry">Chemistry</SelectItem>
-        <SelectItem value="biology">Biology</SelectItem>
-      </SelectContent>
-    </CustomSelect> */}

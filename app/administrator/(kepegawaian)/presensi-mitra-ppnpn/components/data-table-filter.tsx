@@ -2,53 +2,12 @@ import Select from "react-select";
 import * as React from "react";
 import { DateRange } from "react-day-picker";
 import DatePickerWithRange from "@/components/date-picker-with-range";
+import { bulanOptions, organisasi, pegawaiOptions, satker, tahun } from "@/lib/constants"
 import { FilterState } from "./types";
-
-const satker = [
-  { value: "", label: "Pilih Satuan Kerja" },
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-
-const tahunOptions = [
-  { value: "2025", label: "2025" },
-  { value: "2024", label: "2024" },
-  { value: "2023", label: "2023" },
-];
 
 const periodeOptions = [
   { value: "rentang", label: "Rentang Khusus" },
   { value: "bulanan", label: "Bulanan" },
-];
-
-const bulanOptions = [
-  { value: "01", label: "Januari" },
-  { value: "02", label: "Februari" },
-  { value: "03", label: "Maret" },
-  { value: "04", label: "April" },
-  { value: "05", label: "Mei" },
-  { value: "06", label: "Juni" },
-  { value: "07", label: "Juli" },
-  { value: "08", label: "Agustus" },
-  { value: "09", label: "September" },
-  { value: "10", label: "Oktober" },
-  { value: "11", label: "November" },
-  { value: "12", label: "Desember" },
-];
-
-const unitKerja = [
-  { value: "", label: "Pilih Unit Kerja" },
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-
-const pegawai = [
-  { value: "", label: "Pilih Pegawai" },
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
 ];
 
 const styles = {
@@ -68,14 +27,17 @@ const styles = {
     ...provided,
     color: state.isDisabled ? "#94a3b8" : provided.color, // slate-400
   }),
+  menuPortal: (base: any) => ({ ...base, zIndex: 9999 }),
 };
 
 
 interface DataTableFilterProps {
+  filters: FilterState;
   setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
 }
 
-const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
+
+const DataTableFilter: React.FC<DataTableFilterProps> = ({ filters, setFilters }) => {
   const [selectedPeriode, setSelectedPeriode] = React.useState<string>("rentang");
 
   const handleFilterChange = (name: keyof FilterState, value: string | DateRange | null) => {
@@ -104,6 +66,7 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
                 setSelectedPeriode(value);
                 handleFilterChange("periode", value);
               }}
+              menuPortalTarget={document.body}
             />
           </div>
 
@@ -113,11 +76,12 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
             <Select
               className="react-select flex-1 z-50 rounded-md"
               classNamePrefix="select"
-              options={tahunOptions}
+              options={tahun}
               styles={styles}
               placeholder="Pilih Tahun"
               name="tahun"
               onChange={(selected) => handleFilterChange("tahun", selected?.value ?? null)}
+              menuPortalTarget={document.body}
             />
           </div>
 
@@ -128,7 +92,7 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
             </label>
             {selectedPeriode === "rentang" ? (
               <DatePickerWithRange
-                className="flex-1"
+                className="flex-1 h-full"
                 onSelect={(date: DateRange | undefined) => handleFilterChange("rentang", date ?? null)}
               />
             ) : (
@@ -139,6 +103,7 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
                 styles={styles}
                 placeholder="Pilih Bulan"
                 onChange={(selected) => handleFilterChange("bulan", selected?.value ?? null)}
+                menuPortalTarget={document.body}
               />
             )}
           </div>
@@ -158,6 +123,7 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
           options={satker}
           isClearable
           onChange={(selected) => handleFilterChange("satker", selected?.value ?? null)}
+          menuPortalTarget={document.body}
         />
       </div>
 
@@ -169,9 +135,10 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
           classNamePrefix="select"
           placeholder="Pilih Unit Kerja"
           styles={styles}
-          options={unitKerja}
+          options={organisasi}
           isClearable
           onChange={(selected) => handleFilterChange("unitKerja", selected?.value ?? null)}
+          menuPortalTarget={document.body}
         />
       </div>
 
@@ -184,11 +151,11 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
           classNamePrefix="select"
           placeholder="Pilih Pegawai"
           styles={styles}
-          options={pegawai}
+          options={pegawaiOptions}
           isClearable
           isDisabled={selectedPeriode === "bulanan"}
-          value={selectedPeriode === "bulanan" ? { value: "all", label: "Semua Pegawai" } : null}
           onChange={(selected) => handleFilterChange("pegawai", selected?.value ?? null)}
+          menuPortalTarget={document.body}
         />
       </div>
     </div>
@@ -196,16 +163,3 @@ const DataTableFilter: React.FC<DataTableFilterProps> = ({ setFilters }) => {
 };
 
 export default DataTableFilter;
-
-{/* <CustomSelect>
-      <SelectTrigger size="md" radius="md" className="text-sm">
-        <SelectValue placeholder="Select a subject" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="english">English</SelectItem>
-        <SelectItem value="mathmatics">Mathmatics</SelectItem>
-        <SelectItem value="physics">Physics</SelectItem>
-        <SelectItem value="chemistry">Chemistry</SelectItem>
-        <SelectItem value="biology">Biology</SelectItem>
-      </SelectContent>
-    </CustomSelect> */}

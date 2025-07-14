@@ -59,9 +59,13 @@ const AccordionContent = React.forwardRef<
     <AccordionPrimitive.Content
       ref={ref}
       className={cn(
-        "overflow-hidden text-sm transition-all  text-muted-foreground dark:text-default-100 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+        "text-sm transition-all text-muted-foreground dark:text-default-100",
+        "data-[state=open]:overflow-visible",
+        "data-[state=closed]:overflow-hidden data-[state=closed]:delay-200",
+        "data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
         className
       )}
+
       {...props}
     >
       <div className="pt-3">{children}</div>

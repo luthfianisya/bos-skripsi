@@ -194,12 +194,15 @@ const StepPeserta = ({ dataPeserta, setDataPeserta, readOnly }: StepPesertaProps
       {!readOnly && (
         <><div className="col-span-12">
           <h4 className="text-lg font-semibold text-gray-800">Pilih Peserta Berangkat</h4>
-        </div><div className="col-span-12">
+        </div><div className="col-span-12 pb-2">
             <Accordion type="single" collapsible className="w-full space-y-3.5">
               <AccordionItem value="form-peserta">
                 <AccordionTrigger value="pok-table" activeItem={activeItem} setActiveItem={setActiveItem}>
-                  <div className="text-base">
-                    Tambah Peserta
+                   <div className="flex flex-col  text-start">
+                    <div className="text-base">Tambah Peserta</div>
+                    <div className=" text-xs  text-default-600  mt-1">
+                      Klik untuk menambahkan data peserta berangkat.
+                    </div>
                   </div>
                 </AccordionTrigger>
 
@@ -346,7 +349,7 @@ const StepPeserta = ({ dataPeserta, setDataPeserta, readOnly }: StepPesertaProps
           </div></>
       )}
 
-      <div className="col-span-12 pt-2">
+      <div className="col-span-12">
         <h4 className="text-lg font-semibold text-gray-800">Preview Data Peserta Berangkat</h4>
       </div>
 

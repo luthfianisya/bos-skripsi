@@ -7,6 +7,10 @@ import { SingleValue } from "react-select";
 import { organisasi, satker, SUB_TIPE_FORM_MAP, tahun, TIPE_FORM_MAP } from "@/lib/constants";
 import { Icon } from "@iconify/react";
 import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 
 interface StepInformasiUmumProps {
   fileKAK: File | null;
@@ -14,6 +18,39 @@ interface StepInformasiUmumProps {
   readOnly?: boolean;
 }
 
+const styles = {
+  control: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.isDisabled ? '#f1f5f9' : 'white', // slate-100
+    borderColor: state.isDisabled ? '#e2e8f0' : base.borderColor, // slate-300
+    color: state.isDisabled ? '#94a3b8' : base.color, // slate-400
+    cursor: state.isDisabled ? 'not-allowed' : 'default',
+    boxShadow: 'none',
+    '&:hover': {
+      borderColor: state.isDisabled ? '#e2e8f0' : '#a5b4fc', // primary jika aktif
+    },
+  }),
+  singleValue: (base: any, state: any) => ({
+    ...base,
+    color: state.isDisabled ? '#94a3b8' : base.color,
+  }),
+  placeholder: (base: any, state: any) => ({
+    ...base,
+    color: state.isDisabled ? '#94a3b8' : base.color,
+  }),
+  indicatorSeparator: (base: any) => ({
+    ...base,
+    display: 'none',
+  }),
+  dropdownIndicator: (base: any, state: any) => ({
+    ...base,
+    color: state.isDisabled ? '#cbd5e1' : base.color,
+    '&:hover': {
+      color: state.isDisabled ? '#cbd5e1' : base.color,
+    },
+  }),
+  menuPortal: (base: any) => ({ ...base, zIndex: 9999 }),
+};
 
 
 const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInformasiUmumProps) => {
@@ -69,11 +106,11 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
 
   const [isMultiPok, setIsMultiPok] = useState(false);
 
-// Sinkronkan default value saat komponen mount
-React.useEffect(() => {
-  const jenisPokValue = getValues("jenisPok");
-  setIsMultiPok(jenisPokValue === "multi");
-}, [getValues]);
+  // Sinkronkan default value saat komponen mount
+  React.useEffect(() => {
+    const jenisPokValue = getValues("jenisPok");
+    setIsMultiPok(jenisPokValue === "multi");
+  }, [getValues]);
 
 
   return (
@@ -87,18 +124,18 @@ React.useEffect(() => {
       <div className="col-span-12 grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="flex flex-col gap-2">
           <Label htmlFor="satker">Satuan Kerja</Label>
-          <Select options={satker} value={defaultSatker} className="z-50" placeholder="Pilih Satuan Kerja" isDisabled />
+          <Select options={satker} value={defaultSatker} styles={styles} placeholder="Pilih Satuan Kerja" isDisabled />
         </div>
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="unitKerja">Unit Kerja</Label>
-          <Select options={organisasi} value={defaultOrganisasi} className="z-50" placeholder="Pilih Unit Kerja" isDisabled />
+          <Select options={organisasi} value={defaultOrganisasi} styles={styles} placeholder="Pilih Unit Kerja" isDisabled />
         </div>
 
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="tahunAnggaran">Tahun Anggaran</Label>
-          <Select options={tahun} value={defaultTahun} className="z-50" placeholder="Pilih Tahun" isDisabled />
+          <Select options={tahun} value={defaultTahun} styles={styles} placeholder="Pilih Tahun" isDisabled />
         </div>
       </div>
 
@@ -124,6 +161,7 @@ React.useEffect(() => {
                     setJenisPok("single");
                   }
                 }}
+                styles={styles}
                 value={field.value}
                 isDisabled={readOnly}
               />
@@ -148,6 +186,7 @@ React.useEffect(() => {
                   field.onChange(option);
                   setSelectedSubTipe(option); // untuk jaga-jaga sinkron dengan state
                 }}
+                styles={styles}
                 placeholder="Pilih Sub-Tipe"
                 isDisabled={readOnly || !selectedTipeForm || selectedTipeForm.value !== "FORM - TRANSLOK"}
               />
@@ -168,6 +207,7 @@ React.useEffect(() => {
                 setIsMultiPok(checked);
                 setValue("jenisPok", checked ? "multi" : "single");
               }}
+
               disabled={selectedTipeForm?.value === "FORM - TRANSLOK" || readOnly}
             />
             <Label
@@ -195,8 +235,10 @@ React.useEffect(() => {
               validate: (value) =>
                 value !== "B-0001A/92810/KU.600/07/2025" || "Nomor Surat harus diubah dari default value",
             })}
+
             className={`border rounded-md p-2 ${errors.noSurat ? "border-destructive" : "border-gray-300 focus:border-primary"
               }`}
+
             disabled={readOnly}
           />
 
@@ -207,14 +249,46 @@ React.useEffect(() => {
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="tanggalSurat">Tanggal Surat</Label>
-          <Input
-            size="lg"
-            type="date"
-            id="tanggalSurat"
-            {...register("tanggalSurat", { required: "Tanggal Surat wajib diisi" })}
-            className={`border rounded-md p-2 ${errors.tanggalSurat ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
-            disabled={readOnly}
+          <Controller
+            name="tanggalSurat"
+            control={control}
+            rules={{ required: "Tanggal Surat wajib diisi" }}
+            render={({ field }) => (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    className={cn(
+                      "font-normal flex justify-between rounded-md border text-sm",
+                      "data-[state=open]:ring-1 data-[state=open]:ring-[#2684FF]",
+                      readOnly
+                        ? "bg-slate-200 text-slate-600 border-slate-300 cursor-not-allowed"
+                        : "bg-white text-default-500 border-default-300 hover:bg-white"
+                    )}
+                    disabled={readOnly}
+                  >
+
+                    {field.value
+                      ? new Date(field.value).toLocaleDateString("id-ID", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })
+                      : "dd/mm/yyyy"}
+                    <Icon icon="tabler:calendar" className="ml-2 h-4 w-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value ? new Date(field.value) : undefined}
+                    onSelect={(date) => field.onChange(date)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            )}
           />
+
           {errors.tanggalSurat && <p className="text-red-500 text-sm">{errors.tanggalSurat.message as string}</p>}        </div>
       </div>
 
@@ -225,9 +299,18 @@ React.useEffect(() => {
           id="deskripsiPermintaan"
           placeholder="Deskripsi lengkap permintaan..."
           {...register("deskripsiPermintaan", { required: "Deskripsi wajib diisi" })}
-          className={`border rounded-md p-2 focus:outline-none w-full placeholder:text-accent-foreground/50 ${errors.deskripsiPermintaan ? "border-destructive" : "border-gray-300 focus:border-primary"}`} rows={4}
+          className={cn(
+            "border rounded-md p-2 focus:outline-none w-full placeholder:text-accent-foreground/50",
+            {
+              "border-destructive": !!errors.deskripsiPermintaan,
+              "border-gray-300 focus:border-primary": !errors.deskripsiPermintaan,
+              "bg-slate-100 text-slate-400 cursor-not-allowed": readOnly, // <== ini yang bikin konsisten
+            }
+          )}
+          rows={4}
           disabled={readOnly}
         />
+
         {errors.deskripsiPermintaan && <p className="text-red-500 text-sm">{errors.deskripsiPermintaan.message as string}</p>}
       </div>
 
@@ -244,6 +327,7 @@ React.useEffect(() => {
                 options={linkOptions}
                 placeholder="Pilih Link Permintaan"
                 isDisabled={readOnly}
+                styles={styles}
                 menuPlacement="top"
               />
             )}

@@ -64,7 +64,14 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
 
   return (
     <div className="space-y-4">
-      <DataTableFilter />
+      <DataTableFilter
+        onOrganisasiChange={(value: string | null) => {
+          table.setColumnFilters((prev) => [
+            ...prev.filter((f) => f.id !== "organisasi"),
+            ...(value ? [{ id: "organisasi", value }] : []),
+          ]);
+        }}
+      />
       <DataTableToolbar table={table} />
       <div className="relative rounded-md border overflow-x-auto">
         <Table className="table-auto min-w-max">
@@ -76,23 +83,23 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                   const isSticky = header.column.id === "nama" || header.column.id === "aksi";
                   return (
                     <TableHead
-                        key={header.id}
-                        colSpan={header.colSpan}
-                        className={isSticky ? "sticky z-10 drop-shadow-md bg-default-100" : ""}
-                        style={
-                          header.column.id === "nama"
-                            ? { left: 0 }
-                            : header.column.id === "aksi"
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      className={isSticky ? "sticky z-10 drop-shadow-md bg-default-100" : ""}
+                      style={
+                        header.column.id === "nama"
+                          ? { left: 0 }
+                          : header.column.id === "aksi"
                             ? { right: 0 }
                             : {}
-                        }
-                      >
+                      }
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
@@ -110,20 +117,19 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     return (
                       <TableCell
                         key={cell.id}
-                        className={`transition-colors duration-200 ease-in-out ${
-                          isSticky
+                        className={`transition-colors duration-200 ease-in-out ${isSticky
                             ? `sticky z-10 
                                ${cell.column.id === "nama" || cell.column.id === "aksi" ? "drop-shadow-md" : ""} 
                                ${row.getIsSelected() ? "bg-muted" : "bg-background"} 
                                group-hover:bg-muted`
                             : ""
-                        }`}  
+                          }`}
                         style={
                           cell.column.id === "nama"
                             ? { left: 0 }
                             : cell.column.id === "aksi"
-                            ? { right: 0 }
-                            : {}
+                              ? { right: 0 }
+                              : {}
                         }
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
