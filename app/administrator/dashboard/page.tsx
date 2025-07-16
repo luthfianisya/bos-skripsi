@@ -4,7 +4,8 @@ import WelcomeBlock from "./components/welcome-block";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import EcommerceStats from "./components/ecommerce-stats";
 import PaguAwalRevisi from "./components/pagu-awal-revisi";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Select from "react-select";
 import { Icon } from "@iconify/react";
 import MonAnggaranWilayah from "./components/monitoring-anggaran-wilayah";
 import MonBosSakti from "./components/monitoring-bos-sakti";
@@ -17,6 +18,9 @@ import { Link, MoreHorizontal } from "lucide-react";
 import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog";
 import { useState } from "react";
 import ProjectList from "./components/monitoring-jenis";
+import RekapitulasiPresensi from "./components/rekapitulasi-presensi";
+import { satker, stylesFilter, tahun, wilayah } from "@/lib/constants";
+import { TableCellsIcon } from "@heroicons/react/24/solid";
 
 const prioritiesColorMap = {
   high: "destructive",
@@ -25,20 +29,6 @@ const prioritiesColorMap = {
 };
 
 const BlankPage = () => {
-  const [open, setOpen] = useState(false);
-  const projectStatus = "in progress";
-  const isFavorite = true;
-  const projectTitle = "New Website Redesign";
-  const projectDescription = "Redesign the company website with a modern UI.";
-  const projectPriority = "high";
-  const projectProgress = 75;
-  const assignedDate = "2025-04-01";
-  const dueDate = "2025-06-01";
-  const teamMembers = [
-    { name: "Alice", image: "" },
-    { name: "Bob", image: "" },
-    { name: "Charlie", image: "" },
-  ];
 
   return (
     <div className="space-y-5">
@@ -53,10 +43,63 @@ const BlankPage = () => {
       <WelcomeBlock />
 
       <Card>
+        <CardContent className="flex-1 p-4 w-full h-full">
+          <div className="grid grid-cols-1 w-full gap-y-4">
+            <div className="flex items-center gap-3">
+              <label className="w-48 font-medium z-30">Tahun Anggaran</label>
+              <Select
+                className="react-select flex-1 z-30"
+                classNamePrefix="select"
+                placeholder="Pilih Tahun"
+                styles={stylesFilter}
+                options={tahun}
+                defaultValue={tahun[0]}
+                isClearable
+                menuPortalTarget={document.body}
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <label className="w-48 font-medium z-30">Wilayah</label>
+              <Select
+                className="react-select flex-1 z-30"
+                classNamePrefix="select"
+                placeholder="Pilih Wilayah"
+                styles={stylesFilter}
+                options={wilayah}
+                defaultValue={wilayah[0]}
+                isClearable
+                menuPortalTarget={document.body}
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              {/* Pastikan semua label memiliki lebar yang sama */}
+              <label className="w-48 font-medium z-30">Satuan Kerja</label>
+              <Select
+                className="react-select flex-1 z-30"
+                classNamePrefix="select"
+                placeholder="Pilih Satuan Kerja"
+                styles={stylesFilter}
+                name="clear"
+                options={[
+                  { label: "Semua Satuan Kerja", value: "ALL" },
+                  ...satker,
+                ]}
+                  defaultValue={{ label: "Semua Satuan Kerja", value: "ALL" }}
+                isClearable
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
         <CardHeader className="mb-0 border-none p-4 pb-0 flex-row flex-wrap items-center justify-between gap-4">
           <CardTitle className="whitespace-nowrap">Rekapitulasi Anggaran</CardTitle>
-          <div className="w-[150px]">
-            <Select>
+          <Button type="button" color="primary" variant="outline" size="sm" icon={TableCellsIcon}>
+            Rincian
+          </Button>
+          {/* <div className="w-[150px]"> */}
+          {/* <Select>
               <SelectTrigger size="md" className="text-default-500 bg-transparent dark:bg-transparent">
                 <Icon icon="heroicons:calendar-days" className="w-4 h-4" />
                 <SelectValue placeholder="Select Date" />
@@ -67,8 +110,8 @@ const BlankPage = () => {
                 <SelectItem value="12">Jan 12,2024</SelectItem>
                 <SelectItem value="13">Jan 13,2024</SelectItem>
               </SelectContent>
-            </Select>
-          </div>
+            </Select> */}
+          {/* </div> */}
         </CardHeader>
         <CardContent className="flex justify-between gap-4 p-4">
           <PaguAwalRevisi />
@@ -80,51 +123,41 @@ const BlankPage = () => {
       <Card>
         <CardHeader className="mb-0 border-none p-4 pb-0 flex-row flex-wrap items-center justify-between gap-4">
           <CardTitle className="whitespace-nowrap">Monitoring Perbandingan Alokasi Anggaran</CardTitle>
-          <div className="w-[150px]">
-            <Select>
-              <SelectTrigger size="md" className="text-default-500 bg-transparent dark:bg-transparent">
-                <Icon icon="heroicons:calendar-days" className="w-4 h-4" />
-                <SelectValue placeholder="Select Date" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="10">Jan 10,2024</SelectItem>
-                <SelectItem value="11">Jan 11,2024</SelectItem>
-                <SelectItem value="12">Jan 12,2024</SelectItem>
-                <SelectItem value="13">Jan 13,2024</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <Button type="button" color="primary" variant="outline" size="sm" icon={TableCellsIcon}>
+            Rincian
+          </Button>
         </CardHeader>
         <CardContent className="flex-1 p-4 w-full h-full">
-          <MonAnggaranWilayah/>
+          <MonAnggaranWilayah />
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="mb-0 border-none p-4 pb-0 flex-row flex-wrap items-center justify-between gap-4">
           <CardTitle className="whitespace-nowrap">Monitoring Perbandingan Alokasi Anggaran</CardTitle>
-          <div className="w-[150px]">
-            <Select>
-              <SelectTrigger size="md" className="text-default-500 bg-transparent dark:bg-transparent">
-                <Icon icon="heroicons:calendar-days" className="w-4 h-4" />
-                <SelectValue placeholder="Select Date" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="10">Jan 10,2024</SelectItem>
-                <SelectItem value="11">Jan 11,2024</SelectItem>
-                <SelectItem value="12">Jan 12,2024</SelectItem>
-                <SelectItem value="13">Jan 13,2024</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <Button type="button" color="primary" variant="outline" size="sm" icon={TableCellsIcon}>
+            Rincian
+          </Button>
         </CardHeader>
         <CardContent className="flex-1 p-4 w-full h-full">
-          <MonBosSakti/>
+          <MonBosSakti />
         </CardContent>
       </Card>
 
-      <ProjectList/>
-      
+      <Card>
+        <CardHeader className="mb-0 border-none p-4 pb-0 flex-row flex-wrap items-center justify-between gap-4">
+          <CardTitle className="whitespace-nowrap">Rekapitulasi Presensi</CardTitle>
+          <Button type="button" color="primary" variant="outline" size="sm" icon={TableCellsIcon}>
+            Rincian
+          </Button>
+        </CardHeader>
+        <CardContent className="flex-1 p-4 w-full h-full">
+          <RekapitulasiPresensi />
+        </CardContent>
+      </Card>
+
+      <ProjectList />
+
     </div>
   );
 };

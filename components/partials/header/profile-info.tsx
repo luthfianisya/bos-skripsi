@@ -17,11 +17,15 @@ import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
 import avatar5 from "@/public/images/avatar/avatar-5.jpg";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
+
 const ProfileInfo = () => {
+  const [selectedRole, setSelectedRole] = useState("Administrator");
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className=" cursor-pointer">
+      <DropdownMenuTrigger asChild className=" cursor-pointer pointer-events-auto">
         <div className=" flex items-center  ">
           <Image
             src={avatar5}
@@ -32,7 +36,8 @@ const ProfileInfo = () => {
           />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 p-0" align="end">
+      <DropdownMenuContent className="w-56 p-0 overflow-visible relative z-50" align="end">
+
         <DropdownMenuLabel className="flex gap-2 items-center mb-1 p-3">
           <Image
             src={avatar5}
@@ -52,150 +57,42 @@ const ProfileInfo = () => {
             </div>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuGroup>
-          {[
-            {
-              name: "Administrator",
-              icon: "heroicons:user",
-              href: "/user-profile"
-            },
-            {
-              name: "Pengentri Operator",
-              icon: "heroicons:user",
-              href: "/user-profile"
-            },
-            {
-              name: "Admin Anggaran",
-              icon: "heroicons:user",
-              href: "/user-profile"
-            },
-            {
-              name: "Anggaran",
-              icon: "heroicons:user",
-              href: "/user-profile"
-            },
-            {
-              name: "Admin Bendahara",
-              icon: "heroicons:user",
-              href: "/user-profile"
-            },
-            {
-              name: "Bendahara",
-              icon: "heroicons:user",
-              href: "/user-profile"
-            },
-            {
-              name: "Pegawai",
-              icon: "heroicons:user",
-              href: "/user-profile"
-            },
-            {
-              name: "Bagian/Subbagian Umum",
-              icon: "heroicons:user",
-              href: "/user-profile"
-            },
-            // {
-            //   name: "Billing",
-            //   icon: "heroicons:megaphone",
-            //   href: "/dashboard"
-            // },
-            // {
-            //   name: "Settings",
-            //   icon: "heroicons:paper-airplane",
-            //   href: "/dashboard"
-            // },
-            // {
-            //   name: "Keyboard shortcuts",
-            //   icon: "heroicons:language",
-            //   href: "/dashboard"
-            // },
-          ].map((item, index) => (
-            <Link
-              href={item.href}
-              key={`info-menu-${index}`}
-              className="cursor-pointer"
-            >
-              <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-                <Icon icon={item.icon} className="w-4 h-4" />
-                {item.name}
-              </DropdownMenuItem>
-            </Link>
-          ))}
-        </DropdownMenuGroup>
-        {/* <DropdownMenuSeparator /> */}
-        {/* <DropdownMenuGroup>
-          <Link href="/dashboard" className="cursor-pointer">
-            <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-              <Icon icon="heroicons:user-group" className="w-4 h-4" />
-              team
-            </DropdownMenuItem>
-          </Link>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background">
-              <Icon icon="heroicons:user-plus" className="w-4 h-4" />
-              Invite user
-            </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
+        <DropdownMenuSeparator className="mb-0 dark:bg-background" />
+        <div className="flex flex-col gap-2 mb-1 p-3">
+          <div className="text-sm font-medium text-default-800 capitalize">Role</div>
+          <div className="relative">
+            <Icon
+              icon="lucide:user-round-check"
+              className="w-4 h-4 absolute top-1/2 -translate-y-1/2 left-2.5 text-default-600"
+            />
+            <Select value={selectedRole} onValueChange={setSelectedRole}>
+              <SelectTrigger className="pl-9 min-w-[160px] whitespace-nowrap h-8 text-sm">
+                <SelectValue placeholder="Pilih Role" />
+              </SelectTrigger>
+              <SelectContent position="popper" side="bottom" className="z-[9999]">
                 {[
-                  {
-                    name: "email",
-                  },
-                  {
-                    name: "message",
-                  },
-                  {
-                    name: "facebook",
-                  },
-                ].map((item, index) => (
-                  <Link
-                    href="/dashboard"
-                    key={`message-sub-${index}`}
-                    className="cursor-pointer"
+                  "Administrator",
+                  // "Pengentri Operator",
+                  // "Admin Anggaran",
+                  // "Anggaran",
+                  // "Admin Bendahara",
+                  // "Bendahara",
+                  // "Pegawai",
+                  // "Bagian/Subbagian Umum",
+                ].map((role) => (
+                  <SelectItem
+                    key={role}
+                    value={role}
+                    className="cursor-pointer hover:bg-muted focus:bg-muted px-3 py-1.5 rounded-sm"
                   >
-                    <DropdownMenuItem className="text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-                      {item.name}
-                    </DropdownMenuItem>
-                  </Link>
+                    {role}
+                  </SelectItem>
                 ))}
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-          <Link href="/dashboard">
-            <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-              <Icon icon="heroicons:variable" className="w-4 h-4" />
-              Github
-            </DropdownMenuItem>
-          </Link>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
 
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-              <Icon icon="heroicons:phone" className="w-4 h-4" />
-              Support
-            </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                {[
-                  {
-                    name: "portal",
-                  },
-                  {
-                    name: "slack",
-                  },
-                  {
-                    name: "whatsapp",
-                  },
-                ].map((item, index) => (
-                  <Link href="/dashboard" key={`message-sub-${index}`}>
-                    <DropdownMenuItem className="text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-                      {item.name}
-                    </DropdownMenuItem>
-                  </Link>
-                ))}
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-        </DropdownMenuGroup> */}
         <DropdownMenuSeparator className="mb-0 dark:bg-background" />
         <DropdownMenuItem
           onSelect={() => signOut()}

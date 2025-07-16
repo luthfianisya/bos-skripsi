@@ -34,6 +34,45 @@ export interface FullFormPermintaan {
 }
 
 export const dummyForms: FullFormPermintaan[] = [
+    {
+    noPermintaan: "FP-2025-539170-92800-198",
+    deskripsi: "Translok Survei Khusus Neraca Produksi (SKNP) 2025",
+    noSurat: "B-571/32760/VS.350/2025",
+    tanggalSurat: "2025-07-15",
+    tipeForm: "FORM - TRANSLOK",
+    subTipeForm: "biasa",
+    jenisPok: "single",
+    linkPermintaan: "",
+    jumlahUsulan: 170000,
+    pembuat: "Aldi Pratama",
+    approvals: {
+      operator: "submit",
+      pj: "approved",
+      ppk: "approved",
+    },
+    pokTerpilih: [
+      {
+        grup: "GG 2899 BMA 006 005 A 524113 5",
+        detail: "Transportasi Petugas",
+        kode: "524111",
+        uraian: "Belanja Translok",
+        nilai: 8000000,
+      },
+    ],
+    dataPeserta: [
+      {
+        nama: "Mega Larasati",
+        gol: "IIIA",
+        asal: "Sawangan",
+        tujuan: "Cilodong",
+        pulangPergi: {
+          tanggalPergi: "2025-05-08",
+          tanggalPulang: "2025-05-08",
+        },
+        jumlah: 8000000,
+      },
+    ],
+  },
   {
     noPermintaan: "FP-2025-539170-92800-195",
     deskripsi: "Pengadaan Laptop Lenovo ThinkPad X1 Carbon",
@@ -46,7 +85,7 @@ export const dummyForms: FullFormPermintaan[] = [
     jumlahUsulan: 45000000,
     pembuat: "Dian Sasmita",
     approvals: {
-      operator: "approved",
+      operator: "submit",
       pj: "approved",
       ppk: "approved",
     },
@@ -163,9 +202,9 @@ export const dummyForms: FullFormPermintaan[] = [
     jumlahUsulan: 8000000,
     pembuat: "Yusuf Hamka",
     approvals: {
-      operator: "approved",
-      pj: "rejected",
-      ppk: "rejected",
+      operator: "submit",
+      pj: "approved",
+      ppk: "approved",
     },
     pokTerpilih: [
       {

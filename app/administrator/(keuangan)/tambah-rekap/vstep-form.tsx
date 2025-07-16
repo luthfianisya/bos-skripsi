@@ -13,7 +13,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 import { cn } from "@/lib/utils";
 import { Peserta } from "./components/peserta-berangkat-table/columns";
 import { PaperAirplaneIcon, PrinterIcon } from "@heroicons/react/24/outline";
-import { FullFormPermintaan } from "@/data/form-permintaan-f"; // pastikan impor ini ada
+import { FullFormPermintaan } from "@/data/form-permintaan-f-2"; // pastikan impor ini ada
 import { combinedForms, SUB_TIPE_FORM_MAP, TIPE_FORM_MAP } from "@/lib/constants";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -180,6 +180,33 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
   const isSPPComplete = () => sppNomor && sppTanggal;
   const isSP2DComplete = () => sp2dNomor && sp2dTanggal;
 
+  const handleFinalisasi = () => {
+    MySwal.fire({
+      title: 'Yakin Finalisasi Rekap?',
+      text: 'Data yang sudah difinalisasi tidak dapat diubah lagi.',
+      icon: 'warning',
+      showCancelButton: true, // WAJIB agar tombol batal muncul
+      confirmButtonColor: '#16a34a',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, Finalisasi!',
+      cancelButtonText: 'Batal',
+         customClass: {
+        confirmButton: 'swal-confirm-btn',
+        cancelButton: 'swal-cancel-btn',
+        popup: 'z-[99999] pointer-events-auto', // ini penting
+        container: 'z-[99999] pointer-events-auto',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setRekapStatus("sp2d");
+        MySwal.fire(
+          'Berhasil!',
+          'Rekap telah berhasil difinalisasi.',
+          'success'
+        );
+      }
+    });
+  };
 
 
   return (
@@ -221,7 +248,7 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
             <form>
               <div className="grid grid-cols-12 gap-4">
                 {activeStep === 0 && (
-                  <StepInformasiUmum readOnly={readOnly} defaultValues={defaultValues}/>
+                  <StepInformasiUmum readOnly={readOnly} defaultValues={defaultValues} />
                 )}
 
                 {activeStep === 1 && (
@@ -295,7 +322,7 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
               <Button
                 size="xs"
                 color="success"
-                onClick={() => setRekapStatus("sp2d")}
+                onClick={handleFinalisasi}
                 disabled={!isSP2DComplete()}
               >
                 <PaperAirplaneIcon className="h-5 w-5 mr-1" />

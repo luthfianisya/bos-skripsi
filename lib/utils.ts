@@ -180,7 +180,7 @@ export const formatRupiah = (value: number) => {
   }).format(value);
 };
 
-import { FullFormPermintaan } from "@/data/form-permintaan-f";
+import { FullFormPermintaan } from "@/data/form-permintaan-f-2";
 import { POK } from "@/app/administrator/(anggaran)/entri-pembiayaan/components/columns";
 
 export function mapPokTerpilihToPOK(form: FullFormPermintaan): POK[] {

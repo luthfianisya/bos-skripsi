@@ -187,8 +187,22 @@ export function DataTable<TData extends Realisasi>({
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
+              {selectedRows.map((row) => (
+                <RealisasiTranslokGroup
+                  key={row.original.nip}
+                  rowData={row.original}
+                  isBerangkat={row.original.berangkat === "ya"}
+                  updateRow={(nip, update) => {
+                    setTableData((prev) =>
+                      prev.map((item) =>
+                        item.nip === nip ? { ...item, ...update } : item
+                      )
+                    );
+                  }}
+                />
+              ))}
 
-              <RealisasiTranslokGroup isBerangkat={isBerangkat} />
+
             </div>
           </div>
 

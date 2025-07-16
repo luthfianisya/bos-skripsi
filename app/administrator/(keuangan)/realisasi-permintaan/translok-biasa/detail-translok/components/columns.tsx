@@ -24,7 +24,7 @@ export interface Realisasi {
   berangkat: "ya" | "tidak";
   booked: number;
   realisasi: number;
-  statusSpj: "Belum Proses" | "Dalam Proses" | "Selesai";
+  statusSpj: "Belum Proses" | "Rekap Bendahara" | "Selesai";
 }
 
 
@@ -169,7 +169,7 @@ export const realisasis: Realisasi[] = [
     berangkat: "ya",
     booked: 5000000,
     realisasi: 4800000,
-    statusSpj: "Dalam Proses",
+    statusSpj: "Rekap Bendahara",
   },
   {
     nip: "1981234567",

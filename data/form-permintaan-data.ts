@@ -2,6 +2,15 @@ import { Form } from "@/lib/interface";
 import { DUMMY_PEGAWAIS } from "./pegawai-dummy";
 
 export const dataForm: Form[] = [
+      {
+      noPermintaan: "FP-2025-539170-92800-225",
+      deskripsi: "Translok Survei Khusus Neraca Produksi (SKNP) 2025",
+      noSurat: "B-571/32760/VS.350/2025",
+      pembuat: "Aldi Pratama",
+      jumlahUsulan: 170000,
+      tipeForm: "FORM - TRANSLOK",
+      approvals: { operator: "submit", pj: "approved", ppk: "approved" },
+    },
     {
       noPermintaan: "FP-2025-539170-92800-001",
       deskripsi: "Perjalanan dinas kegiatan survei pertanian",
@@ -14,7 +23,7 @@ export const dataForm: Form[] = [
     {
       noPermintaan: "FP-2025-539170-92800-002",
       deskripsi: "Pengadaan ATK kantor bulanan",
-      noSurat: "B-0002B/539170/KU.600/04/2025",
+      noSurat: "B-560/32760/VS.350/2025",
       pembuat: DUMMY_PEGAWAIS[1].nama,
       jumlahUsulan: 2500000,
       tipeForm: "FORM - BAHAN",
@@ -23,7 +32,7 @@ export const dataForm: Form[] = [
     {
       noPermintaan: "FP-2025-539170-92800-003",
       deskripsi: "Sewa kendaraan operasional",
-      noSurat: "B-0003C/539170/KU.600/04/2025",
+      noSurat: "B-561/32760/VS.350/2025",
       pembuat: DUMMY_PEGAWAIS[2].nama,
       jumlahUsulan: 4000000,
       tipeForm: "FORM - SEWA",
@@ -32,25 +41,16 @@ export const dataForm: Form[] = [
     {
       noPermintaan: "FP-2025-539170-92800-004",
       deskripsi: "Honor narasumber pelatihan",
-      noSurat: "B-0004D/539170/KU.600/04/2025",
+      noSurat: "B-562/32760/VS.350/2025",
       pembuat: DUMMY_PEGAWAIS[3].nama,
       jumlahUsulan: 2000000,
       tipeForm: "FORM - HONOR",
       approvals: { operator: "submit", pj: "rejected", ppk: "rejected" },
     },
     {
-      noPermintaan: "FP-2025-539170-92800-005",
-      deskripsi: "Konsultan sistem informasi statistik",
-      noSurat: "B-0005E/539170/KU.600/04/2025",
-      pembuat: DUMMY_PEGAWAIS[4].nama,
-      jumlahUsulan: 6000000,
-      tipeForm: "FORM - JASA KONSULTAN",
-      approvals: { operator: "submit", pj: "approved", ppk: "pending" },
-    },
-    {
       noPermintaan: "FP-2025-539170-92800-006",
       deskripsi: "Belanja bahan cetak kuesioner",
-      noSurat: "B-0006F/539170/KU.600/04/2025",
+      noSurat: "B-563/32760/VS.350/2025",
       pembuat: DUMMY_PEGAWAIS[5].nama,
       jumlahUsulan: 3000000,
       tipeForm: "FORM - PERSEDIAAN",
@@ -59,7 +59,7 @@ export const dataForm: Form[] = [
     {
       noPermintaan: "FP-2025-539170-92800-007",
       deskripsi: "Rapat koordinasi statistik daerah",
-      noSurat: "B-0007G/539170/KU.600/04/2025",
+      noSurat: "B-564/32760/VS.350/2025",
       pembuat: DUMMY_PEGAWAIS[6].nama,
       jumlahUsulan: 7000000,
       tipeForm: "FORM – PAKET MEETING LAINNYA",
@@ -68,7 +68,7 @@ export const dataForm: Form[] = [
     {
       noPermintaan: "FP-2025-539170-92800-008",
       deskripsi: "Belanja operasional kantor",
-      noSurat: "B-0008H/539170/KU.600/04/2025",
+      noSurat: "B-565/32760/VS.350/2025",
       pembuat: DUMMY_PEGAWAIS[7].nama,
       jumlahUsulan: 4500000,
       tipeForm: "FORM - OPERASIONAL",
@@ -77,7 +77,7 @@ export const dataForm: Form[] = [
     {
       noPermintaan: "FP-2025-539170-92800-009",
       deskripsi: "Jasa profesi perancang survei",
-      noSurat: "B-0009I/539170/KU.600/04/2025",
+      noSurat: "B-565/32760/VS.350/2025",
       pembuat: DUMMY_PEGAWAIS[8].nama,
       jumlahUsulan: 15000000,
       tipeForm: "FORM - JASA PROFESI",

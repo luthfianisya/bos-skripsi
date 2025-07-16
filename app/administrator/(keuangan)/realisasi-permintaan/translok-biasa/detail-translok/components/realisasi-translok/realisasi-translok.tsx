@@ -37,7 +37,7 @@ const formatRupiah = (value: number) =>
 // Badge mapping
 const spjStatusMap: Record<string, { color: "secondary" | "success" | "default" | "destructive" | "info" | "warning" | "dark" | undefined; variant: "outline" }> = {
     "Belum Proses": { color: "secondary", variant: "outline" },
-    "Dalam Proses": { color: "default", variant: "outline" },
+    "Rekap Bendahara": { color: "default", variant: "outline" },
     "Selesai": { color: "success", variant: "outline" },
 };
 
@@ -65,12 +65,12 @@ const RealisasiTranslok = () => {
     };
 
     const data = {
-        nomorSpd: "SPD-2025-001",
-        nama: "Yeni",
-        statusPresensi: "BLOK",
-        statusSpj: "Dalam Proses",
-        booked: 1500000,
-        realisasi: 1500000,
+        nomorSpd: "001/539170=92800/TRANSLOK-2899/05/2025",
+        nama: "Agus Saputra",
+        statusPresensi: "BELUM",
+        statusSpj: "Belum Proses",
+        booked: 170000,
+        realisasi: 0,
         statusBerangkat: "Ya",
     };
 
@@ -96,7 +96,7 @@ const RealisasiTranslok = () => {
 
                             {/* Informasi Utama */}
                             <div className="grid md:grid-cols-2 gap-3">
-                                <Info label="Nomor SPD" value={data.nomorSpd} />
+                                <Info label="Nomor SPD" value={data.nomorSpd}/>
                                 <Info label="Nama" value={data.nama} />
                                 <Info label="Status Berangkat" value={data.statusBerangkat} />
                                 <Info label="Status Presensi">
@@ -249,7 +249,7 @@ const RealisasiTranslok = () => {
 
 // Reusable Info row
 const Info = ({ label, value, children }: { label: string; value?: string; children?: React.ReactNode }) => (
-    <div className="flex items-center gap-2">
+    <div className="flex items-start gap-2">
         <p className="w-36 text-sm font-medium">{label}</p>
         <div className="text-sm text-muted-foreground flex-1">: {children ?? value}</div>
     </div>

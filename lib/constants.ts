@@ -1,4 +1,4 @@
-import { dummyForms } from "@/data/form-permintaan-f";
+import { dummyForms } from "@/data/form-permintaan-f-2";
 import { POKs } from "@/data/entri-pembiayaan";
 import { FormPOK, PegawaiDetail } from "@/lib/interface";
 import { DUMMY_PEGAWAIS } from "@/data/pegawai-dummy";
@@ -252,8 +252,10 @@ export const satker: { value: string, label: string }[] = [
 
 export const tahun: { value: string, label: string }[] = [
   { value: "2025", label: "2025" },
-  { value: "2024", label: "2024" },
-  { value: "2023", label: "2023" },
+];
+
+export const wilayah: { value: string, label: string }[] = [
+  { value: "3200", label: "[3200] BPS Provinsi Jawa Barat" },
 ];
 
 export const organisasi: { value: string, label: string }[] = [
@@ -298,14 +300,19 @@ export const KODE_BEBAN_MAP: Record<
   { beban: string; sumberDana: string; deskripsi: string }
 > = {
   A: { beban: "RM", sumberDana: "RM", deskripsi: "Rupiah Murni" },
-  B: { beban: "PINJ. VALAS / RPLN", sumberDana: "PLN", deskripsi: "Pinjaman Luar Negeri" },
+  B: { beban: "PINJ. VALAS", sumberDana: "PLN", deskripsi: "Pinjaman Luar Negeri" },
+  B2: { beban: "RPLN", sumberDana: "PLN", deskripsi: "Pinjaman Luar Negeri" },
   C: { beban: "L.COST/RMP", sumberDana: "RMP", deskripsi: "Rupiah Murni Pendamping" },
   D: { beban: "PNBP", sumberDana: "PNBP", deskripsi: "PNBP" },
   E: { beban: "PDN", sumberDana: "PDN", deskripsi: "Pinjaman Dalam Negeri" },
   F: { beban: "BLU", sumberDana: "BLU", deskripsi: "Badan Layanan Umum" },
   G: { beban: "STM", sumberDana: "STM", deskripsi: "Stimulus" },
-  H: { beban: "HDN / HDN LANGSUNG", sumberDana: "HDN", deskripsi: "Hibah Dalam Negeri" },
-  I: { beban: "HIBAH VALAS / RHLN / LANGSUNG", sumberDana: "HLN / HLD / HLL", deskripsi: "Hibah Luar Negeri & Langsung" },
+  H: { beban: "HDN", sumberDana: "HDN", deskripsi: "Hibah Dalam Negeri" },
+  H2: { beban: "HDN LANGSUNG", sumberDana: "HDN", deskripsi: "Hibah Dalam Negeri" },
+  I: { beban: "HIBAH VALAS", sumberDana: "HLN / HLD / HLL", deskripsi: "Hibah Luar Negeri & Langsung" },
+  I2: { beban: "HIBAH RHLN", sumberDana: "HLN / HLD / HLL", deskripsi: "Hibah Luar Negeri & Langsung" },
+  I3: { beban: "HIBAH VALAS LANGSUNG", sumberDana: "HLN / HLD / HLL", deskripsi: "Hibah Luar Negeri & Langsung" },
+  I4: { beban: "HIBAH LUAR LANGSUNG", sumberDana: "HLN / HLD / HLL", deskripsi: "Hibah Luar Negeri & Langsung" },
   K: { beban: "SBSN PBS", sumberDana: "SBSN", deskripsi: "Surat Berharga Syariah Negara" },
 };
 
@@ -326,6 +333,8 @@ export const JENIS_PENGELUARAN_MAP: Record<string, string> = {
   "14": "Jasa Lainnya",
   "15": "Sewa",
   "16": "Operasional Perkantoran",
+  "17": "Honor/Upah",
+  "18": "Perjalanan Pindah",
 };
 
 export const STATUS_PENCAIRAN_MAP: Record<string, string> = {
@@ -370,23 +379,13 @@ export const PPKOptions = [
 
 const dummyPegawai: PegawaiDetail[] = [
   {
-    nama: "Budi Santoso",
-    nip: "198312122008031001",
-    nomorSpd: "SPD001",
-    tanggalSpd: "2025-07-01",
-    tujuan: "Jakarta",
-    booked: 500000,
-    realisasi: 450000,
-    status: "Selesai",
-  },
-  {
-    nama: "Ani Lestari",
-    nip: "198702182009032002",
-    nomorSpd: "SPD002",
-    tanggalSpd: "2025-07-02",
-    tujuan: "Bandung",
-    booked: 600000,
-    realisasi: 600000,
+    nama: "Agus Saputra",
+    nip: "198712312019031001",
+    nomorSpd: "001/539170=92800/TRANSLOK-2899/05/2025",
+    tanggalSpd: "2025-07-014",
+    tujuan: "Depok",
+    booked: 170000,
+    realisasi: 170000,
     status: "Selesai",
   },
 ];
@@ -397,8 +396,8 @@ export const combinedForms: FormPOK[] = dummyForms.map((form, index) => ({
   deskripsi: form.deskripsi,
   detail: "-",
   noSurat: form.noSurat,
-  paguBooked: 100000, // constant
-  paguReali: 100000,  // constant
+  paguBooked: 170000, // constant
+  paguReali: 170000,  // constant
   noPermintaan: form.noPermintaan,
   details: dummyPegawai, // ← tambahkan dummyPegawai di setiap baris
 }));

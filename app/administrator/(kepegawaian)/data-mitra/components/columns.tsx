@@ -122,13 +122,13 @@ export const columns: ColumnDef<Mitra>[] = [
       />
     ),
     cell: ({ row }) => (
-      <div className="flex gap-3 justify-end">
+      <div className="flex gap-2 justify-end">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 size="icon"
-                variant="outline"
+                // variant="soft"
                 color="warning"
                 className="h-7 w-7"
               >
@@ -145,7 +145,7 @@ export const columns: ColumnDef<Mitra>[] = [
             <TooltipTrigger asChild>
               <Button
                 size="icon"
-                variant="outline"
+                variant="soft"
                 color="destructive"
                 className="h-7 w-7"
               >

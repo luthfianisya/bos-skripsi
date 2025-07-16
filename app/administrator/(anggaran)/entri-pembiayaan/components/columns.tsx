@@ -12,6 +12,7 @@ import { Icon } from "@iconify/react";
 import { ClockIcon } from "@heroicons/react/24/outline"
 import {
   Tooltip,
+  TooltipArrow,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
@@ -364,34 +365,57 @@ export const columns = (
 
         return (
           <div className="flex justify-center gap-2">
-            <Button
-              size="icon"
-              variant="outline"
-              color="primary"
-              className="h-7 w-7"
-            >
-              <Icon icon="lucide:history" className="h-4 w-4" />
-            </Button>
+            <TooltipProvider>
 
-            {isIncomplete ? (
-              <Button
-                size="icon"
-                color="primary"
-                className="h-7 w-7"
-                onClick={() => handleEditClick(row.original)} // ✅ panggil fungsi edit
-              >
-                <Icon icon="heroicons:pencil-square" className="h-4 w-4" />
-              </Button>
-            ) : (
-              <Button
-                size="icon"
-                color="primary"
-                className="h-7 w-7"
-                disabled
-              >
-                <Icon icon="heroicons:pencil-square" className="h-4 w-4" />
-              </Button>
-            )}
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  {isIncomplete ? (
+                    <Button
+                      size="icon"
+                      color="primary"
+                      className="h-7 w-7"
+                      onClick={() => handleEditClick(row.original)} // ✅ panggil fungsi edit
+                    >
+                      <Icon icon="heroicons:pencil-square" className="h-4 w-4" />
+                    </Button>
+                  ) : (
+                    <Button
+                      size="icon"
+                      color="primary"
+                      className="h-7 w-7"
+                      disabled
+                    >
+                      <Icon icon="heroicons:pencil-square" className="h-4 w-4" />
+                    </Button>
+                  )}
+                </TooltipTrigger>
+                <TooltipContent color="secondary" className="z-[9999]">
+                  <p>Entri Pembiayaan</p>
+                  <TooltipArrow className=" fill-white" />
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="soft"
+                    color="primary"
+                    className="h-7 w-7"
+                  >
+                    <Icon icon="lucide:history" className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent color="secondary">
+                  <p>Histori</p>
+                  <TooltipArrow className=" fill-secondary" />
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+
+
           </div>
         );
       },

@@ -47,13 +47,20 @@ const WelcomeBlock = () => {
 
       {/* Konten utama */}
       <div className="relative z-10 flex-1 flex flex-col">
-        <div className="text-lg md:text-2xl font-semibold text-primary-foreground mb-2">
+        <div className="text-xl md:text-4xl font-semibold text-primary-foreground mb-2">
           Welcome Back <br />
-          Luthfiani Nur Aisyah, S.Tr.Stat!
+          Aldi Pratama, S.Tr.Stat!
         </div>
 
-        <div className="flex-grow" />
 
+
+        <div className="flex-grow" />
+        <div className="text-xl md:text-sm text-primary-foreground mb-2 pb-8">
+          <br />
+          <br />
+          BackOffice Selindo (BOS) merupakan aplikasi yang terintegrasi dalam menyertai siklus APBN di
+          lingkungan Badan Pusat Statistik
+        </div>
         <div className="flex items-center gap-2 text-sm text-primary-foreground bg-white/20 px-4 py-2 rounded-xl w-fit shadow-sm backdrop-blur-sm">
           <Icon icon="solar:clock-circle-bold" className="w-4 h-4" />
           <span>{currentTime}</span>
@@ -62,7 +69,7 @@ const WelcomeBlock = () => {
 
       {/* Gambar Admin */}
       <div className="relative z-10 pr-2">
-        <div className="relative w-[100px] md:w-[100px] min-w-[100px]">
+        <div className="relative w-[100px] md:w-[100px] min-w-[150px]">
           <Image
             src={admin}
             alt="user"
@@ -73,33 +80,35 @@ const WelcomeBlock = () => {
       </div>
 
       {/* Carousel */}
-      <div className=" border-white border-4 rounded-xl shadow-md backdrop-blur-sm">
-      <div className="relative z-10 max-w-3xl w-full h-auto">
-        <Swiper
-          pagination={{ clickable: true, dynamicBullets: true }}
-          modules={[Pagination, Autoplay]}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
-          spaceBetween={20}
-          slidesPerView={1}
-          className="rounded-lg"
-        >
-          {[...Array(5)].map((_, index) => (
-            <SwiperSlide key={index} className="flex justify-center">
-              <div className="max-h-[175px] rounded-lg overflow-hidden">
-                <Image
-                  src={slider1}
-                  alt={`Slide ${index + 1}`}
-                  height={200}
-                  className="object-contain w-full h-auto"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+      {/* Carousel */}
+      <div className=" shadow-md backdrop-blur-sm">
+        <div className="relative z-10 w-full max-w-2xl"> {/* ← Lebar tetap */}
+          <Swiper
+            pagination={{ clickable: true, dynamicBullets: true }}
+            modules={[Pagination, Autoplay]}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            spaceBetween={20}
+            slidesPerView={1}
+            className="rounded-lg"
+          >
+            {[...Array(5)].map((_, index) => (
+              <SwiperSlide key={index} className="flex justify-center">
+                <div className="w-full max-w-2xl aspect-[16/9] rounded-lg overflow-hidden border-4 border-white shadow-md">
+                  <Image
+                    src={slider1}
+                    alt={`Slide ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
 
-    </div>
+
+    </div >
   );
 };
 

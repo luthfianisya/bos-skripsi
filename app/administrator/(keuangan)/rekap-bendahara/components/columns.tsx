@@ -18,6 +18,7 @@ import { STATUS_DOKUMEN_MAP, STATUS_PENCAIRAN_MAP } from "@/lib/constants";
 import { EllipsisTooltip } from "@/components/ui/ellipsis-tooltip";
 import { formatDate, formatRupiah } from "@/lib/utils";
 import { Icon } from "@iconify/react";
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // ✅ Columns untuk table
 export const columns: ColumnDef<any>[] = [
@@ -91,40 +92,112 @@ export const columns: ColumnDef<any>[] = [
       />
     ),
     cell: () => (
-      <div className="flex gap-3 justify-end">
-        <Button
-          size="icon"
+      // <div className="flex gap-2 justify-end">
+      //   <Button
+      //     size="icon"
 
-          color="primary"
-          className="h-7 w-7"
-        >
-          <Icon icon="heroicons-solid:printer" className="h-4 w-4" />
-        </Button>
-        <Button
-          size="icon"
-          variant="outline"
-          color="warning"
-          className="h-7 w-7"
-        >
-          <EyeIcon className="h-4 w-4" />
-        </Button>
-        <Button
-          size="icon"
-          variant="outline"
-          className="h-7 w-7"
-          color="destructive"
-        >
-          <Icon icon="heroicons:arrow-uturn-left" className="h-4 w-4" />
-        </Button>
-        <Button
-          size="icon"
-          variant="outline"
-          className="h-7 w-7"
-          color="destructive"
-          disabled
-        >
-          <Icon icon="heroicons:trash" className="h-4 w-4" />
-        </Button>
+      //     color="primary"
+      //     className="h-7 w-7"
+      //   >
+      //     <Icon icon="heroicons-solid:printer" className="h-4 w-4" />
+      //   </Button>
+      //   <Button
+      //     size="icon"
+      //     variant="outline"
+      //     color="warning"
+      //     className="h-7 w-7"
+      //   >
+      //     <EyeIcon className="h-4 w-4" />
+      //   </Button>
+      //   <Button
+      //     size="icon"
+      //     variant="outline"
+      //     className="h-7 w-7"
+      //     color="destructive"
+      //   >
+      //     <Icon icon="heroicons:arrow-uturn-left" className="h-4 w-4" />
+      //   </Button>
+      //   <Button
+      //     size="icon"
+      //     variant="outline"
+      //     className="h-7 w-7"
+      //     color="destructive"
+      //     disabled
+      //   >
+      //     <Icon icon="heroicons:trash" className="h-4 w-4" />
+      //   </Button>
+      // </div>
+      <div className="flex gap-2 justify-end">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                // variant="soft"
+                color="primary"
+                className="h-7 w-7"
+              >
+                <Icon icon="heroicons-solid:eye" className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent color="secondary">
+              <p>Detail Rekap</p>
+              <TooltipArrow className=" fill-secondary" />
+            </TooltipContent>
+          </Tooltip>
+
+           <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="soft"
+                color="primary"
+                className="h-7 w-7"
+              >
+                 <Icon icon="heroicons-solid:printer" className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent color="secondary" className="z-[9999]">
+              <p>Print Rekap</p>
+              <TooltipArrow className=" fill-white" />
+            </TooltipContent>
+          </Tooltip>
+
+            <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="soft"
+                color="destructive"
+                className="h-7 w-7"
+              >
+                <Icon icon="heroicons:arrow-uturn-left" className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent color="secondary" className="z-[9999]">
+              <p>Batal SP2D</p>
+              <TooltipArrow className=" fill-white" />
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="soft"
+                color="destructive"
+                className="h-7 w-7"
+                disabled
+              >
+                <Icon icon="heroicons:trash" className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent color="secondary" className="z-[9999]">
+              <p>Hapus</p>
+              <TooltipArrow className=" fill-white" />
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     ),
     enableSorting: false,

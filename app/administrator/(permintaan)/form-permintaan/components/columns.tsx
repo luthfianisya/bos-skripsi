@@ -25,7 +25,7 @@ import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 // import { Icon } from "leaflet";
 import { Icon } from "@iconify/react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useRef, useState, useEffect } from "react";
 import { TIPE_FORM_MAP } from "@/lib/constants";
 import { ApprovalStatus } from "@/lib/type";
@@ -308,14 +308,24 @@ export const columns = (
         <div className="flex justify-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                size="icon"
-                variant="soft"
-                className="h-7 w-7"
-                color="primary"
-                icon={EllipsisHorizontalIcon}
-              >
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="soft"
+                      className="h-7 w-7"
+                      color="primary"
+                      icon={EllipsisHorizontalIcon}
+                    >
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent color="secondary">
+                    <p>Aksi</p>
+                    <TooltipArrow className=" fill-secondary" />
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-[248px]" align="end" avoidCollisions>
               <DropdownMenuLabel className="text-default-950">

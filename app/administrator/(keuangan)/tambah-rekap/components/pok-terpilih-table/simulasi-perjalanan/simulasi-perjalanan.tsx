@@ -173,7 +173,7 @@ const DialogForm = () => {
 
               <Badge variant="outline" className="flex items-center gap-1 text-sm font-semibold py-1 rounded-full">
                 <InformationCircleIcon className="h-4 w-4" />
-                <span>Total Booked Rp 500.000</span>
+                <span>Total Booked Rp 170.000</span>
               </Badge>
             </div>
 
@@ -188,7 +188,7 @@ const DialogForm = () => {
                   type="text"
                   placeholder="Masukkan bruto"
                   className="h-10 text-end text-sm"
-                  value={bruto}
+                  value={170000}
                   onChange={(e) => setBruto(Number(e.target.value))}
                 />
               </InputGroup>
@@ -244,7 +244,8 @@ const DialogForm = () => {
               <Input
                 type="text"
                 className="h-10 font-bold text-base text-right"
-                value={formatRupiah(bruto - (ppn + pph22 + pph23))}
+                // value={formatRupiah(bruto - (ppn + pph22 + pph23))}
+                value={170000}
                 readOnly
               />
             </div>

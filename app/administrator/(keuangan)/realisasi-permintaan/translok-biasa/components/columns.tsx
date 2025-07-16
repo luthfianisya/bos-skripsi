@@ -9,11 +9,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
 import { ClockIcon } from "@heroicons/react/24/outline"
-import { EyeIcon } from "@heroicons/react/24/solid"
+import { EllipsisHorizontalIcon, EyeIcon } from "@heroicons/react/24/solid"
 import Link from "next/link";
 import { EllipsisTooltip } from "@/components/ui/ellipsis-tooltip";
 import { Realisasi } from "@/lib/interface";
 import { formatRupiah } from "@/lib/utils";
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const columns: ColumnDef<Realisasi>[] = [
   {
@@ -69,13 +70,31 @@ export const columns: ColumnDef<Realisasi>[] = [
     cell: ({ row }) => (
       <div className="flex justify-end">
         <Link href="/administrator/realisasi-permintaan/translok-biasa/detail-translok">
-        <Button
+             <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              size="icon"
+                              variant="soft"
+                              className="h-7 w-7"
+                              color="primary"
+                              icon={EyeIcon}
+                            >
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent color="secondary">
+                            <p>Detail</p>
+                            <TooltipArrow className=" fill-secondary" />
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+        {/* <Button
           size="sm"
           variant="outline"
           icon={EyeIcon}
         >
           Detail
-        </Button>
+        </Button> */}
         </Link>
         
       </div>

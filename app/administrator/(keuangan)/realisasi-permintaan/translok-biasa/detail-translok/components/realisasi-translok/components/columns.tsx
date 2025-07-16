@@ -136,15 +136,15 @@ export const columns = (isBlokTranslokActive: boolean): ColumnDef<any>[] => [
 
 export const data: RowData[] = [
   {
-    asal: "Jakarta",
-    tujuan: "Bandung",
+    asal: "Depok",
+    tujuan: "Depok",
     pergi: {
-      tanggal: "2025-04-01",
-      kendaraan: "Kereta",
+      tanggal: "2025-07-15",
+      kendaraan: "Kendaraan Umum",
     },
     pulang: {
-      tanggal: "2025-04-03",
-      kendaraan: "Mobil",
+      tanggal: "2025-07-15",
+      kendaraan: "Kendaraan Umum",
     },
   },
 ];

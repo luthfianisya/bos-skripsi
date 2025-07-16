@@ -16,7 +16,8 @@ const buttonVariants = cva(
           "bg-red-600 destructive text-destructive-foreground hover:bg-destructive/80",
         success: "bg-success text-success-foreground hover:bg-success/80",
         info: "bg-info text-info-foreground hover:bg-info/80",
-        warning: "bg-yellow text-yellow-500 hover:bg-yellow/80",
+    warning: "bg-yellow-50 hover:bg-yellow-200 text-yellow-600 hover:text-yellow-700",
+
         secondary:
           "bg-secondary text-muted-foreground dark:text-default-950 hover:bg-secondary/80",
         dark: "bg-accent-foreground text-accent hover:bg-accent-foreground/80",

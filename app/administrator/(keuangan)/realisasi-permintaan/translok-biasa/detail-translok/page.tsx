@@ -12,17 +12,18 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { ArrowUturnLeftIcon, PaperAirplaneIcon, PrinterIcon, } from "@heroicons/react/24/solid";
 import DetailTranslokBreadCrumbs from "./components/bread-crumbs";
+import { Realisasi } from "./components/columns";
 
 const dummyData = {
-  noPermintaan: "FP-2025-000001-00001-1",
-  pok: "GG 5678 DEF 009 003 A 654321 9",
-  prosesSpj: "Dalam Proses",
-  booked: "Rp 500.000",
-  keterangan: "Perjalanan Dinas Monitoring Data",
-  nomorSurat: "B-099 88888/VS.777/03/2025",
-  detailPok: "Translok pengumpulan data lapangan",
-  volume: 4,
-  realisasi: "Rp 450.000",
+  noPermintaan: "FP-2025-539170-92800-225",
+  pok: "GG 2899 BMA 006 005 A 524113 5",
+  prosesSpj: "Belum Proses",
+  booked: "Rp 170.000",
+  keterangan: "Translok Survei Khusus Neraca Produksi (SKNP) 2025",
+  nomorSurat: "B-571/32760/VS.350/2025",
+  detailPok: "Translok petugas pemeriksaan lapangan survei khusus neraca produksi",
+  volume: 1,
+  realisasi: "Rp 0",
 };
 
 const DataTablePage = () => {
@@ -31,6 +32,19 @@ const DataTablePage = () => {
   const handleToggleSubmit = () => {
     setIsSubmitted((prev) => !prev);
   };
+
+  const [dataTabel, setDataTabel] = useState<Realisasi[]>([
+  {
+    nip: "198712312019031001",
+    nama: "Agus Saputra",
+    translok: "BELUM",
+    berangkat: "ya",
+    booked: 170000,
+    realisasi: 0,
+    statusSpj: "Belum Proses",
+  },
+]);
+
 
   return (
     <div className="space-y-5">
@@ -72,7 +86,7 @@ const DataTablePage = () => {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg font-semibold">
-            Realisasi FP-2025-000001-00001-1
+            Realisasi {dummyData.noPermintaan}
           </CardTitle>
           <div className="flex gap-2">
             <Button type="button" color="primary" variant="outline" size="md" icon={PrinterIcon}>
@@ -101,7 +115,7 @@ const DataTablePage = () => {
         </CardHeader>
 
         <CardContent>
-          <AdvancedTable />
+          <AdvancedTable data={dataTabel} />
         </CardContent>
       </Card>
     </div>
