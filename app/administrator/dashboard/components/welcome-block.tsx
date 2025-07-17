@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Icon } from "@iconify/react";
-import slider1 from "@/public/images/all-img/coba.png";
+import slider1 from "@/public/images/all-img/perjadin.png";
 import "swiper/css";
 import "swiper/css/pagination";
 import dayjs from "dayjs";
