@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "./data-table-column-header";
-import { JENIS_PENGELUARAN_MAP, KODE_BEBAN_MAP, TIPE_FORM_MAP} from "@/lib/constants";
+import { JENIS_PENGELUARAN_MAP, KODE_BEBAN_MAP, TIPE_FORM_MAP } from "@/lib/constants";
 // import { DataTableRowActions } from "./data-table-row-actions";
 import { Column, ColumnDef, Row } from "@tanstack/react-table";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -12,6 +12,7 @@ import { Icon } from "@iconify/react";
 import { ClockIcon } from "@heroicons/react/24/outline"
 import {
   Tooltip,
+  TooltipArrow,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
@@ -97,7 +98,7 @@ export const columns = (onHapus: (item: POK) => void, readOnly?: boolean): Colum
   {
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="#" className="text-center flex justify-center"/>
+      <DataTableColumnHeader column={column} title="#" className="text-center flex justify-center" />
     ),
     cell: ({ row }) => {
       const status = row.getValue("status") as POK["status"];
@@ -143,7 +144,7 @@ export const columns = (onHapus: (item: POK) => void, readOnly?: boolean): Colum
     },
     filterFn: (row, id, value) => {
       if (!value || value.length === 0) return true;
-  
+
       const rowValue = row.getValue(id); // "terpakai", "revisi", "tidak_terpakai"
       return value.includes(rowValue);
     },
@@ -213,17 +214,17 @@ export const columns = (onHapus: (item: POK) => void, readOnly?: boolean): Colum
     },
     filterFn: (row, id, value) => {
       const sisa = hitungPaguSisa(row.original); // 👈 bukan row.getValue("paguSisa")
-    
+
       if (!value || value.length === 0) return true;
-    
+
       const match: boolean[] = value.map((v: string) => {
         if (v === "tersedia") return sisa > 0;
         if (v === "nol_minus") return sisa <= 0;
         return false;
       });
-    
+
       return match.includes(true);
-    }    
+    }
   },
   {
     accessorKey: "sumber",
@@ -304,14 +305,14 @@ export const columns = (onHapus: (item: POK) => void, readOnly?: boolean): Colum
     ),
     cell: ({ row }) => <div className="text-center">{row.getValue("satuan")}</div>,
   },
-   {
+  {
     accessorKey: "tipeForm",
     header: ({ column }) => <DataTableColumnHeader column={column} title="TIPE FORM" />,
-   cell: ({ row }) => {
-  const tipeFormKey = row.getValue("tipeForm") as string;
-  const tipeFormData = TIPE_FORM_MAP[tipeFormKey];
-  return <div>{tipeFormData ? tipeFormData.code : tipeFormKey}</div>;
-},
+    cell: ({ row }) => {
+      const tipeFormKey = row.getValue("tipeForm") as string;
+      const tipeFormData = TIPE_FORM_MAP[tipeFormKey];
+      return <div>{tipeFormData ? tipeFormData.code : tipeFormKey}</div>;
+    },
 
     filterFn: (row, columnId, filterValue) => {
       if (!filterValue?.length) return true;
@@ -334,29 +335,39 @@ export const columns = (onHapus: (item: POK) => void, readOnly?: boolean): Colum
   },
   ...(!readOnly
     ? [{
-        accessorKey: "aksi",
-        header: ({ column }: { column: Column<POK> }) => (
-          <DataTableColumnHeader className="justify-center" column={column} title="AKSI" />
-        ),
-        cell: ({ row }: { row: Row<POK> }) => (
-          <div className="flex gap-2 justify-center">
-            <Button
-              size="icon"
-              variant="outline"
-              className="h-7 w-7"
-              color="destructive"
-              onClick={() => onHapus(row.original)}
-            >
-              <Icon icon="heroicons:trash" className="h-4 w-4" />
-            </Button>
-          </div>
-        ),
-        enableSorting: false,
-        enableHiding: false,
-      }]
+      accessorKey: "aksi",
+      header: ({ column }: { column: Column<POK> }) => (
+        <DataTableColumnHeader className="justify-center" column={column} title="AKSI" />
+      ),
+      cell: ({ row }: { row: Row<POK> }) => (
+        <div className="flex gap-2 justify-center">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="soft"
+                  color="destructive"
+                  className="h-7 w-7"
+                  onClick={() => onHapus(row.original)}
+                >
+                  <Icon icon="heroicons:trash" className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent color="secondary" className="z-[9999]">
+                <p>Hapus</p>
+                <TooltipArrow className=" fill-white" />
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    }]
     : []),
-  
-  
+
+
   // {
   //   accessorKey: "aksi",
   //   header: ({ column }) => (

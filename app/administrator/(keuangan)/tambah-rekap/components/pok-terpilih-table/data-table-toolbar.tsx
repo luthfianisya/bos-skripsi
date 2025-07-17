@@ -77,13 +77,6 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
           )}
         </div>  
       </div>
-
-      {/* Container kanan: Semua tombol di kanan */}
-      <div className="flex items-center gap-2">
-      {/* <Button type="button" color="destructive" variant="outline" size="md" icon={Trash2Icon}>
-          Kosongkan Tabel
-        </Button> */}
-      </div>
     </div>
 
   );

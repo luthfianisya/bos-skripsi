@@ -3,16 +3,11 @@ import { X, Plus, PlusCircleIcon, PrinterIcon, Trash2Icon } from "lucide-react";
 import * as Icon from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import { DataTableViewOptions } from "./data-table-view-options";
 import Importb from "@/components/svg/duel-tone/document-arrow-up.svg";
 import Refresh from "@/components/svg/duel-tone/arrow-path.svg";
-// import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
-// import { DataTableFacetedFilter } from "./data-table-faceted-filter";
-// import VStepFormStatic from "./import-simulasi/import-simulasi";
-// import VStepFormSimulasi from "./import-simulasi/import-simulasi";
-// import VStepFormPeserta from "./import-peserta/import-peserta";
+
 interface DataTableToolbarProps {
   table: Table<any>;
 }
@@ -79,15 +74,6 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
             </Button>
           )}
         </div>  
-      </div>
-
-      {/* Container kanan: Semua tombol di kanan */}
-      <div className="flex items-center gap-2">
-      {/* <VStepFormSimulasi/>
-      <VStepFormPeserta/>
-      <Button type="button" color="destructive" variant="outline" size="md" icon={Trash2Icon}>
-          Kosongkan Tabel
-        </Button> */}
       </div>
     </div>
 

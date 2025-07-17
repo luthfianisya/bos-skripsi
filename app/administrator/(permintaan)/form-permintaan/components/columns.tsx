@@ -306,64 +306,69 @@ export const columns = (
       ),
       cell: ({ row }) => (
         <div className="flex justify-end">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      size="icon"
-                      variant="soft"
-                      className="h-7 w-7"
-                      color="primary"
-                      icon={EllipsisHorizontalIcon}
-                    >
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent color="secondary">
-                    <p>Aksi</p>
-                    <TooltipArrow className=" fill-secondary" />
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[248px]" align="end" avoidCollisions>
-              <DropdownMenuLabel className="text-default-950">
-                Aksi
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-yellow-50 focus:text-yellow-600 cursor-pointer"
-                onClick={() => onDetailClick(row.original as FullFormPermintaan)}
-              >
-                <DocumentTextIcon className="w-5 h-5 text-yellow-500" />
-                <p className="text-sm">Detail Permintaan</p>
-              </DropdownMenuItem>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        size="icon"
+                        variant="soft"
+                        className="h-7 w-7"
+                        color="primary"
+                        icon={EllipsisHorizontalIcon}
+                      />
+                    </DropdownMenuTrigger>
 
-              <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-primary-50 focus:text-primary-600 cursor-pointer">
-                <DocumentDuplicateIcon className="w-5 h-5 text-primary-700" />
-                <p className="text-sm">Duplikat Permintaan</p>
-              </DropdownMenuItem>
+                    <DropdownMenuContent className="w-[248px]" align="end" avoidCollisions>
+                      <DropdownMenuLabel className="text-default-950">
+                        Aksi
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
 
-              <DropdownMenuItem
-                className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-primary-50 focus:text-primary-600 cursor-pointer"
-                onClick={() => onUploadAttachment(row.original as FullFormPermintaan)}
-              >
-                <ArrowUpOnSquareIcon className="w-5 h-5 text-primary-700" />
-                <p className="text-sm">Upload Ulang Attachment</p>
-              </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-yellow-50 focus:text-yellow-600 cursor-pointer"
+                        onClick={() => onDetailClick(row.original as FullFormPermintaan)}
+                      >
+                        <DocumentTextIcon className="w-5 h-5 text-yellow-500" />
+                        <p className="text-sm">Detail Permintaan</p>
+                      </DropdownMenuItem>
 
-              <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-primary-50 focus:text-primary-600 cursor-pointer">
-                <PrinterIcon className="w-5 h-5 text-primary-700" />
-                <p className="text-sm">Print Permintaan</p>
-              </DropdownMenuItem>
+                      <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-primary-50 focus:text-primary-600 cursor-pointer">
+                        <DocumentDuplicateIcon className="w-5 h-5 text-primary-700" />
+                        <p className="text-sm">Duplikat Permintaan</p>
+                      </DropdownMenuItem>
 
-              <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-red-50 focus:text-red-600 cursor-pointer">
-                <TrashIcon className="w-5 h-5 text-red-600" />
-                <p className="text-sm">Hapus Permintaan</p>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                      <DropdownMenuItem
+                        className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-primary-50 focus:text-primary-600 cursor-pointer"
+                        onClick={() => onUploadAttachment(row.original as FullFormPermintaan)}
+                      >
+                        <ArrowUpOnSquareIcon className="w-5 h-5 text-primary-700" />
+                        <p className="text-sm">Upload Ulang Attachment</p>
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-primary-50 focus:text-primary-600 cursor-pointer">
+                        <PrinterIcon className="w-5 h-5 text-primary-700" />
+                        <p className="text-sm">Print Permintaan</p>
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-default-600 focus:bg-red-50 focus:text-red-600 cursor-pointer">
+                        <TrashIcon className="w-5 h-5 text-red-600" />
+                        <p className="text-sm">Hapus Permintaan</p>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </TooltipTrigger>
+
+              <TooltipContent color="secondary">
+                <p>Aksi</p>
+                <TooltipArrow className="fill-secondary" />
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
         </div>
       ),
       enableSorting: false,

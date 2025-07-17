@@ -70,8 +70,7 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
   const [pokTerpilih, setPokTerpilih] = React.useState<POK[]>([]);
   React.useEffect(() => {
     if (readOnly) {
-      console.log("Setting pokTerpilih with dummy record");
-      setPokTerpilih([POKs[3]]);
+      setPokTerpilih([POKs[0]]);
     } else {
       if (data?.pokTerpilih) {
         setPokTerpilih(data.pokTerpilih.map(p => ({

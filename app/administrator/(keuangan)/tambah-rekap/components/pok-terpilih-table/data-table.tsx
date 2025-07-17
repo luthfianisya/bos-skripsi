@@ -35,14 +35,15 @@ import { ChevronDown } from "lucide-react";
 import { FormPOK } from "@/lib/interface";
 import { useState } from "react";
 import { formatRupiah } from "@/lib/utils";
-import DialogForm from "./simulasi-perjalanan/simulasi-perjalanan";
+import DialogForm from "./nilai-realisasi/nilai-realisasi";
 
 interface DataTableProps<TData extends FormPOK> {
   columns: ColumnDef<TData>[];
   data: TData[];
+   onTambahRealisasi: () => void;
 }
 
-export function DataTable<TData extends FormPOK>({ columns, data }: DataTableProps<TData>) {
+export function DataTable<TData extends FormPOK>({ columns, data, onTambahRealisasi }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
@@ -59,6 +60,9 @@ export function DataTable<TData extends FormPOK>({ columns, data }: DataTablePro
         : [...prev, rowId]
     );
   };
+
+  const [showRincianPeserta, setShowRincianPeserta] = useState(false);
+
 
   const columnsWithExpand = React.useMemo<ColumnDef<TData>[]>(
     () => [
@@ -250,7 +254,9 @@ export function DataTable<TData extends FormPOK>({ columns, data }: DataTablePro
                                     <Badge variant="outline">{d.status}</Badge>
                                   </TableCell>
                                   <TableCell>
-                                    <DialogForm />
+<DialogForm onTambah={onTambahRealisasi} />
+
+
                                   </TableCell>
                                 </TableRow>
                               ))}

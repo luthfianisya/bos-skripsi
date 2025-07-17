@@ -1,7 +1,26 @@
 import { tahun, satker, PROGRAMS } from "@/lib/constants";
 import { DUMMY_PEGAWAIS } from "./pegawai-dummy";
 
-export const dataRekap = [
+export interface RekapForm {
+  idRekap: string;
+  tglRekap: string;
+  judulRekap: string;
+  perekap: string;
+  statusPencairan: string; // bisa dibuat jadi enum kalau mau
+  tipeRekap: string;
+  totalBooked: number;
+  totalRealisasi: number;
+  statusDokumen: string; // bisa enum juga kalau ada nilai tetap
+  tahun: string;
+  satker: string;
+  program: string;
+  kegiatan: string;
+  output: string;
+  suboutput: string;
+  komponen: string;
+}
+
+export const  dataRekap: RekapForm[] = [
   {
     idRekap: "#00000237835",
     tglRekap: "2025-03-01",

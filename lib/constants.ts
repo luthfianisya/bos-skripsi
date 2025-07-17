@@ -381,7 +381,7 @@ const dummyPegawai: PegawaiDetail[] = [
   {
     nama: "Agus Saputra",
     nip: "198712312019031001",
-    nomorSpd: "001/539170=92800/TRANSLOK-2899/05/2025",
+    nomorSpd: "001/539170/92800/TRANSLOK-2899/05/2025",
     tanggalSpd: "2025-07-014",
     tujuan: "Depok",
     booked: 170000,

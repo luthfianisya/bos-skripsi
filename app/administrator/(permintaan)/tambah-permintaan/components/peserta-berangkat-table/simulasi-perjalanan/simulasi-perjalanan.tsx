@@ -25,6 +25,7 @@ import { getColumns, Peserta } from "../columns";
 import { DataTable } from "../data-table";
 import { asalOptions, tujuanOptions } from "../../../steps/step3";
 import { DetailPesertas } from "@/data/peserta-berangkat";
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const PesertaTable = ({ data, onUpdateTotal, readOnly }: { data: Peserta[], onUpdateTotal: (i: number, t: number) => void, readOnly?: boolean }) => {
   const columns = getColumns(onUpdateTotal, readOnly);
@@ -176,11 +177,21 @@ const DialogForm = ({ data, onSave, readOnly }: DialogFormProps) => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button size="icon" variant="outline" color="primary" className="h-7 w-7">
-          <CalculatorIcon className="h-4 w-4" />
-        </Button>
-      </DialogTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button size="icon" color="primary" className="h-7 w-7">
+                <CalculatorIcon className="h-4 w-4" />
+              </Button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent color="secondary" className="z-[9999]">
+            <p>Tambah Biaya Perjalanan</p>
+            <TooltipArrow className="fill-white" />
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <DialogContent size="4xl">
         <DialogHeader className="p-0 mb-4">
           <DialogTitle className="text-base font-semibold text-default-700">

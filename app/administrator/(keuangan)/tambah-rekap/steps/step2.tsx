@@ -30,6 +30,7 @@ interface StepPOKProps {
   pokTerpilih: FormPOK[];
   setPokTerpilih: React.Dispatch<React.SetStateAction<FormPOK[]>>;
   readOnly?: boolean;
+  showRincianPeserta: boolean;
 }
 
 const AccordionTrigger = ({ children, value, activeItem, setActiveItem }: AccordionTriggerProps) => {
@@ -79,10 +80,19 @@ const AccordionTrigger = ({ children, value, activeItem, setActiveItem }: Accord
   );
 };
 
+
+
 const StepPOK = ({ pokTerpilih, setPokTerpilih, readOnly = false }: StepPOKProps) => {
   const [pokData, setPokData] = useState<FormPOK[]>(combinedForms);
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("rincian");
+  const [showRincianPeserta, setShowRincianPeserta] = useState(false);
+
+  React.useEffect(() => {
+    if (readOnly) {
+      setShowRincianPeserta(true);
+    }
+  }, [readOnly]);
 
   const handleTambah = (item: FormPOK) => {
     setPokTerpilih((prev) => {
@@ -100,6 +110,8 @@ const StepPOK = ({ pokTerpilih, setPokTerpilih, readOnly = false }: StepPOKProps
   };
 
   const perGrupData = useMemo(() => {
+    if (!showRincianPeserta) return [];
+
     return pokTerpilih.map((item) => ({
       grupPok: item.grup,
       booked: item.paguBooked,
@@ -107,9 +119,11 @@ const StepPOK = ({ pokTerpilih, setPokTerpilih, readOnly = false }: StepPOKProps
       netto: item.paguReali,
       pajak: 0,
     }));
-  }, [pokTerpilih]);
+  }, [pokTerpilih, showRincianPeserta]);
 
   const rincianPesertaData = useMemo(() => {
+    if (!showRincianPeserta) return [];
+
     return pokTerpilih.flatMap((item) => {
       if (!item.details) return [];
       return item.details.map((d) => ({
@@ -121,29 +135,37 @@ const StepPOK = ({ pokTerpilih, setPokTerpilih, readOnly = false }: StepPOKProps
         pajak: 0,
       }));
     });
-  }, [pokTerpilih]);
+  }, [pokTerpilih, showRincianPeserta]);
+
+
 
   return readOnly ? (
-    <>
-      <div className="col-span-12 pt-6">
-        <h4 className="text-lg font-semibold text-gray-800">Rincian Rekapitulasi</h4>
+    <><div className="col-span-12">
+      <h4 className="text-lg font-semibold text-gray-800">Preview Data Form POK Terpilih</h4>
+    </div>
+
+      <div className="col-span-12">
+        <POKTerpilihTable data={pokTerpilih} onHapus={handleHapus} readOnly={readOnly} onTambahRealisasi={() => setShowRincianPeserta(true)} />
+      </div>
+
+ <div className="col-span-12 pt-6">
+        <div className="flex justify-between items-center">
+          <h4 className="text-lg font-semibold text-gray-800">Rincian Rekapitulasi</h4>
+          <Tabs
+            defaultValue="rincian"
+            value={activeTab}
+            onValueChange={(val) => setActiveTab(val)}
+          >
+            <TabsList>
+              <TabsTrigger value="rincian" className="data-[state=active]:bg-blue-700 data-[state=active]:text-primary-foreground">Rincian Peserta</TabsTrigger>
+              <TabsTrigger value="pergrup" className="data-[state=active]:bg-blue-700 data-[state=active]:text-primary-foreground">Per Grup POK</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
       <div className="col-span-12">
-        <Tabs
-          defaultValue="rincian"
-          value={activeTab}
-          onValueChange={(val) => setActiveTab(val)}
-        >
-          <TabsList>
-            <TabsTrigger value="rincian" className="data-[state=active]:bg-blue-700 data-[state=active]:text-primary-foreground">Rincian Peserta</TabsTrigger>
-            <TabsTrigger value="pergrup" className="data-[state=active]:bg-blue-700 data-[state=active]:text-primary-foreground">Per Grup POK</TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </div>
-
-      <div className="col-span-12">
-        {activeTab === "rincian" && (
+        {activeTab === "rincian" && showRincianPeserta && (
           <RincianPesertaTable
             data={[{
               nip: combinedForms[0].details?.[0]?.nip ?? "-",
@@ -155,7 +177,9 @@ const StepPOK = ({ pokTerpilih, setPokTerpilih, readOnly = false }: StepPOKProps
             }]}
           />
         )}
-        {activeTab === "pergrup" && (
+
+
+        {activeTab === "pergrup" && showRincianPeserta && (
           <PerGrupPOKTable
             data={[{
               grupPok: combinedForms[0].grup,
@@ -193,7 +217,7 @@ const StepPOK = ({ pokTerpilih, setPokTerpilih, readOnly = false }: StepPOKProps
       </div>
 
       <div className="col-span-12">
-        <POKTerpilihTable data={pokTerpilih} onHapus={handleHapus} readOnly={readOnly} />
+        <POKTerpilihTable data={pokTerpilih} onHapus={handleHapus} readOnly={readOnly} onTambahRealisasi={() => setShowRincianPeserta(true)} />
       </div>
 
       <div className="col-span-12 pt-6">
@@ -213,7 +237,10 @@ const StepPOK = ({ pokTerpilih, setPokTerpilih, readOnly = false }: StepPOKProps
       </div>
 
       <div className="col-span-12">
-        {activeTab === "rincian" && <RincianPesertaTable data={rincianPesertaData} />}
+        {activeTab === "rincian" && (
+          <RincianPesertaTable data={rincianPesertaData} />
+        )}
+
         {activeTab === "pergrup" && <PerGrupPOKTable data={perGrupData} />}
       </div>
     </>

@@ -65,7 +65,7 @@ const DataTableFilter = ({ filterState, setFilterState }: DataTableFilterProps) 
         ?.suboutput.find(s => s.code === filterState.suboutput!.value)
         ?.komponen?.map(c => ({
           value: c.code,
-          label: c.label,
+          label: `[${c.code}] ${c.label}`,
         })) ?? []
       : [];
 

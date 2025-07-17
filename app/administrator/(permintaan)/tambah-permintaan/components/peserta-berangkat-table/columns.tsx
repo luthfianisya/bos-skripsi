@@ -11,6 +11,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import DialogForm from "./simulasi-perjalanan/simulasi-perjalanan";
 import { useState } from "react";
 import { asalOptions, tujuanOptions } from "../../steps/step3";
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Interface baru sesuai kebutuhan
 export interface Peserta {
@@ -51,7 +52,7 @@ export function getColumns(onUpdateTotal: (index: number, total: number) => void
         const asalValue = row.getValue("asal") as string;
         const asalLabel = asalOptions.find((o) => o.value === asalValue)?.label || asalValue;
         return <div>{asalLabel}</div>;
-      },      
+      },
     },
     {
       accessorKey: "tujuan",
@@ -62,7 +63,7 @@ export function getColumns(onUpdateTotal: (index: number, total: number) => void
         const tujuanValue = row.getValue("tujuan") as string;
         const tujuanLabel = tujuanOptions.find((o) => o.value === tujuanValue)?.label || tujuanValue;
         return <div>{tujuanLabel}</div>;
-      },      
+      },
     },
     {
       accessorKey: "pulangPergi",
@@ -145,14 +146,24 @@ export function getColumns(onUpdateTotal: (index: number, total: number) => void
               readOnly={readOnly} // tambahkan ini
             />
             {!readOnly && (
-              <Button
-                size="icon"
-                variant="outline"
-                className="h-7 w-7"
-                color="destructive"
-              >
-                <Icon icon="heroicons:trash" className="h-4 w-4" />
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="soft"
+                      color="destructive"
+                      className="h-7 w-7"
+                    >
+                      <Icon icon="heroicons:trash" className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent color="secondary" className="z-[9999]">
+                    <p>Hapus</p>
+                    <TooltipArrow className=" fill-white" />
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             )}
           </div>
         )

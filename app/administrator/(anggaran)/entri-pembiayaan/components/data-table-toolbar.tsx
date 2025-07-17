@@ -93,36 +93,3 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
 
   );
 }
-
-{/* <Input
-        placeholder="Cari data mitra/PPNPN..."
-        value={table.getColumn("title")?.getFilterValue() as string || ""}
-        onChange={handleFilterChange}
-        className="h-9 min-w-[200px] max-w-sm"
-      /> */}
-
-{/* {statusColumn && (
-        <DataTableFacetedFilter
-          column={statusColumn}
-          title="Status"
-          options={statuses}
-        />
-      )}
-      {priorityColumn && (
-        <DataTableFacetedFilter
-          column={priorityColumn}
-          title="Priority"
-          options={priorities}
-        />
-      )}
-      {isFiltered && (
-        <Button
-          variant="outline"
-          onClick={() => table.resetColumnFilters()}
-          className="h-8 px-2 lg:px-3"
-        >
-          Reset
-          <X className="ltr:ml-2 rtl:mr-2 h-4 w-4" />
-        </Button>
-      )} */}
-{/* <DataTableViewOptions table={table} /> */ }

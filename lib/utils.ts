@@ -182,6 +182,7 @@ export const formatRupiah = (value: number) => {
 
 import { FullFormPermintaan } from "@/data/form-permintaan-f-2";
 import { POK } from "@/app/administrator/(anggaran)/entri-pembiayaan/components/columns";
+import { jenisPencairanOptions, PROGRAMS, satker, tahun } from "./constants";
 
 export function mapPokTerpilihToPOK(form: FullFormPermintaan): POK[] {
   return form.pokTerpilih.map((item) => ({
@@ -202,4 +203,24 @@ export function mapPokTerpilihToPOK(form: FullFormPermintaan): POK[] {
     unitKerja: "Default",
     status: "terpakai",
   }));
+}
+
+export function convertFullFormRekapToDefaultValues(fullForm: any) {
+  const program = PROGRAMS.find(p => p.code === fullForm.program);
+  const kegiatan = program?.kegiatan.find(k => k.code === fullForm.kegiatan);
+  const output = kegiatan?.output.find(o => o.code === fullForm.output);
+  const suboutput = output?.suboutput.find(s => s.code === fullForm.suboutput);
+  const komponen = suboutput?.komponen.find(c => c.code === fullForm.komponen);
+
+  return {
+    ...fullForm,
+    program: program && { value: program.code, label: `[${program.code}] ${program.label}` },
+    kegiatan: kegiatan && { value: kegiatan.code, label: `[${kegiatan.code}] ${kegiatan.label}` },
+    output: output && { value: output.code, label: `[${output.code}] ${output.label}` },
+    suboutput: suboutput && { value: suboutput.code, label: `[${suboutput.code}] ${suboutput.label}` },
+    komponen: komponen && { value: komponen.code, label: `[${komponen.code}] ${komponen.label}` },
+    satker: satker.find(s => s.value === fullForm.satker),
+    linkPermintaan: jenisPencairanOptions.find(j => j.value === fullForm.statusPencairan),
+    tahun: tahun.find(t => t.value === fullForm.tahun),
+  };
 }

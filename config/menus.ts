@@ -148,11 +148,11 @@ export const menusConfig = {
           //     },
           //   ]
           // },
-          {
-            title: "Tambah Permintaan",
-            href: "/administrator/tambah-permintaan",
-            onClick: () => {},
-          },
+          // {
+          //   title: "Tambah Permintaan",
+          //   href: "/administrator/tambah-permintaan",
+          //   onClick: () => {},
+          // },
           {
             title: "Form Permintaan",
             href: "/administrator/form-permintaan",

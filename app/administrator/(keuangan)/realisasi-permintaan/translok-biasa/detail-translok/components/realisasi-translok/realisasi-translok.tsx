@@ -65,7 +65,7 @@ const RealisasiTranslok = () => {
     };
 
     const data = {
-        nomorSpd: "001/539170=92800/TRANSLOK-2899/05/2025",
+        nomorSpd: "001/539170/92800/TRANSLOK-2899/05/2025",
         nama: "Agus Saputra",
         statusPresensi: "BELUM",
         statusSpj: "Belum Proses",

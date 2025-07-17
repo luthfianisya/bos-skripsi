@@ -122,7 +122,7 @@ export const columns: ColumnDef<Mitra>[] = [
       />
     ),
     cell: ({ row }) => (
-      <div className="flex gap-2 justify-end">
+      <div className="flex gap-2 justify-center">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

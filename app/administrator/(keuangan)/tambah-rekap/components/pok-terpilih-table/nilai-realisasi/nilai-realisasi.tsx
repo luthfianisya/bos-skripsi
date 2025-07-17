@@ -25,8 +25,15 @@ import {
 import { CalculatorIcon, InformationCircleIcon } from "@heroicons/react/24/solid";
 import { InputGroup, InputGroupText } from "@/components/ui/input-group";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-const DialogForm = () => {
+interface DialogFormProps {
+  onTambah: () => void;
+}
+
+
+const DialogForm = ({ onTambah }: DialogFormProps) => {
+
   const promise = () =>
     new Promise((resolve) => setTimeout(() => resolve({ name: "Sonner" }), 1000));
 
@@ -133,12 +140,27 @@ const DialogForm = () => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button size="icon" variant="outline" color="primary" className="h-7 w-7">
-          <CalculatorIcon className="h-4 w-4" />
-        </Button>
-      </DialogTrigger>
-      <DialogContent size="2xl">
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button size="icon" color="primary" className="h-7 w-7">
+                <CalculatorIcon className="h-4 w-4" />
+              </Button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent color="secondary" className="z-[9999]">
+            <p>Tambah Nilai Realisasi</p>
+            <TooltipArrow className="fill-white" />
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <DialogContent
+        size="2xl"
+        className="z-[99999] pointer-events-auto"
+        overlayClass="z-[99998] pointer-events-none"
+      >
         <DialogHeader className="p-0 mb-4">
           <DialogTitle className="text-base font-semibold text-default-700">
             Tambah Nilai Realisasi
@@ -265,22 +287,22 @@ const DialogForm = () => {
               type="button"
               color="primary"
               size="md"
-              onClick={() =>
+              onClick={() => {
+                onTambah();
                 toast.promise(promise(), {
                   loading: "Menyimpan...",
-                  success: "Data realisasi berhasil disimpan.",
+                  success: "Data nilai realisasi peserta berhasil disimpan.",
                   error: "Terjadi kesalahan saat menyimpan.",
                   position: "top-right",
-                
-                })
-              }
+                });
+              }}
             >
               Tambah
             </Button>
           </DialogClose>
         </div>
       </DialogContent>
-    </Dialog>
+    </Dialog >
   );
 };
 

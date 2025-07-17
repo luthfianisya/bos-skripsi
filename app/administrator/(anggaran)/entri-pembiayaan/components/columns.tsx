@@ -422,25 +422,4 @@ export const columns = (
       enableSorting: false,
       enableHiding: false,
     }
-
-
-    // {
-    //   accessorKey: "aksi",
-    //   header: ({ column }) => (
-    //     <DataTableColumnHeader column={column} title="AKSI" />
-    //   ),
-    //   cell: ({ row }) => (
-    //     <div className="flex justify-end">
-    //       <Button
-    //         size="sm"
-    //         variant="outline"
-    //         icon={ClockIcon}
-    //       >
-    //         Riwayat
-    //       </Button>
-    //     </div>
-    //   ),
-    //   enableSorting: false,
-    //   enableHiding: false,
-    // },
   ];

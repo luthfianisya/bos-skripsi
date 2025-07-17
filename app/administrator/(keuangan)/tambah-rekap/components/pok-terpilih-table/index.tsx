@@ -7,13 +7,16 @@ interface POKTerpilihTableProps {
   data: FormPOK[];
   onHapus: (item: FormPOK) => void;
   readOnly?: boolean;
+  onTambahRealisasi: () => void; // ✅ tambahkan ini
 }
-export default function POKTerpilihTable({ data, onHapus, readOnly = false }: POKTerpilihTableProps) {
+
+export default function POKTerpilihTable({ data, onHapus, readOnly = false, onTambahRealisasi }: POKTerpilihTableProps) {
   return (
     <Fragment>
       <DataTable
         data={data}
         columns={columns(onHapus, readOnly)}
+        onTambahRealisasi={onTambahRealisasi}
       />
     </Fragment>
   );

@@ -1,15 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Select from "react-select";
 import { jenisPencairanOptions, organisasi, satker, SUB_TIPE_FORM_MAP, tahun, TIPE_FORM_MAP } from "@/lib/constants";
 import { PROGRAMS } from "@/lib/constants";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@iconify/react";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
 
 interface StepInformasiUmumProps {
   readOnly?: boolean;
   defaultValues?: Record<string, any>;
 }
+
+const styles = {
+  control: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.isDisabled ? '#f1f5f9' : 'white', // slate-100
+    borderColor: state.isDisabled ? '#e2e8f0' : base.borderColor, // slate-300
+    color: state.isDisabled ? '#94a3b8' : base.color, // slate-400
+    cursor: state.isDisabled ? 'not-allowed' : 'default',
+    boxShadow: 'none',
+    '&:hover': {
+      borderColor: state.isDisabled ? '#e2e8f0' : '#a5b4fc', // primary jika aktif
+    },
+  }),
+  singleValue: (base: any, state: any) => ({
+    ...base,
+    color: state.isDisabled ? '#94a3b8' : base.color,
+  }),
+  placeholder: (base: any, state: any) => ({
+    ...base,
+    color: state.isDisabled ? '#94a3b8' : base.color,
+  }),
+  indicatorSeparator: (base: any) => ({
+    ...base,
+    display: 'none',
+  }),
+  dropdownIndicator: (base: any, state: any) => ({
+    ...base,
+    color: state.isDisabled ? '#cbd5e1' : base.color,
+    '&:hover': {
+      color: state.isDisabled ? '#cbd5e1' : base.color,
+    },
+  }),
+  menuPortal: (base: any) => ({ ...base, zIndex: 9999 }),
+};
 
 const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmumProps) => {
 
@@ -22,45 +61,8 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
 
   const { getValues } = useFormContext();
 
-  React.useEffect(() => {
-    if (!defaultValues) return;
+  
 
-    if (defaultValues.tahun) setValue("tahun", defaultValues.tahun);
-    if (defaultValues.satker) setValue("satker", defaultValues.satker);
-    if (defaultValues.program) {
-      setValue("program", defaultValues.program);
-      setSelectedProgram(defaultValues.program);
-    }
-    if (defaultValues.kegiatan) {
-      setValue("kegiatan", defaultValues.kegiatan);
-      setSelectedKegiatan(defaultValues.kegiatan);
-    }
-    if (defaultValues.output) {
-      setValue("output", defaultValues.output);
-      setSelectedOutput(defaultValues.output);
-    }
-    if (defaultValues.suboutput) {
-      setValue("suboutput", defaultValues.suboutput);
-      setSelectedSuboutput(defaultValues.suboutput);
-    }
-    if (defaultValues.komponen) {
-      setValue("komponen", defaultValues.komponen);
-      setSelectedKomponen(defaultValues.komponen);
-    }
-  }, [defaultValues]);
-
-
-  React.useEffect(() => {
-    const tipeFormValue = getValues("tipeForm");
-    const subTipeValue = getValues("subTipeForm");
-
-    if (tipeFormValue) setSelectedTipeForm(tipeFormValue);
-    if (subTipeValue) setSelectedSubTipe(subTipeValue);
-
-    if (tipeFormValue?.value === "FORM - TRANSLOK") {
-      setJenisPok("single");
-    }
-  }, [getValues]);
 
   const [selectedProgram, setSelectedProgram] = React.useState<{ value: string; label: string } | null>(null);
   const [selectedKegiatan, setSelectedKegiatan] = React.useState<{ value: string; label: string } | null>(null);
@@ -68,6 +70,7 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
   const [selectedSuboutput, setSelectedSuboutput] = React.useState<{ value: string; label: string } | null>(null);
   const [selectedKomponen, setSelectedKomponen] = React.useState<{ value: string; label: string } | null>(null);
 
+  
   const programOptions = PROGRAMS.map(p => ({
     value: p.code,
     label: `[${p.code}] ${p.label}`
@@ -108,9 +111,98 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
       ?.suboutput.find(s => s.code === selectedSuboutput.value)
       ?.komponen?.map(c => ({
         value: c.code,
-        label: c.label
+        label: `[${c.code}] ${c.label}`
       })) ?? []
     : [];
+
+useEffect(() => {
+  if (defaultValues?.program) {
+    const match = programOptions.find(p => p.value === defaultValues.program);
+    if (match) {
+      setSelectedProgram(match); // ini yang akan masuk ke prop `value`
+      setValue("program", match); // ini yang masuk ke react-hook-form
+    }
+  }
+}, [defaultValues, programOptions]);
+
+
+  
+
+ // Kegiatan
+useEffect(() => {
+  if (defaultValues?.kegiatan && selectedProgram) {
+    const kegiatan = PROGRAMS.find(p => p.code === selectedProgram.value)
+      ?.kegiatan.find(k => k.code === defaultValues.kegiatan);
+
+    if (kegiatan) {
+      const match = { value: kegiatan.code, label: `[${kegiatan.code}] ${kegiatan.label}` };
+      setSelectedKegiatan(match);
+      setValue("kegiatan", match);
+    }
+  }
+}, [defaultValues, selectedProgram]);
+
+// Output
+useEffect(() => {
+  if (defaultValues?.output && selectedProgram && selectedKegiatan) {
+    const output = PROGRAMS.find(p => p.code === selectedProgram.value)
+      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
+      ?.output.find(o => o.code === defaultValues.output);
+
+    if (output) {
+      const match = { value: output.code, label: `[${output.code}] ${output.label}` };
+      setSelectedOutput(match);
+      setValue("output", match);
+    }
+  }
+}, [defaultValues, selectedProgram, selectedKegiatan]);
+
+// Suboutput
+useEffect(() => {
+  if (defaultValues?.suboutput && selectedProgram && selectedKegiatan && selectedOutput) {
+    const suboutput = PROGRAMS.find(p => p.code === selectedProgram.value)
+      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
+      ?.output.find(o => o.code === selectedOutput.value)
+      ?.suboutput.find(s => s.code === defaultValues.suboutput);
+
+    if (suboutput) {
+      const match = { value: suboutput.code, label: `[${suboutput.code}] ${suboutput.label}` };
+      setSelectedSuboutput(match);
+      setValue("suboutput", match);
+    }
+  }
+}, [defaultValues, selectedProgram, selectedKegiatan, selectedOutput]);
+
+// Komponen
+useEffect(() => {
+  if (defaultValues?.komponen && selectedProgram && selectedKegiatan && selectedOutput && selectedSuboutput) {
+    const komponen = PROGRAMS.find(p => p.code === selectedProgram.value)
+      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
+      ?.output.find(o => o.code === selectedOutput.value)
+      ?.suboutput.find(s => s.code === selectedSuboutput.value)
+      ?.komponen.find(c => c.code === defaultValues.komponen);
+
+    if (komponen) {
+      const match = { value: komponen.code, label: `[${komponen.code}] ${komponen.label}` };
+      setSelectedKomponen(match);
+      setValue("komponen", match);
+    }
+  }
+}, [defaultValues, selectedProgram, selectedKegiatan, selectedOutput, selectedSuboutput]);
+
+
+useEffect(() => {
+  if (defaultValues?.jenisPencairan) {
+    const matched = jenisPencairanOptions.find(
+      (opt) => opt.value === defaultValues.jenisPencairan
+    );
+    if (matched) {
+      setValue("jenisPencairan", matched);
+    }
+  }
+}, [defaultValues, setValue]);
+
+
 
   // Generate options dari TIPE_FORM_MAP
   const tipeFormOptions = Object.entries(TIPE_FORM_MAP).map(([key, value]) => ({
@@ -151,7 +243,7 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="tahunAnggaran">Tahun Anggaran</Label>
-          <Select options={tahun} value={defaultTahun} className="z-50" placeholder="Pilih Tahun" isDisabled />
+          <Select options={tahun} value={defaultTahun} styles={styles} className="z-50" placeholder="Pilih Tahun" isDisabled />
         </div>
       </div>
 
@@ -167,16 +259,23 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
             <Controller
               name="satker"
               control={control}
+              rules={{ required: "Satuan Kerja wajib diisi" }}
               render={({ field }) => (
-                <Select
-                  {...field}
-                  options={satker}
-                  placeholder="Pilih Satuan Kerja"
-                  isDisabled={readOnly}
-                  onChange={(option) => field.onChange(option)}
-                />
+                <>
+                  <Select
+                    {...field}
+                    options={satker}
+                    placeholder="Pilih Satuan Kerja"
+                    value={field.value}
+                    styles={styles}
+                    isDisabled={readOnly}
+                    onChange={(option) => field.onChange(option)}
+                  />
+                  {errors.satker && <p className="text-red-500 text-sm">{errors.satker.message as string}</p>}
+                </>
               )}
             />
+
           </div>
 
           {/* Program */}
@@ -185,24 +284,32 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
             <Controller
               name="program"
               control={control}
+              rules={{ required: "Program wajib diisi" }}
               render={({ field }) => (
-                <Select
-                  {...field}
-                  options={programOptions}
-                  value={selectedProgram}
-                  onChange={(option) => {
-                    field.onChange(option);
-                    setSelectedProgram(option);
-                    setSelectedKegiatan(null);
-                    setSelectedOutput(null);
-                    setSelectedSuboutput(null);
-                    setSelectedKomponen(null);
-                  }}
-                  placeholder="Pilih Program"
-                  isDisabled={readOnly}
-                />
+                <>
+                  <Select
+                    {...field}
+                    options={programOptions}
+                    // value={selectedProgram}
+                    onChange={(option) => {
+                      field.onChange(option);
+                      setSelectedProgram(option);
+                      setSelectedKegiatan(null);
+                      setSelectedOutput(null);
+                      setSelectedSuboutput(null);
+                      setSelectedKomponen(null);
+                    }}
+                    value={field.value}
+                    styles={styles}
+                    placeholder="Pilih Program"
+                    isDisabled={readOnly}
+                  />
+                  
+                  {errors.program && <p className="text-red-500 text-sm">{errors.program.message as string}</p>}
+                </>
               )}
             />
+
           </div>
 
           {/* Kegiatan */}
@@ -211,23 +318,29 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
             <Controller
               name="kegiatan"
               control={control}
+              rules={{ required: "Kegiatan wajib diisi" }}
               render={({ field }) => (
-                <Select
-                  {...field}
-                  options={kegiatanOptions}
-                  value={selectedKegiatan}
-                  onChange={(option) => {
-                    field.onChange(option);
-                    setSelectedKegiatan(option);
-                    setSelectedOutput(null);
-                    setSelectedSuboutput(null);
-                    setSelectedKomponen(null);
-                  }}
-                  placeholder="Pilih Kegiatan"
-                  isDisabled={readOnly || !selectedProgram}
-                />
+                <>
+                  <Select
+                    {...field}
+                    options={kegiatanOptions}
+                    value={field.value}
+                    onChange={(option) => {
+                      field.onChange(option);
+                      setSelectedKegiatan(option);
+                      setSelectedOutput(null);
+                      setSelectedSuboutput(null);
+                      setSelectedKomponen(null);
+                    }}
+                    styles={styles}
+                    placeholder="Pilih Kegiatan"
+                    isDisabled={readOnly || !selectedProgram}
+                  />
+                  {errors.kegiatan && <p className="text-red-500 text-sm">{errors.kegiatan.message as string}</p>}
+                </>
               )}
             />
+
           </div>
         </div>
 
@@ -240,22 +353,28 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
             <Controller
               name="output"
               control={control}
+              rules={{ required: "Output wajib diisi" }}
               render={({ field }) => (
-                <Select
-                  {...field}
-                  options={outputOptions}
-                  value={selectedOutput}
-                  onChange={(option) => {
-                    field.onChange(option);
-                    setSelectedOutput(option);
-                    setSelectedSuboutput(null);
-                    setSelectedKomponen(null);
-                  }}
-                  placeholder="Pilih Output"
-                  isDisabled={readOnly || !selectedKegiatan}
-                />
+                <>
+                  <Select
+                    {...field}
+                    options={outputOptions}
+                    value={field.value}
+                    onChange={(option) => {
+                      field.onChange(option);
+                      setSelectedOutput(option);
+                      setSelectedSuboutput(null);
+                      setSelectedKomponen(null);
+                    }}
+                    styles={styles}
+                    placeholder="Pilih Output"
+                    isDisabled={readOnly || !selectedKegiatan}
+                  />
+                  {errors.output && <p className="text-red-500 text-sm">{errors.output.message as string}</p>}
+                </>
               )}
             />
+
           </div>
 
           {/* Sub Output */}
@@ -264,21 +383,27 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
             <Controller
               name="suboutput"
               control={control}
+              rules={{ required: "Sub Output wajib diisi" }}
               render={({ field }) => (
-                <Select
-                  {...field}
-                  options={subOutputOptions}
-                  value={selectedSuboutput}
-                  onChange={(option) => {
-                    field.onChange(option);
-                    setSelectedSuboutput(option);
-                    setSelectedKomponen(null);
-                  }}
-                  placeholder="Pilih Sub Output"
-                  isDisabled={readOnly || !selectedOutput}
-                />
+                <>
+                  <Select
+                    {...field}
+                    options={subOutputOptions}
+                 value={field.value}
+                    onChange={(option) => {
+                      field.onChange(option);
+                      setSelectedSuboutput(option);
+                      setSelectedKomponen(null);
+                    }}
+                    styles={styles}
+                    placeholder="Pilih Sub Output"
+                    isDisabled={readOnly || !selectedOutput}
+                  />
+                  {errors.suboutput && <p className="text-red-500 text-sm">{errors.suboutput.message as string}</p>}
+                </>
               )}
             />
+
           </div>
 
           {/* Komponen */}
@@ -287,20 +412,26 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
             <Controller
               name="komponen"
               control={control}
+              rules={{ required: "Komponen wajib diisi" }}
               render={({ field }) => (
-                <Select
-                  {...field}
-                  options={komponenOptions}
-                  value={selectedKomponen}
-                  onChange={(option) => {
-                    field.onChange(option);
-                    setSelectedKomponen(option);
-                  }}
-                  placeholder="Pilih Komponen"
-                  isDisabled={readOnly || !selectedSuboutput}
-                />
+                <>
+                  <Select
+                    {...field}
+                    options={komponenOptions}
+                    value={field.value}
+                    onChange={(option) => {
+                      field.onChange(option);
+                      setSelectedKomponen(option);
+                    }}
+                    styles={styles}
+                    placeholder="Pilih Komponen"
+                    isDisabled={readOnly || !selectedSuboutput}
+                  />
+                  {errors.komponen && <p className="text-red-500 text-sm">{errors.komponen.message as string}</p>}
+                </>
               )}
             />
+
           </div>
 
         </div>
@@ -334,28 +465,57 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
               size="lg"
               type="text"
               id="perekap"
-              placeholder="Masukkan Nama Perekap"
-              {...register("perekap", { required: "Perekap wajib diisi" })}
+              // placeholder="Masukkan Nama Perekap"
+              value="Aldi Pratama"
+              {...register("perekap")}
               className={`border rounded-md p-2 ${errors.perekap ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
-              disabled={readOnly}
+              disabled
             />
-            {errors.perekap && (
-              <p className="text-red-500 text-sm">{errors.perekap.message as string}</p>
-            )}
+
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="tanggalRekap">Tanggal Rekap</Label>
-            <Input
-              size="lg"
-              type="date"
-              id="tanggalRekap"
-              {...register("tanggalRekap", { required: "Tanggal Rekap wajib diisi" })}
-              className={`border rounded-md p-2 ${errors.tanggalRekap ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
-              disabled={readOnly}
+            <Label htmlFor="tglRekap">Tanggal Rekap</Label>
+            <Controller
+              name="tglRekap"
+              control={control}
+              rules={{ required: "Tanggal Rekap wajib diisi" }}
+              render={({ field }) => (
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      className={cn(
+                        "font-normal flex justify-between rounded-md border text-sm",
+                        "data-[state=open]:ring-1 data-[state=open]:ring-[#2684FF]",
+                        readOnly
+                          ? "bg-slate-200 text-slate-600 border-slate-300 cursor-not-allowed"
+                          : "bg-white text-default-500 border-default-300 hover:bg-white"
+                      )}
+                      disabled={readOnly}
+                    >
+
+                      {field.value
+                        ? new Date(field.value).toLocaleDateString("id-ID", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        })
+                        : "dd/mm/yyyy"}
+                      <Icon icon="tabler:calendar" className="ml-2 h-4 w-4" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value ? new Date(field.value) : undefined}
+                      onSelect={(date) => field.onChange(date)}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              )}
             />
-            {errors.tanggalRekap && (
-              <p className="text-red-500 text-sm">{errors.tanggalRekap.message as string}</p>
-            )}
+
+            {errors.tglRekap && <p className="text-red-500 text-sm">{errors.tglRekap.message as string}</p>}
           </div>
         </div>
 
@@ -368,24 +528,28 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
 
       <div className="col-span-12 grid grid-cols-1 gap-4">
         <div className="flex flex-col gap-2">
-          <Label htmlFor="linkPermintaan">Jenis Pencairan</Label>
+          <Label htmlFor="jenisPencairan">Jenis Pencairan</Label>
           <Controller
-            name="linkPermintaan"
+            name="jenisPencairan"
             control={control}
+            rules={{ required: "Jenis Pencairan wajib diisi" }}
             render={({ field }) => (
-              <Select
-                {...field}
-                options={jenisPencairanOptions}
-                placeholder="Pilih Jenis Pencairan"
-                isDisabled={readOnly}
-                menuPortalTarget={document.body}
-                styles={{
-                  menuPortal: base => ({ ...base, zIndex: 9999 }) // pastikan zIndex tinggi
-                }}
-                menuPlacement="top"
-              />
+              <>
+                <Select
+                  {...field}
+                  options={jenisPencairanOptions}
+                  placeholder="Pilih Jenis Pencairan"
+                  value={field.value}
+                  isDisabled={readOnly}
+                  styles={styles}
+                  menuPortalTarget={document.body}
+                  menuPlacement="top"
+                />
+                {errors.jenisPencairan && <p className="text-red-500 text-sm">{errors.jenisPencairan.message as string}</p>}
+              </>
             )}
           />
+
         </div>
       </div>
 
