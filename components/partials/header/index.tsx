@@ -19,6 +19,7 @@ import { Book, Pointer } from "@/components/svg";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { DocumentPlusIcon, PencilSquareIcon, UserGroupIcon } from "@heroicons/react/24/solid";
+import router from "next/router";
 
 const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; isMobile: boolean; sidebarType: string }) => {
   return (
@@ -65,7 +66,7 @@ const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; is
 
           <DropdownMenuContent className="grid grid-cols-2 p-0 w-80 h-48 shadow-lg">
             {/* Presensi Unit Kerja */}
-            <DropdownMenuItem className="flex flex-col items-center justify-center border-b border-r border-default-200 p-2 rounded-none focus:bg-primary/10 focus:text-primary" onClick={() => console.log("Presensi Unit Kerja")}>
+            <DropdownMenuItem   onClick={() => router.push("/administrator/presensi-unit-kerja")} className="flex flex-col items-center justify-center border-b border-r border-default-200 p-2 rounded-none focus:bg-primary/10 focus:text-primary">
               <UserGroupIcon className="h-5 w-5 mb-2 text-primary-700" />
               <span>Presensi Unit Kerja</span>
             </DropdownMenuItem>

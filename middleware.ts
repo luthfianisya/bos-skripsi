@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-
+import type { NextRequest } from "next/server";
 
 export const config = {
   matcher: [
@@ -8,10 +8,11 @@ export const config = {
   ],
 };
 
-import type { NextRequest } from "next/server";
-
 export function middleware(request: NextRequest) {
+  // Jangan redirect jika path adalah root /
   if (request.nextUrl.pathname === "/") {
-    return NextResponse.redirect(new URL("/administrator/dashboard", request.url));
+    return NextResponse.next();
   }
+
+  // Middleware logic lainnya bisa kamu tambahkan di sini kalau perlu
 }

@@ -48,7 +48,7 @@ const ProfileInfo = () => {
           />
           <div>
             <div className="text-sm font-medium text-default-800 capitalize ">
-              {"Andi Pratama"}
+              {"Aldi Pratama"}
             </div>
             <div
               className="text-xs text-default-600 hover:text-primary"
@@ -95,7 +95,7 @@ const ProfileInfo = () => {
 
         <DropdownMenuSeparator className="mb-0 dark:bg-background" />
         <DropdownMenuItem
-          onSelect={() => signOut()}
+          onSelect={() => window.location.href = "/"}
           className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize my-1 px-3 dark:hover:bg-background cursor-pointer"
         >
           <Icon icon="heroicons:power" className="w-4 h-4" />
