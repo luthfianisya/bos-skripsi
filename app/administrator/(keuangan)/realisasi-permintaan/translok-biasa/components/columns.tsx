@@ -68,7 +68,7 @@ export const columns: ColumnDef<Realisasi>[] = [
       <DataTableColumnHeader column={column} title="AKSI" />
     ),
     cell: ({ row }) => (
-      <div className="flex justify-end">
+      <div className="flex justify-center">
         <Link href="/administrator/realisasi-permintaan/translok-biasa/detail-translok">
              <TooltipProvider>
                         <Tooltip>

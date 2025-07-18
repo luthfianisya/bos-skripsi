@@ -20,6 +20,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { DocumentPlusIcon, PencilSquareIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import router from "next/router";
+import Link from "next/link";
 
 const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; isMobile: boolean; sidebarType: string }) => {
   return (
@@ -64,31 +65,35 @@ const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; is
             </TooltipContent>
           </Tooltip>
 
-          <DropdownMenuContent className="grid grid-cols-2 p-0 w-80 h-48 shadow-lg">
-            {/* Presensi Unit Kerja */}
-            <DropdownMenuItem   onClick={() => router.push("/administrator/presensi-unit-kerja")} className="flex flex-col items-center justify-center border-b border-r border-default-200 p-2 rounded-none focus:bg-primary/10 focus:text-primary">
-              <UserGroupIcon className="h-5 w-5 mb-2 text-primary-700" />
-              <span>Presensi Unit Kerja</span>
-            </DropdownMenuItem>
+          <DropdownMenuContent className="grid grid-cols-2 gap-0 p-0">
+  <Link href="/administrator/presensi-unit-kerja">
+    <DropdownMenuItem className="flex flex-col items-center justify-center border-b border-r border-default-200 p-4 rounded-none focus:bg-primary/10 focus:text-primary">
+      <UserGroupIcon className="h-5 w-5 mb-2 text-primary-700" />
+      <span>Presensi Unit Kerja</span>
+    </DropdownMenuItem>
+  </Link>
 
-            {/* Entri Pembiayaan */}
-            <DropdownMenuItem className="flex flex-col items-center justify-center border-b border-default-200 p-2 rounded-none focus:bg-primary/10 focus:text-primary" onClick={() => console.log("Entri Pembiayaan")}>
-              <PencilSquareIcon className="h-5 w-5 mb-2 text-primary-700" />
-              <span>Entri Pembiayaan</span>
-            </DropdownMenuItem>
+  <Link href="/administrator/entri-pembiayaan">
+    <DropdownMenuItem className="flex flex-col items-center justify-center border-b border-default-200 p-4 rounded-none focus:bg-primary/10 focus:text-primary">
+      <PencilSquareIcon className="h-5 w-5 mb-2 text-primary-700" />
+      <span>Entri Pembiayaan</span>
+    </DropdownMenuItem>
+  </Link>
 
-            {/* Tambah Permintaan */}
-            <DropdownMenuItem className="flex flex-col items-center justify-center border-r border-default-200 p-2 rounded-none focus:bg-primary/10 focus:text-primary" onClick={() => console.log("Tambah Permintaan")}>
-              <DocumentPlusIcon className="h-5 w-5 mb-2 text-primary-700" />
-              <span>Tambah Permintaan</span>
-            </DropdownMenuItem>
+  <Link href="/administrator/tambah-permintaan">
+    <DropdownMenuItem className="flex flex-col items-center justify-center border-r border-default-200 p-4 rounded-none focus:bg-primary/10 focus:text-primary">
+      <DocumentPlusIcon className="h-5 w-5 mb-2 text-primary-700" />
+      <span>Tambah Permintaan</span>
+    </DropdownMenuItem>
+  </Link>
 
-            {/* Tambah Rekap */}
-            <DropdownMenuItem className="flex flex-col items-center justify-center p-2 rounded-none focus:bg-primary/10 focus:text-primary" onClick={() => console.log("Tambah Rekap")}>
-              <DocumentPlusIcon className="h-5 w-5 mb-2 text-primary-700" />
-              <span>Tambah Rekap</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
+  <Link href="/administrator/tambah-rekap">
+    <DropdownMenuItem className="flex flex-col items-center justify-center p-4 rounded-none focus:bg-primary/10 focus:text-primary">
+      <DocumentPlusIcon className="h-5 w-5 mb-2 text-primary-700" />
+      <span>Tambah Rekap</span>
+    </DropdownMenuItem>
+  </Link>
+</DropdownMenuContent>
         </DropdownMenu>
 
         <Tooltip>
