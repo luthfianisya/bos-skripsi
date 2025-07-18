@@ -1,5 +1,5 @@
 "use client";
-import { X, Plus, Printer, Info } from "lucide-react";
+import { X, Plus, Printer, Info, ArrowDownCircleIcon, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { Input } from "@/components/ui/input";
@@ -95,7 +95,17 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
       <DropdownMenuItem onClick={() => console.log("Lihat Statistik")}>Lihat Statistik</DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu> */}
+   
         <KetKode/>
+             <Button
+          type="button"
+          color="primary"
+          variant="outline"
+          size="md"
+          icon={Refresh}
+        >
+          Rekap Ulang
+        </Button>
         <Button type="button" color="primary" size="md" icon={Printer} onClick={handleSheetOpen}>
           Cetak Presensi
         </Button>
