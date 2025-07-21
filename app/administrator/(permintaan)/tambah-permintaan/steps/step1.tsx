@@ -199,7 +199,7 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
         <div className="flex flex-col gap-2">
           <Label>Jenis POK</Label>
 
-          <div className="flex items-center space-x-2.5 mt-2">
+          <div className="flex items-center space-x-2.5 mt-2 overflow-visible">
             <Switch
               id="jenisPokSwitch"
               checked={isMultiPok}
@@ -207,7 +207,7 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
                 setIsMultiPok(checked);
                 setValue("jenisPok", checked ? "multi" : "single");
               }}
-
+              thumbClass="bg-white ml-0.5 data-[state=checked]:ml-4 transition-all"
               disabled={selectedTipeForm?.value === "FORM - TRANSLOK" || readOnly}
             />
             <Label
