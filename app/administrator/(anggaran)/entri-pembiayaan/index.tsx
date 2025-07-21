@@ -30,7 +30,7 @@ export default function AdvancedTable() {
       <Dialog open={openEdit} onOpenChange={setOpenEdit}>
         <DialogContent  overlayClass="backdrop-blur-none">
           <DialogHeader>
-            <DialogTitle>Edit POK</DialogTitle>
+            <DialogTitle>Assign Pembiayaan</DialogTitle>
           </DialogHeader>
           {selectedEditRow && (
             <AssignPembiayaan

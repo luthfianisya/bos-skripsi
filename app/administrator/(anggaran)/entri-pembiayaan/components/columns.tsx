@@ -391,7 +391,7 @@ export const columns = (
                   )}
                 </TooltipTrigger>
                 <TooltipContent color="secondary" className="z-[9999]">
-                  <p>Entri Pembiayaan</p>
+                  <p>Assign Pembiayaan</p>
                   <TooltipArrow className=" fill-white" />
                 </TooltipContent>
               </Tooltip>

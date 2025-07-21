@@ -3,13 +3,14 @@
 import { Button } from "@/components/ui/button";
 import Select from "react-select";
 import { useState } from "react";
-import { organisasi, JENIS_PENGELUARAN_MAP, TIPE_FORM_MAP, KODE_BEBAN_MAP } from "@/lib/constants";
+import { organisasi, JENIS_PENGELUARAN_MAP, TIPE_FORM_MAP, KODE_BEBAN_MAP, PPKOptions } from "@/lib/constants";
 import { toast } from "sonner";
 
 interface AssignPembiayaanProps {
-  rowData: any; // tipe sesuai row POK
+  rowData: any;
   onClose: () => void;
 }
+
 
 const AssignPembiayaan = ({ rowData, onClose }: AssignPembiayaanProps) => {
   const promise = () =>
@@ -35,15 +36,21 @@ const AssignPembiayaan = ({ rowData, onClose }: AssignPembiayaanProps) => {
     <div className="space-y-4">
       <div>
         <label className="text-sm font-medium">Pilih Unit Kerja</label>
-        <Select options={organisasi} value={unitKerja} onChange={setUnitKerja} />
+        <Select options={organisasi} value={unitKerja} onChange={setUnitKerja} placeholder="Pilih Unit Kerja" />
       </div>
 
       <div>
         <label className="text-sm font-medium">Pilih Jenis Pengeluaran</label>
         <Select
           options={Object.entries(JENIS_PENGELUARAN_MAP).map(([k, v]) => ({ value: k, label: v }))}
-          value={{ value: jenisP, label: JENIS_PENGELUARAN_MAP[jenisP] || jenisP }}
+          value={
+            jenisP
+              ? { value: jenisP, label: JENIS_PENGELUARAN_MAP[jenisP] || jenisP }
+              : null
+          }
+
           onChange={(opt) => setJenisP(opt?.value)}
+          placeholder="Pilih Jenis Pengeluaran"
         />
       </div>
 
@@ -51,8 +58,14 @@ const AssignPembiayaan = ({ rowData, onClose }: AssignPembiayaanProps) => {
         <label className="text-sm font-medium">Pilih Tipe Form</label>
         <Select
           options={Object.entries(TIPE_FORM_MAP).map(([k, v]) => ({ value: k, label: `[${v.code}] ${v.label}` }))}
-          value={{ value: tipeForm, label: TIPE_FORM_MAP[tipeForm]?.label || tipeForm }}
+          value={
+            tipeForm
+              ? { value: tipeForm, label: `[${TIPE_FORM_MAP[tipeForm]?.code}] ${TIPE_FORM_MAP[tipeForm]?.label}` }
+              : null
+          }
+
           onChange={(opt) => setTipeForm(opt?.value)}
+          placeholder="Pilih Tipe Form"
         />
       </div>
 
@@ -60,20 +73,29 @@ const AssignPembiayaan = ({ rowData, onClose }: AssignPembiayaanProps) => {
         <label className="text-sm font-medium">Pilih Pembebanan</label>
         <Select
           options={Object.entries(KODE_BEBAN_MAP).map(([k, v]) => ({ value: k, label: v.beban }))}
-          value={{ value: kodeBeban, label: KODE_BEBAN_MAP[kodeBeban]?.beban || kodeBeban }}
+          value={
+            kodeBeban
+              ? { value: kodeBeban, label: KODE_BEBAN_MAP[kodeBeban]?.beban || kodeBeban }
+              : null
+          }
+
           onChange={(opt) => setKodeBeban(opt?.value)}
+          placeholder="Pilih Pembebanan"
         />
       </div>
 
       <div>
         <label className="text-sm font-medium">Pilih PPK</label>
         <Select
-          options={[
-            { value: "PPK1", label: "PPK 1" },
-            { value: "PPK2", label: "PPK 2" },
-          ]}
-          value={{ value: ppk, label: ppk }}
+          options={PPKOptions}
+          value={
+            ppk
+              ? { value: ppk, label: ppk }
+              : null
+          }
+
           onChange={(opt) => setPpk(opt?.value)}
+          placeholder="Pilih PPK"
         />
       </div>
 
