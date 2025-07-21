@@ -54,9 +54,7 @@ export const columns = (isBlokTranslokActive: boolean): ColumnDef<any>[] => [
                     <SelectValue placeholder="Pilih Kendaraan" />
                   </SelectTrigger>
                   <SelectContent className="z-[9999]">
-                    <SelectItem value="Pesawat">Pesawat</SelectItem>
-                    <SelectItem value="Kereta">Kereta</SelectItem>
-                    <SelectItem value="Mobil">Mobil</SelectItem>
+                    <SelectItem value="KendaraanUmum">Kendaraan Umum</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -105,9 +103,7 @@ export const columns = (isBlokTranslokActive: boolean): ColumnDef<any>[] => [
                     <SelectValue placeholder="Pilih Kendaraan" />
                   </SelectTrigger>
                   <SelectContent className="z-[9999]">
-                    <SelectItem value="Pesawat">Pesawat</SelectItem>
-                    <SelectItem value="Kereta">Kereta</SelectItem>
-                    <SelectItem value="Mobil">Mobil</SelectItem>
+                    <SelectItem value="KendaraanUmum">KendaraanUmum</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

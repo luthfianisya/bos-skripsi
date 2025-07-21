@@ -192,7 +192,7 @@ export const menusConfig = {
         child: [
           {
             title: "Grup Telegram BOS",
-            href: "/pusat-bantuan",
+            href: "https://t.me/+FiYvVcztOLVlZDU1",
             onClick: () => {},
           },
           {

@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
+import Link from "next/link";
 
 dayjs.locale("id");
 
@@ -74,12 +75,17 @@ const WelcomeBlock = () => {
                   Ada kendala atau baru pertama kali?
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <button className="bg-white text-[#004AAD] font-semibold text-sm px-4 py-2 rounded-md hover:bg-gray-100 transition">
-                    Panduan Penggunaan
-                  </button>
-                  <button className="bg-white/20 border border-white text-white font-semibold text-sm px-4 py-2 rounded-md hover:bg-white/30 transition">
-                    Hubungi Admin
-                  </button>
+                  <Link href="https://drive.google.com/file/d/1oUQ7bENzojj-ErYZn7LOi5dk6LykNBbJ/view?usp=sharing">
+                    <button className="bg-white text-[#004AAD] font-semibold text-sm px-4 py-2 rounded-md hover:bg-gray-100 transition">
+                      Panduan Penggunaan
+                    </button>
+                  </Link>
+                  <Link href="https://t.me/+FiYvVcztOLVlZDU1">
+                    <button className="bg-white/20 border border-white text-white font-semibold text-sm px-4 py-2 rounded-md hover:bg-white/30 transition">
+                      Hubungi Admin
+                    </button>
+                  </Link>
+
                 </div>
               </div>
 

@@ -104,7 +104,7 @@ export const columns = (
               <TooltipTrigger asChild>
                 <Button
                   size="icon"
-                  // variant="soft"
+                  variant="soft"
                   color="primary"
                   className="h-7 w-7"
                   onClick={() => onDetailClick(row.original as FullFormRekap)}

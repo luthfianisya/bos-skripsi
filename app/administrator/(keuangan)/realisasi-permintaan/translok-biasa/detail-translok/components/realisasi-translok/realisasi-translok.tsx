@@ -18,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import AdvancedTable from "./components";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import React from "react";
 import { InputGroup, InputGroupText } from "@/components/ui/input-group";
 import { Input } from "@/components/ui/input";
@@ -83,9 +83,25 @@ const RealisasiTranslok = () => {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button size="icon" variant="soft" color="primary" className="h-7 w-7" icon={BanknotesIcon} />
-            </DialogTrigger>
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <DialogTrigger asChild>
+                            <Button
+                                size="icon"
+                                variant="soft"
+                                color="primary"
+                                className="h-7 w-7"
+                                icon={BanknotesIcon}
+                            />
+                        </DialogTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent color="secondary" className="z-[9999]">
+                        <p>Hitung Realisasi</p>
+                        <TooltipArrow className=" fill-white" />
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
             <DialogContent size="4xl" className="max-h-screen p-0">
                 <DialogHeader className="px-4 pt-4">
                     <DialogTitle className="text-xl font-semibold">Realisasi Permintaan</DialogTitle>
@@ -96,7 +112,7 @@ const RealisasiTranslok = () => {
 
                             {/* Informasi Utama */}
                             <div className="grid md:grid-cols-2 gap-3">
-                                <Info label="Nomor SPD" value={data.nomorSpd}/>
+                                <Info label="Nomor SPD" value={data.nomorSpd} />
                                 <Info label="Nama" value={data.nama} />
                                 <Info label="Status Berangkat" value={data.statusBerangkat} />
                                 <Info label="Status Presensi">

@@ -1,6 +1,7 @@
 import {
   ChevronsLeft,
   ChevronRight,
+  ChevronsRight,
   ChevronLeft,
 } from "lucide-react";
 
@@ -39,7 +40,7 @@ export function DataTablePagination({ table }: DataTablePaginationProps) {
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top" className="z-[9999]">
-              {[10, 20, 30, 40, 50].map((pageSize) => (
+            {[10, 20, 30, 40, 50].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
@@ -86,7 +87,7 @@ export function DataTablePagination({ table }: DataTablePaginationProps) {
             disabled={!table.getCanNextPage()}
           >
             <span className="sr-only">Go to last page</span>
-            <ChevronRight className="h-4 w-4 rtl:rotate-180" />
+            <ChevronsRight className="h-4 w-4 rtl:rotate-180" />
           </Button>
         </div>
       </div>

@@ -21,6 +21,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { DocumentPlusIcon, PencilSquareIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import router from "next/router";
 import Link from "next/link";
+import { BrushIcon } from "lucide-react";
+import { Icon } from "@iconify/react";
 
 const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; isMobile: boolean; sidebarType: string }) => {
   return (
@@ -66,37 +68,37 @@ const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; is
           </Tooltip>
 
           <DropdownMenuContent className="grid grid-cols-2 gap-0 p-0">
-  <Link href="/administrator/presensi-unit-kerja">
-    <DropdownMenuItem className="flex flex-col items-center justify-center border-b border-r border-default-200 p-4 rounded-none focus:bg-primary/10 focus:text-primary">
-      <UserGroupIcon className="h-5 w-5 mb-2 text-primary-700" />
-      <span>Presensi Unit Kerja</span>
-    </DropdownMenuItem>
-  </Link>
+            <Link href="/administrator/presensi-unit-kerja">
+              <DropdownMenuItem className="flex flex-col items-center justify-center border-b border-r border-default-200 p-4 rounded-none focus:bg-primary/10 focus:text-primary">
+                <UserGroupIcon className="h-5 w-5 mb-2 text-primary-700" />
+                <span>Presensi Unit Kerja</span>
+              </DropdownMenuItem>
+            </Link>
 
-  <Link href="/administrator/entri-pembiayaan">
-    <DropdownMenuItem className="flex flex-col items-center justify-center border-b border-default-200 p-4 rounded-none focus:bg-primary/10 focus:text-primary">
-      <PencilSquareIcon className="h-5 w-5 mb-2 text-primary-700" />
-      <span>Entri Pembiayaan</span>
-    </DropdownMenuItem>
-  </Link>
+            <Link href="/administrator/entri-pembiayaan">
+              <DropdownMenuItem className="flex flex-col items-center justify-center border-b border-default-200 p-4 rounded-none focus:bg-primary/10 focus:text-primary">
+                <PencilSquareIcon className="h-5 w-5 mb-2 text-primary-700" />
+                <span>Entri Pembiayaan</span>
+              </DropdownMenuItem>
+            </Link>
 
-  <Link href="/administrator/tambah-permintaan">
-    <DropdownMenuItem className="flex flex-col items-center justify-center border-r border-default-200 p-4 rounded-none focus:bg-primary/10 focus:text-primary">
-      <DocumentPlusIcon className="h-5 w-5 mb-2 text-primary-700" />
-      <span>Tambah Permintaan</span>
-    </DropdownMenuItem>
-  </Link>
+            <Link href="/administrator/tambah-permintaan">
+              <DropdownMenuItem className="flex flex-col items-center justify-center border-r border-default-200 p-4 rounded-none focus:bg-primary/10 focus:text-primary">
+                <DocumentPlusIcon className="h-5 w-5 mb-2 text-primary-700" />
+                <span>Tambah Permintaan</span>
+              </DropdownMenuItem>
+            </Link>
 
-  <Link href="/administrator/tambah-rekap">
-    <DropdownMenuItem className="flex flex-col items-center justify-center p-4 rounded-none focus:bg-primary/10 focus:text-primary">
-      <DocumentPlusIcon className="h-5 w-5 mb-2 text-primary-700" />
-      <span>Tambah Rekap</span>
-    </DropdownMenuItem>
-  </Link>
-</DropdownMenuContent>
+            <Link href="/administrator/tambah-rekap">
+              <DropdownMenuItem className="flex flex-col items-center justify-center p-4 rounded-none focus:bg-primary/10 focus:text-primary">
+                <DocumentPlusIcon className="h-5 w-5 mb-2 text-primary-700" />
+                <span>Tambah Rekap</span>
+              </DropdownMenuItem>
+            </Link>
+          </DropdownMenuContent>
         </DropdownMenu>
 
-        <Tooltip>
+        {/* <Tooltip>
           <TooltipTrigger asChild>
             <Button
               variant="ghost"
@@ -110,6 +112,39 @@ const NavTools = ({ isDesktop, isMobile, sidebarType }: { isDesktop: boolean; is
           </TooltipTrigger>
           <TooltipContent>
             Buku Panduan
+          </TooltipContent>
+        </Tooltip> */}
+
+          <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative md:h-9 md:w-9 h-8 w-8 hover:bg-default-100 dark:hover:bg-default-200 
+          data-[state=open]:bg-default-100 dark:data-[state=open]:bg-default-200 
+          hover:text-primary text-default-500 dark:text-default-800 rounded-full"
+            >
+              <Icon icon="lucide:brush-cleaning" className="h-5 w-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            Clear Cache
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative md:h-9 md:w-9 h-8 w-8 hover:bg-default-100 dark:hover:bg-default-200 
+          data-[state=open]:bg-default-100 dark:data-[state=open]:bg-default-200 
+          hover:text-primary text-default-500 dark:text-default-800 rounded-full"
+            >
+              <Icon icon="lucide:history" className="h-5 w-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            Change Logs
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

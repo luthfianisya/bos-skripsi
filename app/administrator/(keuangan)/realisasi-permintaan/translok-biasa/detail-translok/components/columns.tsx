@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { ClockIcon, MinusCircleIcon } from "@heroicons/react/24/outline"
 import { LockClosedIcon, EyeIcon, TrashIcon, PrinterIcon, PaperAirplaneIcon } from "@heroicons/react/24/solid"
 import RealisasiTranslok from "./realisasi-translok/realisasi-translok";
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Icon } from "@iconify/react";
 
 function formatRupiah(amount: number): string {
   return new Intl.NumberFormat("id-ID", {
@@ -147,13 +149,52 @@ export const getColumns = (isBlokTranslokActive: boolean): ColumnDef<Realisasi>[
   },
   {
     accessorKey: "aksi",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="AKSI" className="flex justify-center"/>,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="AKSI" className="flex justify-center" />,
     cell: ({ row }) => (
       <div className="w-auto flex gap-2 justify-end">
         <RealisasiTranslok />
-        <Button size="icon" variant="soft" className="h-7 w-7" color="primary" icon={PrinterIcon} />
-        <Button size="icon" variant="soft" className="h-7 w-7" color="destructive" icon={TrashIcon} />
-        <Button size="icon" className="h-7 w-7" color="primary" icon={PaperAirplaneIcon} />
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="soft"
+                color="primary"
+                className="h-7 w-7"
+                icon={PrinterIcon}
+              />
+            </TooltipTrigger>
+            <TooltipContent color="secondary" className="z-[9999]">
+              <p>Surat Tugas</p>
+              <TooltipArrow className=" fill-white" />
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="soft"
+                color="destructive"
+                className="h-7 w-7"
+              >
+                <Icon icon="heroicons:trash" className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent color="secondary" className="z-[9999]">
+              <p>Hapus</p>
+              <TooltipArrow className=" fill-white" />
+            </TooltipContent>
+          </Tooltip>
+           <Tooltip>
+            <TooltipTrigger asChild>
+            <Button size="icon" className="h-7 w-7" color="primary" icon={PaperAirplaneIcon} />
+            </TooltipTrigger>
+            <TooltipContent color="secondary" className="z-[9999]">
+              <p>Batal</p>
+              <TooltipArrow className=" fill-white" />
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     ),
     enableSorting: false,
