@@ -9,16 +9,6 @@ import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { toast } from "sonner";
 
-const users = [
-  { value: "202", label: "Cleopetra" },
-  { value: "203", label: "Nicolas" },
-  { value: "204", label: "John Doe" },
-];
-const priority = [
-  { value: "high", label: "High" },
-  { value: "medium", label: "Medium" },
-  { value: "low", label: "Low" },
-];
 
 const styles = {
   option: (provided: any) => ({
@@ -42,7 +32,8 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
   const promise = () =>
     new Promise((resolve) => setTimeout(() => resolve({ name: "Sonner" }), 1000));
 
-  const { control, handleSubmit, setValue, formState: { errors } } = useForm({
+  const { control, handleSubmit, setValue,   formState: { errors, isValid } } = useForm({
+    mode: "onChange",
     defaultValues: {
       satuanKerja: null,
       organisasiMitra: null,
@@ -56,10 +47,23 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
       email: '',
     },
   });
+const onSubmit = async (data: any) => {
+  try {
+    await toast.promise(promise(), {
+      loading: "Menyimpan...",
+      success: "Data mitra berhasil disimpan.",
+      error: "Terjadi kesalahan saat menyimpan.",
+      position: "top-right",
+    });
 
-  const onSubmit = (data: any) => {
     console.log("Form Data:", data);
-  };
+    onClose(); // ✅ hanya dipanggil kalau submit berhasil
+  } catch (err) {
+    console.error("Submit error", err);
+  }
+};
+
+
 
   const [selectedProvinsi, setSelectedProvinsi] = useState<string | null>(null);
 
@@ -88,8 +92,10 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
                     placeholder="Pilih satuan kerja..."
                     value={field.value || null}
                     onChange={(val) => field.onChange(val)}
+                    isClearable
                   />
                 )}
+              
               />
               {errors.satuanKerja && <p className="text-red-500 text-sm">{errors.satuanKerja.message}</p>}
             </div>
@@ -109,6 +115,7 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
                     placeholder="Pilih organisasi mitra..."
                     value={field.value || null}
                     onChange={(val) => field.onChange(val)}
+                    isClearable
                   />
                 )}
               />
@@ -128,6 +135,7 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
                     id="nikKtp"
                     placeholder="Masukkan nama mitra..."
                     className="text-sm"
+                    
                   />
                 )}
               />
@@ -207,6 +215,7 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
                         // reset kabupaten ketika provinsi berubah
                         setValue("kabupatenTugas", null);
                       }}
+                      isClearable
                     />
                   )}
                 />
@@ -232,6 +241,7 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
                       value={field.value || null}
                       onChange={(val) => field.onChange(val)}
                       isDisabled={!selectedProvinsi || selectedProvinsi === "00"}
+                      isClearable
                     />
 
 
@@ -252,6 +262,7 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
                   options={eselonOptions}
                   styles={styles}
                   placeholder="Pilih eselon..."
+                  isClearable
                 />
               </div>
 
@@ -263,6 +274,7 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
                   options={golonganOptions}
                   styles={styles}
                   placeholder="Pilih golongan..."
+                  isClearable
                 />
               </div>
             </div>
@@ -314,6 +326,7 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
                   styles={styles}
                   placeholder="Pilih bank..."
                   menuPlacement="top"
+                  isClearable
                 />
               </div>
 
@@ -376,27 +389,15 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
 
           <SheetFooter className="pb-10 pt-6">
             <SheetClose asChild>
-              <Button type="button" size="md" variant="soft" color="secondary">Batal</Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button
-                type="button"
-                color="primary"
-                size="md"
-                onClick={() =>
-                  toast.promise(promise(), {
-                    loading: "Menyimpan...",
-                    success: "Data mitra berhasil disimpan.",
-                    error: "Terjadi kesalahan saat menyimpan.",
-                    position: "top-right",
-
-                  })
-                }
-              >
-                Simpan
+              <Button type="button" size="md" variant="soft" color="secondary">
+                Batal
               </Button>
             </SheetClose>
+            <Button type="submit">Simpan</Button>
+
+
           </SheetFooter>
+
         </form>
       </SheetContent>
     </Sheet>

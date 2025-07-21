@@ -51,6 +51,7 @@ export const asalOptions = [
 ];
 
 export const tujuanOptions = [
+  { value: "depok", label: "Depok" },
   { value: "pancoran_mas", label: "Pancoran Mas" },
   { value: "bojongsari", label: "Bojongsari" },
   { value: "cilodong", label: "Cilodong" },
@@ -198,7 +199,7 @@ const StepPeserta = ({ dataPeserta, setDataPeserta, readOnly }: StepPesertaProps
             <Accordion type="single" collapsible className="w-full space-y-3.5">
               <AccordionItem value="form-peserta">
                 <AccordionTrigger value="pok-table" activeItem={activeItem} setActiveItem={setActiveItem}>
-                   <div className="flex flex-col  text-start">
+                  <div className="flex flex-col  text-start">
                     <div className="text-base">Tambah Peserta</div>
                     <div className=" text-xs  text-default-600  mt-1">
                       Klik untuk menambahkan data peserta berangkat.

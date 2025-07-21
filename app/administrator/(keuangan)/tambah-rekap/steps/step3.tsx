@@ -51,47 +51,28 @@ type BadgeColor = "secondary" | "default" | "success" | "destructive" | "info" |
 
 type StepPesertaProps = {
   rekapStatus: "direkap" | "spm" | "sp2d";
-  sppNomor: string;
-  sppTanggal: string;
-  spmNomor: string;
-  spmTanggal: string;
-  sp2dNomor: string;
-  sp2dTanggal: string;
-  setSppNomor: (val: string) => void;
-  setSppTanggal: (val: string) => void;
-  setSpmNomor: (val: string) => void;
-  setSpmTanggal: (val: string) => void;
-  setSp2dNomor: (val: string) => void;
-  setSp2dTanggal: (val: string) => void;
   disabled: boolean;
   readOnly?: boolean;
-  defaultValues?: {
-    sppNomor: string;
-    sppTanggal: string;
-    spmNomor: string;
-    spmTanggal: string;
-    sp2dNomor: string;
-    sp2dTanggal: string;
-  };
 };
+
 
 const StepPeserta = ({
   rekapStatus,
-  sppNomor,
-  sppTanggal,
-  spmNomor,
-  spmTanggal,
-  sp2dNomor,
-  sp2dTanggal,
-  setSppNomor,
-  setSppTanggal,
-  setSpmNomor,
-  setSpmTanggal,
-  setSp2dNomor,
-  setSp2dTanggal,
+  // sppNomor,
+  // sppTanggal,
+  // spmNomor,
+  // spmTanggal,
+  // sp2dNomor,
+  // sp2dTanggal,
+  // setSppNomor,
+  // setSppTanggal,
+  // setSpmNomor,
+  // setSpmTanggal,
+  // setSp2dNomor,
+  // setSp2dTanggal,
   disabled,
   readOnly = false,
-  defaultValues,
+  // defaultValues,
 }: StepPesertaProps) => {
 
   const {
@@ -101,16 +82,16 @@ const StepPeserta = ({
     formState: { errors },
   } = useFormContext();
 
-  useEffect(() => {
-    if (readOnly && defaultValues) {
-      setSppNomor(defaultValues.sppNomor);
-      setSppTanggal(defaultValues.sppTanggal);
-      setSpmNomor(defaultValues.spmNomor);
-      setSpmTanggal(defaultValues.spmTanggal);
-      setSp2dNomor(defaultValues.sp2dNomor);
-      setSp2dTanggal(defaultValues.sp2dTanggal);
-    }
-  }, [readOnly, defaultValues]);
+  // useEffect(() => {
+  //   if (readOnly && defaultValues) {
+  //     setSppNomor(defaultValues.sppNomor);
+  //     setSppTanggal(defaultValues.sppTanggal);
+  //     setSpmNomor(defaultValues.spmNomor);
+  //     setSpmTanggal(defaultValues.spmTanggal);
+  //     setSp2dNomor(defaultValues.sp2dNomor);
+  //     setSp2dTanggal(defaultValues.sp2dTanggal);
+  //   }
+  // }, [readOnly, defaultValues]);
 
 
 
@@ -127,8 +108,6 @@ const StepPeserta = ({
   } as const;
 
   const badgeColor: BadgeColor = badgeColorMap[rekapStatus];
-
-
 
   return (
     <>
@@ -148,7 +127,13 @@ const StepPeserta = ({
           <div className="flex flex-1 gap-6">
             <div className="flex flex-1 items-center gap-2">
               <Label className="w-14">Nomor</Label>
-              <Input size="lg" type="text" value={sppNomor} onChange={(e) => setSppNomor(e.target.value)} disabled={readOnly || disabled} />
+              <Input
+                size="lg"
+                type="text"
+                {...register("sppNomor")}
+                disabled={readOnly || disabled}
+              />
+
 
             </div>
             <div className="flex flex-1 items-center gap-2">
@@ -203,11 +188,14 @@ const StepPeserta = ({
             <div className="flex flex-1 items-center gap-2">
               <Label className="w-14">Nomor</Label>
               <Input
-                value={spmNomor}
-                size="lg" type="text"
-                onChange={(e) => setSpmNomor(e.target.value)}
+                size="lg"
+                type="text"
+                {...register("spmNomor")}
                 disabled={readOnly || disabled || rekapStatus === "direkap"}
               />
+
+
+
             </div>
             <div className="flex flex-1 items-center gap-2">
               <Label className="w-14">Tanggal</Label>
@@ -261,9 +249,9 @@ const StepPeserta = ({
             <div className="flex flex-1 items-center gap-2">
               <Label className="w-14">Nomor</Label>
               <Input
-                value={sp2dNomor}
-                size="lg" type="text"
-                onChange={(e) => setSp2dNomor(e.target.value)}
+                size="lg"
+                type="text"
+                {...register("sp2dNomor")}
                 disabled={readOnly || disabled || rekapStatus !== "spm"}
               />
             </div>

@@ -38,69 +38,41 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
 
       satker: satker[0],
 
-      program: defaultValues?.program
-        ? {
-          value: defaultValues.program,
-          label: `[${defaultValues.program}] ${PROGRAMS.find(p => p.code === defaultValues.program)?.label ?? ""}`,
-        }
-        : null,
-
-      kegiatan:
-        defaultValues?.program && defaultValues?.kegiatan
-          ? {
-            value: defaultValues.kegiatan,
-            label:
-              PROGRAMS.find(p => p.code === defaultValues.program)
-                ?.kegiatan.find(k => k.code === defaultValues.kegiatan)?.label ?? defaultValues.kegiatan,
-          }
-          : null,
-
-      output:
-        defaultValues?.program && defaultValues?.kegiatan && defaultValues?.output
-          ? {
-            value: defaultValues.output,
-            label:
-              PROGRAMS.find(p => p.code === defaultValues.program)
-                ?.kegiatan.find(k => k.code === defaultValues.kegiatan)
-                ?.output.find(o => o.code === defaultValues.output)?.label ?? defaultValues.output,
-          }
-          : null,
-
-      suboutput:
-        defaultValues?.program && defaultValues?.kegiatan && defaultValues?.output && defaultValues?.suboutput
-          ? {
-            value: defaultValues.suboutput,
-            label:
-              PROGRAMS.find(p => p.code === defaultValues.program)
-                ?.kegiatan.find(k => k.code === defaultValues.kegiatan)
-                ?.output.find(o => o.code === defaultValues.output)
-                ?.suboutput.find(s => s.code === defaultValues.suboutput)?.label ?? defaultValues.suboutput,
-          }
-          : null,
-
-      komponen:
-        defaultValues?.program && defaultValues?.kegiatan && defaultValues?.output && defaultValues?.suboutput && defaultValues?.komponen
-          ? {
-            value: defaultValues.komponen,
-            label:
-              PROGRAMS.find(p => p.code === defaultValues.program)
-                ?.kegiatan.find(k => k.code === defaultValues.kegiatan)
-                ?.output.find(o => o.code === defaultValues.output)
-                ?.suboutput.find(s => s.code === defaultValues.suboutput)
-                ?.komponen.find(c => c.code === defaultValues.komponen)?.label ?? defaultValues.komponen,
-          }
-          : null,
+      // satker: defaultValues?.satker ?? null,
+  program: defaultValues?.program ?? null,
+  kegiatan: defaultValues?.kegiatan ?? null,
+  output: defaultValues?.output ?? null,
+  suboutput: defaultValues?.suboutput ?? null,
+  komponen: defaultValues?.komponen ?? null,
 
 
-      judulRekap: defaultValues?.judulRekap ?? "",
+      // judulRekap: defaultValues?.judulRekap ?? "",
       perekap: defaultValues?.perekap ?? "",
       tglRekap: defaultValues?.tglRekap ?? "", // ✅ Perhatikan: gunakan `tglRekap`, bukan `tanggalRekap`
       linkPermintaan: jenisPencairanOptions.find(j => j.value === defaultValues?.statusPencairan) ?? null,
+      sppNomor: defaultValues?.sppNomor ?? "",
       sppTanggal: defaultValues?.sppTanggal ?? "",
+      spmNomor: defaultValues?.spmNomor ?? "",
       spmTanggal: defaultValues?.spmTanggal ?? "",
+      sp2dNomor: defaultValues?.sp2dNomor ?? "",
       sp2dTanggal: defaultValues?.sp2dTanggal ?? "",
+      rekapStatus: defaultValues?.rekapStatus ?? "",
     },
   });
+
+  const {
+    // getValues,
+    watch,
+    setValue,
+  } = methods;
+
+  const sppNomor = watch("sppNomor");
+  const sppTanggal = watch("sppTanggal");
+  const spmNomor = watch("spmNomor");
+  const spmTanggal = watch("spmTanggal");
+  const sp2dNomor = watch("sp2dNomor");
+  const sp2dTanggal = watch("sp2dTanggal");
+
 
 
 
@@ -207,20 +179,24 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
     });
     router.push("/administrator/rekap-bendahara");
   };
+const [rekapStatus, setRekapStatus] = useState<"direkap" | "spm" | "sp2d">("direkap");
 
-  const [rekapStatus, setRekapStatus] = React.useState<"direkap" | "spm" | "sp2d">("direkap");
 
-  const [sppNomor, setSppNomor] = React.useState("");
-  const [sppTanggal, setSppTanggal] = React.useState("");
 
-  const [spmNomor, setSpmNomor] = React.useState("");
-  const [spmTanggal, setSpmTanggal] = React.useState("");
+useEffect(() => {
+  if (readOnly) {
+    setRekapStatus("sp2d");
+  } else {
+    setRekapStatus(defaultValues?.rekapStatus ?? "direkap");
+  }
+}, [readOnly, defaultValues?.rekapStatus]);
 
-  const [sp2dNomor, setSp2dNomor] = React.useState("");
-  const [sp2dTanggal, setSp2dTanggal] = React.useState("");
 
-  const isSPPComplete = () => sppNomor && sppTanggal;
-  const isSP2DComplete = () => sp2dNomor && sp2dTanggal;
+
+console.log("✅ VStepForm setRekapStatus:", defaultValues?.rekapStatus);
+  const isSPPComplete = () => !!sppNomor && !!sppTanggal;
+  const isSP2DComplete = () => !!sp2dNomor && !!sp2dTanggal;
+
 
   const handleFinalisasi = () => {
     MySwal.fire({
@@ -239,20 +215,17 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
     }).then((result) => {
       if (result.isConfirmed) {
         setRekapStatus("sp2d");
-         handleSubmitFinal();
+        handleSubmitFinal();
       }
     });
   };
 
-  useEffect(() => {
-  if (readOnly) {
-    setRekapStatus("sp2d");
-  }
-}, [readOnly]);
+  const handleSimpan = () => {
+    stoast.info("Data rekap bendahara berhasil disimpan", { position: "top-right" });
+  };
 
-    const handleSimpan = () => {
-      stoast.info("Data rekap bendahara berhasil disimpan", { position: "top-right" });
-    };
+  console.log("🧪 defaultValues di VStepForm", defaultValues);
+
 
 
   return (
@@ -303,21 +276,9 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
                 {activeStep === 2 && (
                   <StepPeserta
                     rekapStatus={rekapStatus}
-                    sppNomor={sppNomor}
-                    sppTanggal={sppTanggal}
-                    spmNomor={spmNomor}
-                    spmTanggal={spmTanggal}
-                    sp2dNomor={sp2dNomor}
-                    sp2dTanggal={sp2dTanggal}
-                    setSppNomor={setSppNomor}
-                    setSppTanggal={setSppTanggal}
-                    setSpmNomor={setSpmNomor}
-                    setSpmTanggal={setSpmTanggal}
-                    setSp2dNomor={setSp2dNomor}
-                    setSp2dTanggal={setSp2dTanggal}
                     disabled={rekapStatus === "sp2d"}
                     readOnly={readOnly} //
-                    defaultValues={fullFormRekap[0]}
+                    // defaultValues={fullFormRekap[0]}
                   />
                 )}
               </div>
@@ -354,8 +315,8 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
                 size="xs"
                 color="primary"
                 onClick={() => {
-                  setSpmNomor(sppNomor);
-                  setSpmTanggal(sppTanggal);
+                  setValue("spmNomor", sppNomor);
+                  setValue("spmTanggal", sppTanggal);
                   setRekapStatus("spm");
                 }}
                 disabled={!isSPPComplete()}
@@ -363,6 +324,7 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
                 <PaperAirplaneIcon className="h-5 w-5 mr-1" />
                 Terbitkan SPM
               </Button>
+
             )}
 
             {!readOnly && rekapStatus === "spm" && (

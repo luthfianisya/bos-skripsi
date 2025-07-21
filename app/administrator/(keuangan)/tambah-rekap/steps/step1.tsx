@@ -50,18 +50,56 @@ const styles = {
   menuPortal: (base: any) => ({ ...base, zIndex: 9999 }),
 };
 
-const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmumProps) => {
+const resolveOption = (
+  options: { value: string; label: string }[],
+  raw: string | { value: string; label: string } | null | undefined
+): { value: string; label: string } | null => {
+  if (!raw) return null;
+  if (typeof raw === "object") return raw;
+  return options.find(o => o.value === raw) ?? null;
+};
 
-  const {
-    register,
-    control,
-    setValue,
-    formState: { errors },
-  } = useFormContext();
+
+const safeSetSelected = (
+  readOnly: boolean,
+  defaultVal: string | { value: string; label: string } | null | undefined,
+  setter: React.Dispatch<React.SetStateAction<{ value: string; label: string } | null>>,
+  options: { value: string; label: string }[]
+) => {
+  const resolved = resolveOption(options, defaultVal);
+  if (resolved) setter(resolved);
+  else if (!readOnly) setter(null);
+};
+
+
+
+const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmumProps) => {
+  const { register, control, setValue, reset, formState: { errors } } = useFormContext();
+  useEffect(() => {
+    if (defaultValues) {
+      reset({
+        ...defaultValues,
+              perekap: defaultValues.perekap ?? "Aldi Pratama",
+      });
+
+      // ✅ Hanya jika satker kamu masih string, ubah ke bentuk object
+      if (typeof defaultValues.satker === "string") {
+        const matchedSatker = satker.find(s => s.value === defaultValues.satker);
+        if (matchedSatker) {
+          setValue("satker", matchedSatker); // ⬅️ penting
+        }
+      } else {
+        setValue("satker", defaultValues.satker); // sudah object? langsung set
+      }
+    }
+  }, [defaultValues, reset, setValue]);
+
+
+
 
   const { getValues } = useFormContext();
 
-  
+
 
 
   const [selectedProgram, setSelectedProgram] = React.useState<{ value: string; label: string } | null>(null);
@@ -70,7 +108,16 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
   const [selectedSuboutput, setSelectedSuboutput] = React.useState<{ value: string; label: string } | null>(null);
   const [selectedKomponen, setSelectedKomponen] = React.useState<{ value: string; label: string } | null>(null);
 
-  
+
+  useEffect(() => {
+    if (defaultValues?.program) setValue("program", defaultValues.program);
+    if (defaultValues?.kegiatan) setValue("kegiatan", defaultValues.kegiatan);
+    if (defaultValues?.output) setValue("output", defaultValues.output);
+    if (defaultValues?.suboutput) setValue("suboutput", defaultValues.suboutput);
+    if (defaultValues?.komponen) setValue("komponen", defaultValues.komponen);
+  }, [defaultValues, setValue]);
+
+
   const programOptions = PROGRAMS.map(p => ({
     value: p.code,
     label: `[${p.code}] ${p.label}`
@@ -115,92 +162,74 @@ const StepInformasiUmum = ({ readOnly = false, defaultValues }: StepInformasiUmu
       })) ?? []
     : [];
 
-useEffect(() => {
-  if (defaultValues?.program) {
-    const match = programOptions.find(p => p.value === defaultValues.program);
-    if (match) {
-      setSelectedProgram(match); // ini yang akan masuk ke prop `value`
-      setValue("program", match); // ini yang masuk ke react-hook-form
+ useEffect(() => {
+  if (!defaultValues) return;
+
+  // resolve semua option berdasarkan string (jika perlu)
+  const resolvedSatker = resolveOption(satker, defaultValues.satker);
+  const resolvedProgram = resolveOption(programOptions, defaultValues.program);
+  const kegiatanList = resolvedProgram
+    ? PROGRAMS.find(p => p.code === resolvedProgram.value)?.kegiatan ?? []
+    : [];
+  const resolvedKegiatan = resolveOption(
+    kegiatanList.map(k => ({ value: k.code, label: `[${k.code}] ${k.label}` })),
+    defaultValues.kegiatan
+  );
+  const outputList = resolvedKegiatan
+    ? kegiatanList.find(k => k.code === resolvedKegiatan.value)?.output ?? []
+    : [];
+  const resolvedOutput = resolveOption(
+    outputList.map(o => ({ value: o.code, label: `[${o.code}] ${o.label}` })),
+    defaultValues.output
+  );
+  const subList = resolvedOutput
+    ? outputList.find(o => o.code === resolvedOutput.value)?.suboutput ?? []
+    : [];
+  const resolvedSuboutput = resolveOption(
+    subList.map(s => ({ value: s.code, label: `[${s.code}] ${s.label}` })),
+    defaultValues.suboutput
+  );
+  const komponenList = resolvedSuboutput
+    ? subList.find(s => s.code === resolvedSuboutput.value)?.komponen ?? []
+    : [];
+  const resolvedKomponen = resolveOption(
+    komponenList.map(c => ({ value: c.code, label: `[${c.code}] ${c.label}` })),
+    defaultValues.komponen
+  );
+
+  // reset sekaligus
+  reset({
+    ...defaultValues,
+    perekap: defaultValues.perekap ?? "Aldi Pratama",
+    satker: resolvedSatker,
+    program: resolvedProgram,
+    kegiatan: resolvedKegiatan,
+    output: resolvedOutput,
+    suboutput: resolvedSuboutput,
+    komponen: resolvedKomponen,
+  });
+
+  // sync juga state internal
+  setSelectedProgram(resolvedProgram);
+  setSelectedKegiatan(resolvedKegiatan);
+  setSelectedOutput(resolvedOutput);
+  setSelectedSuboutput(resolvedSuboutput);
+  setSelectedKomponen(resolvedKomponen);
+}, [defaultValues, reset]);
+
+
+
+
+  useEffect(() => {
+    if (defaultValues?.jenisPencairan) {
+      const matched = jenisPencairanOptions.find(
+        (opt) => opt.value === defaultValues.jenisPencairan
+      );
+      if (matched) {
+        setValue("jenisPencairan", matched);
+      }
     }
-  }
-}, [defaultValues, programOptions]);
-
-
-  
-
- // Kegiatan
-useEffect(() => {
-  if (defaultValues?.kegiatan && selectedProgram) {
-    const kegiatan = PROGRAMS.find(p => p.code === selectedProgram.value)
-      ?.kegiatan.find(k => k.code === defaultValues.kegiatan);
-
-    if (kegiatan) {
-      const match = { value: kegiatan.code, label: `[${kegiatan.code}] ${kegiatan.label}` };
-      setSelectedKegiatan(match);
-      setValue("kegiatan", match);
-    }
-  }
-}, [defaultValues, selectedProgram]);
-
-// Output
-useEffect(() => {
-  if (defaultValues?.output && selectedProgram && selectedKegiatan) {
-    const output = PROGRAMS.find(p => p.code === selectedProgram.value)
-      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
-      ?.output.find(o => o.code === defaultValues.output);
-
-    if (output) {
-      const match = { value: output.code, label: `[${output.code}] ${output.label}` };
-      setSelectedOutput(match);
-      setValue("output", match);
-    }
-  }
-}, [defaultValues, selectedProgram, selectedKegiatan]);
-
-// Suboutput
-useEffect(() => {
-  if (defaultValues?.suboutput && selectedProgram && selectedKegiatan && selectedOutput) {
-    const suboutput = PROGRAMS.find(p => p.code === selectedProgram.value)
-      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
-      ?.output.find(o => o.code === selectedOutput.value)
-      ?.suboutput.find(s => s.code === defaultValues.suboutput);
-
-    if (suboutput) {
-      const match = { value: suboutput.code, label: `[${suboutput.code}] ${suboutput.label}` };
-      setSelectedSuboutput(match);
-      setValue("suboutput", match);
-    }
-  }
-}, [defaultValues, selectedProgram, selectedKegiatan, selectedOutput]);
-
-// Komponen
-useEffect(() => {
-  if (defaultValues?.komponen && selectedProgram && selectedKegiatan && selectedOutput && selectedSuboutput) {
-    const komponen = PROGRAMS.find(p => p.code === selectedProgram.value)
-      ?.kegiatan.find(k => k.code === selectedKegiatan.value)
-      ?.output.find(o => o.code === selectedOutput.value)
-      ?.suboutput.find(s => s.code === selectedSuboutput.value)
-      ?.komponen.find(c => c.code === defaultValues.komponen);
-
-    if (komponen) {
-      const match = { value: komponen.code, label: `[${komponen.code}] ${komponen.label}` };
-      setSelectedKomponen(match);
-      setValue("komponen", match);
-    }
-  }
-}, [defaultValues, selectedProgram, selectedKegiatan, selectedOutput, selectedSuboutput]);
-
-
-useEffect(() => {
-  if (defaultValues?.jenisPencairan) {
-    const matched = jenisPencairanOptions.find(
-      (opt) => opt.value === defaultValues.jenisPencairan
-    );
-    if (matched) {
-      setValue("jenisPencairan", matched);
-    }
-  }
-}, [defaultValues, setValue]);
+  }, [defaultValues, setValue]);
 
 
 
@@ -304,7 +333,7 @@ useEffect(() => {
                     placeholder="Pilih Program"
                     isDisabled={readOnly}
                   />
-                  
+
                   {errors.program && <p className="text-red-500 text-sm">{errors.program.message as string}</p>}
                 </>
               )}
@@ -389,7 +418,7 @@ useEffect(() => {
                   <Select
                     {...field}
                     options={subOutputOptions}
-                 value={field.value}
+                    value={field.value}
                     onChange={(option) => {
                       field.onChange(option);
                       setSelectedSuboutput(option);
@@ -461,16 +490,20 @@ useEffect(() => {
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="perekap">Perekap</Label>
-            <Input
-              size="lg"
-              type="text"
-              id="perekap"
-              // placeholder="Masukkan Nama Perekap"
-              value="Aldi Pratama"
-              {...register("perekap")}
-              className={`border rounded-md p-2 ${errors.perekap ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
-              disabled
+            <Controller
+              name="perekap"
+              control={control}
+              defaultValue="Aldi Pratama"
+              render={({ field }) => (
+                <Input
+                  id="perekap"
+                  {...field}
+                  disabled
+                  className={`border text-[14px] rounded-md p-2 ${errors.perekap ? "border-destructive" : "border-gray-300 focus:border-primary"}`}
+                />
+              )}
             />
+
 
           </div>
           <div className="flex flex-col gap-2">
