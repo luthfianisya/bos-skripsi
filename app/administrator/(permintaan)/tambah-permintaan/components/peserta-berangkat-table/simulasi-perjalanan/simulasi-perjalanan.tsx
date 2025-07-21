@@ -186,13 +186,14 @@ const DialogForm = ({ data, onSave, readOnly }: DialogFormProps) => {
               </Button>
             </DialogTrigger>
           </TooltipTrigger>
-          <TooltipContent color="secondary" className="z-[9999]">
+          <TooltipContent color="secondary" className="z-[99999] pointer-events-auto">
             <p>Tambah Biaya Perjalanan</p>
             <TooltipArrow className="fill-white" />
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <DialogContent size="4xl">
+      <DialogContent size="4xl"      className="z-[99999] pointer-events-auto"
+        overlayClass="z-[99998] pointer-events-none">
         <DialogHeader className="p-0 mb-4">
           <DialogTitle className="text-base font-semibold text-default-700">
             Tambah Biaya Perjalanan
