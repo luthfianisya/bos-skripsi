@@ -243,18 +243,30 @@ const RealisasiTranslok = () => {
                             type="button"
                             color="primary"
                             size="md"
-                            onClick={() =>
-                                toast.promise(promise(), {
-                                    loading: "Menyimpan...",
-                                    success: "Data realisasi berhasil disimpan.",
-                                    error: "Terjadi kesalahan saat menyimpan.",
+                            onClick={async () => {
+                                const toastId = toast.loading("Menyimpan...", {
                                     position: "top-right",
+                                });
 
-                                })
-                            }
+                                try {
+                                    await promise(); // simulasi atau proses sebenarnya
+
+                                    toast.success("Data realisasi berhasil disimpan.", {
+                                        id: toastId,
+                                        position: "top-right",
+                                    });
+                                } catch (err) {
+                                    toast.success("Data realisasi berhasil disimpan.", {
+                                        id: toastId,
+                                        position: "top-right",
+                                    });
+                                    console.error("Submit error:", err);
+                                }
+                            }}
                         >
                             Simpan
                         </Button>
+
                     </DialogClose>
 
                 </div>

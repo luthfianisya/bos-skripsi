@@ -113,18 +113,33 @@ const FileUploaderMultiple = ({ onUploadSuccess }: FileUploaderMultipleProps) =>
             <Button
               size="sm"
               color="primary"
-              onClick={() =>
-                toast.promise(promise(), {
-                  loading: "Menyimpan...",
-                  success: () => {
-                    onUploadSuccess?.(); // ✅ Tutup dialog setelah sukses
-                    return "File berhasil disimpan.";
-                  },
-                  error: "Terjadi kesalahan saat menyimpan.",
+              onClick={async () => {
+                const toastId = toast.loading("Menyimpan...", {
                   position: "top-right",
+                });
 
-                })
-              }>Upload Files</Button>
+                try {
+                  await promise(); // proses upload
+
+                  toast.success("File berhasil disimpan.", {
+                    id: toastId,
+                    position: "top-right",
+                  });
+
+                  onUploadSuccess?.(); // ✅ panggil setelah sukses
+                } catch (err) {
+                  toast.error("Terjadi kesalahan saat menyimpan.", {
+                    id: toastId,
+                    position: "top-right",
+                  });
+
+                  console.error("Upload error:", err);
+                }
+              }}
+            >
+              Upload Files
+            </Button>
+
           </div>
         </Fragment>
       ) : null}

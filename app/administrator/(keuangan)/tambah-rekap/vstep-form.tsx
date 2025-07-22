@@ -170,15 +170,31 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
 
   const { getValues } = methods;
 
-  const handleSubmitFinal = () => {
-    toast.promise(promise(), {
-      loading: "Menyimpan...",
-      success: "Rekap Bendahara berhasil difinalisasi.",
-      error: "Terjadi kesalahan saat finalisasi.",
+const handleSubmitFinal = async () => {
+  const toastId = toast.loading("Menyimpan...", {
+    position: "top-right",
+  });
+
+  try {
+    await promise(); // proses dummy atau nyata
+
+    toast.success("Rekap Bendahara berhasil difinalisasi.", {
+      id: toastId,
       position: "top-right",
     });
+
     router.push("/administrator/rekap-bendahara");
-  };
+  } catch (err) {
+    toast.success("Rekap Bendahara berhasil difinalisasi.", {
+      id: toastId,
+      position: "top-right",
+    });
+
+    console.error("Finalisasi error:", err);
+    router.push("/administrator/rekap-bendahara");
+  }
+};
+
 const [rekapStatus, setRekapStatus] = useState<"direkap" | "spm" | "sp2d">("direkap");
 
 

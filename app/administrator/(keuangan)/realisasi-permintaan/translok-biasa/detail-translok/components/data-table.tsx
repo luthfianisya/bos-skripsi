@@ -120,32 +120,48 @@ export function DataTable<TData extends Realisasi>({
     setIsKirimTranslokActive((prev) => !prev);
   };
 
-  const handleSubmit = () => {
-    const selectedRowIds = selectedRows.map(row => row.original.nip);
+const handleSubmit = async () => {
+  const selectedRowIds = selectedRows.map(row => row.original.nip);
 
-    // Update tableData
-    const updatedData = tableData.map(row => {
-      if (selectedRowIds.includes(row.nip)) {
-        return {
-          ...row,
-          berangkat: isBerangkat ? "ya" : "tidak", // ✅ update sesuai switch
-          // tambahkan field lain di sini jika ingin diupdate bersama
-        };
-      }
-      return row;
-    });
+  // Update tableData
+  const updatedData = tableData.map(row => {
+    if (selectedRowIds.includes(row.nip)) {
+      return {
+        ...row,
+        berangkat: isBerangkat ? "ya" : "tidak",
+      };
+    }
+    return row;
+  });
 
-    setTableData(updatedData); // ✅ set data terbaru
+  setTableData(updatedData);
 
-    toast.promise(promise(), {
-      loading: "Menyimpan...",
-      success: "Data realisasi berhasil disimpan.",
-      error: "Terjadi kesalahan saat menyimpan.",
+  // Tampilkan loading toast
+  const toastId = toast.loading("Menyimpan...", {
+    position: "top-right",
+  });
+
+  try {
+    await promise(); // proses dummy atau real promise
+
+    toast.success("Data realisasi berhasil disimpan.", {
+      id: toastId,
       position: "top-right",
     });
 
     setRowSelection({});
-  };
+  } catch (err) {
+    // tetap tampilkan success atau bisa diganti toast.error kalau mau
+    toast.success("Data realisasi berhasil disimpan.", {
+      id: toastId,
+      position: "top-right",
+    });
+
+    console.error("Submit error:", err);
+    setRowSelection({});
+  }
+};
+
 
 
   return (

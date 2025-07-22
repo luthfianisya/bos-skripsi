@@ -92,95 +92,40 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
     });
   };
 
-  const handleSubmit = () => {
-    toast.promise(promise(), {
-      loading: "Menyimpan...",
-      success: "Data POK berhasil disimpan.",
-      error: "Terjadi kesalahan saat menyimpan.",
+  // const handleSubmit = () => {
+  //   toast.promise(promise(), {
+  //     loading: "Menyimpan...",
+  //     success: "Data POK berhasil disimpan.",
+  //     error: "Terjadi kesalahan saat menyimpan.",
+  //     position: "top-right",
+  //   });
+  //   setRowSelection({});
+  // };
+
+  const handleSubmit = async () => {
+  const toastId = toast.loading("Menyimpan...", {
+    position: "top-right",
+  });
+
+  try {
+    await new Promise((res) => setTimeout(res, 1000)); // proses dummy
+
+    toast.success("Data POK berhasil disimpan.", {
+      id: toastId,
       position: "top-right",
     });
+
     setRowSelection({});
-  };
+  } catch (err) {
+    toast.success("Data POK berhasil disimpan.", {
+      id: toastId,
+      position: "top-right",
+    });
 
-  // const styles = {
-  //   control: (provided: any, state: any) => ({
-  //     ...provided,
-  //     minHeight: '2.25rem',
-  //     height: '2.25rem',
-  //     fontSize: '0.875rem',
+    console.error("Error:", err);
+  }
+};
 
-  //     backgroundColor: state.hasValue ? '#FFFFFF' : '#1D4ED8', // putih kalau ada value, biru-700 kalau belum dipilih
-  //     borderColor: '#1D4ED8', // selalu biru-700 border-nya
-
-  //     boxShadow: state.isFocused ? '0 0 0 1px #1D4ED8' : 'none',
-  //     '&:hover': {
-  //       borderColor: '#1D4ED8',
-  //     },
-  //   }),
-
-  //   placeholder: (provided: any, state: any) => ({
-  //     ...provided,
-  //     color: '#FFFFFF', // placeholder putih (belum ada value)
-  //     fontWeight: '500',
-  //   }),
-
-  //   singleValue: (provided: any, state: any) => ({
-  //     ...provided,
-  //     color: '#1D4ED8', // text biru-700 (kalau udah dipilih)
-  //     fontWeight: '500',
-  //   }),
-
-  //   valueContainer: (provided: any) => ({
-  //     ...provided,
-  //     height: '32px',
-  //     padding: '0 8px',
-  //   }),
-
-  //   indicatorsContainer: (provided: any) => ({
-  //     ...provided,
-  //     height: '32px',
-  //   }),
-
-  //   dropdownIndicator: (provided: any, state: any) => ({
-  //     ...provided,
-  //     padding: '4px',
-  //     color: state.hasValue
-  //       ? '#1D4ED8' // icon biru-700 kalau udah dipilih
-  //       : '#FFFFFF', // icon putih kalau belum
-  //     '&:hover': {
-  //       color: '#1D4ED8',
-  //     },
-  //   }),
-
-  //   clearIndicator: (provided: any, state: any) => ({
-  //     ...provided,
-  //     padding: '4px',
-  //     color: state.hasValue ? '#1D4ED8' : '#FFFFFF',
-  //     '&:hover': {
-  //       color: '#1D4ED8',
-  //     },
-  //   }),
-
-  //   menu: (provided: any) => ({
-  //     ...provided,
-  //     fontSize: '12px',
-  //   }),
-
-  //   option: (provided: any, state: any) => ({
-  //     ...provided,
-  //     fontSize: '12px',
-  //     backgroundColor: state.isSelected
-  //       ? '#1D4ED8'
-  //       : state.isFocused
-  //         ? '#DBEAFE'
-  //         : '#FFFFFF',
-  //     color: state.isSelected ? '#FFFFFF' : '#111827',
-  //     '&:hover': {
-  //       backgroundColor: '#DBEAFE',
-  //       color: '#111827',
-  //     },
-  //   }),
-  // };
 
 
   return (

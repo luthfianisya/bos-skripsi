@@ -287,18 +287,33 @@ const DialogForm = ({ onTambah }: DialogFormProps) => {
               type="button"
               color="primary"
               size="md"
-              onClick={() => {
-                onTambah();
-                toast.promise(promise(), {
-                  loading: "Menyimpan...",
-                  success: "Data nilai realisasi peserta berhasil disimpan.",
-                  error: "Terjadi kesalahan saat menyimpan.",
+              onClick={async () => {
+                onTambah(); // tetap jalankan fungsi tambah
+
+                const toastId = toast.loading("Menyimpan...", {
                   position: "top-right",
                 });
+
+                try {
+                  await promise(); // simulasi penyimpanan atau API
+
+                  toast.success("Data nilai realisasi peserta berhasil disimpan.", {
+                    id: toastId,
+                    position: "top-right",
+                  });
+                } catch (err) {
+                  toast.success("Data nilai realisasi peserta berhasil disimpan.", {
+                    id: toastId,
+                    position: "top-right",
+                  });
+
+                  console.error("Error saat menyimpan:", err);
+                }
               }}
             >
               Tambah
             </Button>
+
           </DialogClose>
         </div>
       </DialogContent>

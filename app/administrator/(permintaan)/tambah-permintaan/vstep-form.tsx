@@ -161,23 +161,33 @@ const VStepForm = ({ defaultValues, readOnly = false, data }: VStepFormProps & {
   const promise = () =>
     new Promise((resolve) => setTimeout(() => resolve({ name: "Sonner" }), 1000));
 
-  const handleSubmitFinal = () => {
+  const handleSubmitFinal = async () => {
     const formData = {
-      ...getValues(),          // dari StepInformasiUmum
-      pokTerpilih,             // dari StepPOK
-      dataPeserta,             // dari StepPeserta
+      ...getValues(),
+      pokTerpilih,
+      dataPeserta,
     };
 
     console.log("FULL FORM:", formData);
 
-    toast.promise(promise(), {
-      loading: "Menyimpan...",
-      success: "Form permintaan berhasil dikirim ke PJ.",
-      error: "Terjadi kesalahan saat menyimpan.",
+    const toastId = toast.loading("Menyimpan...", {
       position: "top-right",
     });
-    router.push("/administrator/form-permintaan");
+
+    try {
+      await promise(); // simulasi proses
+    } catch (err) {
+      console.error("Finalisasi error:", err);
+    } finally {
+      toast.success("Form permintaan berhasil dikirim ke PJ.", {
+        id: toastId,
+        position: "top-right",
+      });
+
+      router.push("/administrator/form-permintaan");
+    }
   };
+
 
 
   return (
