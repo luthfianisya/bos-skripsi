@@ -49,19 +49,20 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
   });
 const onSubmit = async (data: any) => {
   try {
-    await toast.promise(promise(), {
-      loading: "Menyimpan...",
-      success: "Data mitra berhasil disimpan.",
-      error: "Terjadi kesalahan saat menyimpan.",
-      position: "top-right",
-    });
+    // simulasi delay (jika masih ingin delay)
+    await new Promise((res) => setTimeout(res, 1000));
 
-    console.log("Form Data:", data);
-    onClose(); // ✅ hanya dipanggil kalau submit berhasil
+    // tampilkan toast
+    toast.success("Data mitra berhasil disimpan.");
+
+    console.log("Data:", data);
+    onClose?.(); // pakai optional chaining untuk menghindari error
   } catch (err) {
-    console.error("Submit error", err);
+    console.error("Submit error:", err);
+    toast.error("Terjadi kesalahan saat menyimpan.");
   }
 };
+
 
 
 
