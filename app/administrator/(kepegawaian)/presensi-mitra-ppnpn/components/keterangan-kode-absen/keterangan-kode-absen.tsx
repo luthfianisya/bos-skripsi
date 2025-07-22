@@ -52,7 +52,7 @@ const KetKodeAbsen = () => {
     <Dialog open={open} onOpenChange={setOpen} modal={false}>
       <DialogTrigger asChild>
         <Button type="button" color="primary" variant="outline" size="md" icon={InformationCircleIcon}>
-          Keterangan Kode
+          Keterangan Simbol
         </Button>
       </DialogTrigger>
 

@@ -317,7 +317,7 @@ const StepInformasiUmum = ({ fileKAK, setFileKAK, readOnly = false }: StepInform
       {/* Baris 5 */}
       <div className="col-span-12 grid grid-cols-1 lg:grid-cols-2 gap-4 pb-6">
         <div className="flex flex-col gap-2">
-          <Label htmlFor="linkPermintaan">Link Permintaan Belanja</Label>
+          <Label htmlFor="linkPermintaan">Link Permintaan Belanja <span className="text-default-400 text-xs">(opsional)</span></Label>
           <Controller
             name="linkPermintaan"
             control={control}

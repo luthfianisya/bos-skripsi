@@ -49,30 +49,30 @@ export const DetailPesertas: DetailPeserta[] = [
         nama: "Adi Saputra",
         gol: "IIIa",
         asal: "depok",
-        tujuan: "bogor",
+        tujuan: "depok",
         pulangPergi: {
-            tanggalPergi: "2025-07-01",
-            tanggalPulang: "2025-07-01",            
+            tanggalPergi: "2025-07-15",
+            tanggalPulang: "2025-07-15",            
         },
-        jumlah: 100000,
-        transportPergi: 250000,    // Kereta ekonomi
-        transportPulang: 250000,   // Kereta ekonomi
-        taksiAsal: 50000,          // Taksi ke stasiun
-        taksiTujuan: 60000,        // Taksi dari stasiun ke hotel
-        lamaTranslok: 2,
-        rateTranslok: 150000,
-        totalTranslok: 300000,
-        lamaHotel: 2,
-        rateHotel: 400000,
-        totalHotel: 800000,
-        lamaUangHarian: 3,
-        rateUangHarian: 250000,
-        totalUangHarian: 750000,
-        lamaUangSaku: 3,
-        rateUangSaku: 50000,
-        totalUangSaku: 150000,
-        lamaRepresentatif: 1,
-        rateRepresentatif: 200000,
-        totalRepresentatif: 200000,
+        jumlah: 170000,
+        transportPergi: 0,    // Kereta ekonomi
+        transportPulang: 0,   // Kereta ekonomi
+        taksiAsal: 0,          // Taksi ke stasiun
+        taksiTujuan: 0,        // Taksi dari stasiun ke hotel
+        lamaTranslok: 1,
+        rateTranslok: 170000,
+        totalTranslok: 170000,
+        lamaHotel: 0,
+        rateHotel: 0,
+        totalHotel: 0,
+        lamaUangHarian: 0,
+        rateUangHarian: 0,
+        totalUangHarian: 0,
+        lamaUangSaku: 0,
+        rateUangSaku: 0,
+        totalUangSaku: 0,
+        lamaRepresentatif: 0,
+        rateRepresentatif: 0,
+        totalRepresentatif: 0,
     },
 ]

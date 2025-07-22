@@ -121,7 +121,7 @@ const AssignPembiayaan = ({ rowData, onClose }: AssignPembiayaanProps) => {
               : null
           }
 
-          onChange={(opt) => setPpk(opt?.value)}
+          onChange={(opt) => setPpk(opt?.label)}
           placeholder="Pilih PPK"
         />
       </div>

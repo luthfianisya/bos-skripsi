@@ -207,10 +207,10 @@ const DialogForm = ({ data, onSave, readOnly }: DialogFormProps) => {
               <div>
                 <Label>Asal</Label>
                 <Select value={asal} onValueChange={setAsal}>
-                  <SelectTrigger>
+                  <SelectTrigger size="md">
                     <SelectValue placeholder="Pilih Asal" />
                   </SelectTrigger>
-                  <SelectContent className="z-[10000]">
+                  <SelectContent className="z-[100000]">
                     {asalOptions.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
@@ -223,10 +223,10 @@ const DialogForm = ({ data, onSave, readOnly }: DialogFormProps) => {
               <div>
                 <Label>Tujuan</Label>
                 <Select value={tujuan} onValueChange={setTujuan}>
-                  <SelectTrigger>
+                  <SelectTrigger size="md">
                     <SelectValue placeholder="Pilih Tujuan" />
                   </SelectTrigger>
-                  <SelectContent className="z-[10000]">
+                  <SelectContent className="z-[100000]">
                     {tujuanOptions.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}

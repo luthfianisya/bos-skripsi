@@ -177,11 +177,11 @@ export const getColumns = (isBlokTranslokActive: boolean): ColumnDef<Realisasi>[
                 color="destructive"
                 className="h-7 w-7"
               >
-                <Icon icon="heroicons:trash" className="h-4 w-4" />
+                <Icon icon="heroicons:x-circle" className="h-5 w-5" />
               </Button>
             </TooltipTrigger>
             <TooltipContent color="secondary" className="z-[9999]">
-              <p>Hapus</p>
+              <p>Batal</p>
               <TooltipArrow className=" fill-white" />
             </TooltipContent>
           </Tooltip>
@@ -190,7 +190,7 @@ export const getColumns = (isBlokTranslokActive: boolean): ColumnDef<Realisasi>[
             <Button size="icon" className="h-7 w-7" color="primary" icon={PaperAirplaneIcon} />
             </TooltipTrigger>
             <TooltipContent color="secondary" className="z-[9999]">
-              <p>Batal</p>
+              <p>Kirim</p>
               <TooltipArrow className=" fill-white" />
             </TooltipContent>
           </Tooltip>

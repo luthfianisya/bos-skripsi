@@ -32,7 +32,7 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
   const promise = () =>
     new Promise((resolve) => setTimeout(() => resolve({ name: "Sonner" }), 1000));
 
-  const { control, handleSubmit, setValue,   formState: { errors, isValid } } = useForm({
+  const { control, handleSubmit, setValue, formState: { errors, isValid } } = useForm({
     mode: "onChange",
     defaultValues: {
       satuanKerja: null,
@@ -48,31 +48,31 @@ const CreateTask = ({ open, onClose }: CreateTaskProps) => {
     },
   });
 
-const onSubmit = async (data: any) => {
-  const toastId = toast.loading("Menyimpan...", {
-    position: "top-right",
-  });
-
-  try {
-    // simulasi proses
-    await new Promise((res) => setTimeout(res, 1000));
-
-    // paksa success, bahkan kalau error sekalipun
-    toast.success("Data mitra berhasil disimpan.", {
-      id: toastId,
+  const onSubmit = async (data: any) => {
+    const toastId = toast.loading("Menyimpan...", {
       position: "top-right",
     });
 
-    onClose?.();
-  } catch (err) {
-    // tetap tampilkan success walaupun error (opsional bisa kasih warning di log)
-    toast.success("Data mitra berhasil disimpan.", {
-      id: toastId,
-      position: "top-right",
-    });
-    console.error("Submit error:", err);
-  }
-};
+    try {
+      // simulasi proses
+      await new Promise((res) => setTimeout(res, 1000));
+
+      // paksa success, bahkan kalau error sekalipun
+      toast.success("Data mitra berhasil disimpan.", {
+        id: toastId,
+        position: "top-right",
+      });
+
+      onClose?.();
+    } catch (err) {
+      // tetap tampilkan success walaupun error (opsional bisa kasih warning di log)
+      toast.success("Data mitra berhasil disimpan.", {
+        id: toastId,
+        position: "top-right",
+      });
+      console.error("Submit error:", err);
+    }
+  };
 
 
 
@@ -108,7 +108,7 @@ const onSubmit = async (data: any) => {
                     isClearable
                   />
                 )}
-              
+
               />
               {errors.satuanKerja && <p className="text-red-500 text-sm">{errors.satuanKerja.message}</p>}
             </div>
@@ -148,7 +148,7 @@ const onSubmit = async (data: any) => {
                     id="nikKtp"
                     placeholder="Masukkan nama mitra..."
                     className="text-sm"
-                    
+
                   />
                 )}
               />
@@ -183,7 +183,10 @@ const onSubmit = async (data: any) => {
 
             {/* NIP (optional) */}
             <div>
-              <Label htmlFor="nip" className="mb-1.5 text-default-600">NIP</Label>
+              <Label htmlFor="nip" className="mb-1.5 text-default-600">
+                NIP <span className="text-default-400 text-xs">(opsional)</span>
+              </Label>
+
               <Controller
                 name="nip"
                 control={control}
@@ -240,7 +243,7 @@ const onSubmit = async (data: any) => {
                 <Controller
                   name="kabupatenTugas"
                   control={control}
-                  rules={{ required: "Kabupaten Tugas wajib diisi" }}
+                  // rules={{ required: "Kabupaten Tugas wajib diisi" }}
                   render={({ field }) => (
                     <Select
                       {...field}
@@ -268,7 +271,9 @@ const onSubmit = async (data: any) => {
             {/* Eselon dan Golongan (optional) */}
             <div className="flex gap-x-4">
               <div className="w-1/2">
-                <Label htmlFor="eselon" className="mb-1.5 text-default-600">Eselon</Label>
+                   <Label htmlFor="nip" className="mb-1.5 text-default-600">
+                Eselon <span className="text-default-400 text-xs">(opsional)</span>
+              </Label>
                 <Select
                   className="react-select"
                   classNamePrefix="select"
@@ -280,7 +285,7 @@ const onSubmit = async (data: any) => {
               </div>
 
               <div className="w-1/2">
-                <Label htmlFor="golongan" className="mb-1.5 text-default-600">Golongan</Label>
+                <Label htmlFor="golongan" className="mb-1.5 text-default-600">Golongan <span className="text-default-400 text-xs">(opsional)</span></Label>
                 <Select
                   className="react-select"
                   classNamePrefix="select"
@@ -294,19 +299,19 @@ const onSubmit = async (data: any) => {
 
             {/* Instansi (optional) */}
             <div>
-              <Label htmlFor="instansi" className="mb-1.5 text-default-600">Instansi</Label>
+              <Label htmlFor="instansi" className="mb-1.5 text-default-600">Instansi <span className="text-default-400 text-xs">(opsional)</span></Label>
               <Input id="instansi" placeholder="Masukkan instansi..." className="text-sm" />
             </div>
 
             {/* Jabatan (optional) */}
             <div>
-              <Label htmlFor="jabatan" className="mb-1.5 text-default-600">Jabatan</Label>
+              <Label htmlFor="jabatan" className="mb-1.5 text-default-600">Jabatan <span className="text-default-400 text-xs">(opsional)</span></Label>
               <Input id="jabatan" placeholder="Masukkan jabatan..." className="text-sm" />
             </div>
 
             {/* NPWP (optional) */}
             <div>
-              <Label htmlFor="npwp" className="mb-1.5 text-default-600">NPWP</Label>
+              <Label htmlFor="npwp" className="mb-1.5 text-default-600">NPWP <span className="text-default-400 text-xs">(opsional)</span></Label>
               <Controller
                 name="npwp"
                 control={control}
@@ -331,7 +336,7 @@ const onSubmit = async (data: any) => {
             {/* Bank dan Nomor Rekening (optional) */}
             <div className="flex gap-x-4">
               <div className="w-2/5">
-                <Label htmlFor="bank" className="mb-1.5 text-default-600">Bank</Label>
+                <Label htmlFor="bank" className="mb-1.5 text-default-600">Bank <span className="text-default-400 text-xs">(opsional)</span></Label>
                 <Select
                   className="react-select"
                   classNamePrefix="select"
@@ -344,7 +349,7 @@ const onSubmit = async (data: any) => {
               </div>
 
               <div className="w-3/5">
-                <Label htmlFor="nomorRekening" className="mb-1.5 text-default-600">Nomor Rekening</Label>
+                <Label htmlFor="nomorRekening" className="mb-1.5 text-default-600">Nomor Rekening <span className="text-default-400 text-xs">(opsional)</span></Label>
                 <Controller
                   name="nomorRekening"
                   control={control}
@@ -369,13 +374,13 @@ const onSubmit = async (data: any) => {
 
             {/* Nama Pemilik Rekening (optional) */}
             <div>
-              <Label htmlFor="namaPemilikRekening" className="mb-1.5 text-default-600">Nama Pemilik Rekening</Label>
+              <Label htmlFor="namaPemilikRekening" className="mb-1.5 text-default-600">Nama Pemilik Rekening <span className="text-default-400 text-xs">(opsional)</span></Label>
               <Input id="namaPemilikRekening" placeholder="Masukkan nama pemilik rekening..." className="text-sm" />
             </div>
 
             {/* Email (optional) */}
             <div>
-              <Label htmlFor="email" className="mb-1.5 text-default-600">Email</Label>
+              <Label htmlFor="email" className="mb-1.5 text-default-600">Email <span className="text-default-400 text-xs">(opsional)</span></Label>
               <Controller
                 name="email"
                 control={control}

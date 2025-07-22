@@ -13,6 +13,7 @@ import { useState } from "react";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import KetKodeAbsen from "./keterangan-kode-absen/keterangan-kode-absen";
 
 interface DataTableToolbarProps {
   table: Table<any>;
@@ -94,22 +95,7 @@ export function DataTableToolbar({ table }: DataTableToolbarProps) {
       <DropdownMenuItem onClick={() => console.log("Lihat Statistik")}>Lihat Statistik</DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu> */}
-        <Popover>
-        <PopoverTrigger asChild>
-          <Button color="primary" variant="outline" size="md" icon={Info}>Keterangan Simbol</Button>
-        </PopoverTrigger>
-        <PopoverContent className="p-0 border-none" side="top">
-          <PopoverArrow className='fill-default-300 w-3' />
-          <div
-            className='p-2.5  text-default-900 text-sm bg-default-200 font-medium  rounded-t-md'>
-            Keterangan Simbol
-          </div>
-          <div
-            className='p-2 text-sm text-default-600'>
-            Check out this fantastic content. It's incredibly captivating, isn't it?
-          </div>
-        </PopoverContent>
-      </Popover>
+        <KetKodeAbsen/>
         <Button type="button" color="primary" size="md" icon={Printer} onClick={handleSheetOpen}>
           Cetak Presensi
         </Button>

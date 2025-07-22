@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 import { columnsBulanan } from "./components/columns-bulanan";
-import { DataTable } from "./components/data-table";
-import { dummyData } from "./data/bulanan";
+import { DataTable } from "./components/data-table-bulanan";
+import { DUMMY_PRESENSI_BULANAN } from "@/data/presensi-bulanan-data";
+// Ganti path sesuai lokasi aslinya
 
-// Definisi tipe props
 interface BulananTableProps {
   filters: {
     periode: string | null;
@@ -16,20 +16,18 @@ interface BulananTableProps {
 }
 
 export default function BulananTable({ filters }: BulananTableProps) {
-  // Filter data berdasarkan filters yang diterima
-  const filteredData = dummyData.filter((item) => {
-    // Contoh filter berdasarkan tahun
-    if (filters.tahun && item.tahun !== filters.tahun) return false;
-    
-    // Contoh filter berdasarkan unit kerja
-    if (filters.unitKerja && item.unitKerja !== filters.unitKerja) return false;
+  const dummyData = DUMMY_PRESENSI_BULANAN;
 
-    return true;
-  });
+  // const filteredData = dummyData.filter((item) => {
+  //   if (filters.tahun && item.tahun !== filters.tahun) return false;
+  //   if (filters.unitKerja && item.unitKerja !== filters.unitKerja) return false;
+  //   return true;
+  // });
 
   return (
     <Fragment>
-      <DataTable data={filteredData} columns={columnsBulanan} />
+      {/* <DataTable data={filteredData} columns={columnsBulanan} /> */}
+      <DataTable data={dummyData} columns={columnsBulanan} />
     </Fragment>
   );
 }
